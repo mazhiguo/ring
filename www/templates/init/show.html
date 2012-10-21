@@ -1,0 +1,68 @@
+<script>
+/* add by zhangqitao @2008-06-06*/
+function show_example(obj) 
+{
+	$('resultframe').src = '/init/example?id='+obj.value+'&type='+$('actiontype').value;
+}
+function import_data()
+{
+	if ($('data').value=="")
+	{
+		alert("请选择文件！");
+		return;
+	}
+	//lock_screen("",false);
+	var frm = $('importdata');
+	frm.method = 'POST';
+	frm.action = '/init/import?type='+$('actiontype').value;
+	frm.target = 'resultframe';
+	frm.submit();
+}
+function change_actiontype(obj)
+{
+	$('actiontype').value = obj.value;
+	var o = $('import');
+	var val = o.options[o.selectedIndex].value;
+	$('resultframe').src = '/init/example?id='+val+'&type='+$('actiontype').value;
+}
+</script>
+<input type="hidden" id="isadmin" name="isadmin" value="{/$isadmin/}"/>
+<input type="hidden" id="actiontype" name="actiontype" value="corp">
+<form enctype="multipart/form-data" id="importdata">
+	<table align="center" cellpadding="0" cellspacing="0" border="0">
+	<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">组织与用户初始化导入 
+				<a href="/init/show?basic">[{/if $isbasic/}<strong>基本功能</strong>{/else/}基本功能{//if/}]</a>
+				<a href="/init/show">[{/if !$isbasic/}<strong>高级功能</strong>{/else/}高级功能{//if/}]</a>
+				</div>
+		</div>
+	</td></tr>
+	<tr><td>
+		&nbsp;&nbsp;&nbsp;选择导入的类型及数据文件：
+	
+		<select onchange="change_actiontype(this)" {/if $isbasic/}style="display:none"{//if/}>
+			<option value="corp">&nbsp;单位内&nbsp;</option>
+			{/if $isadmin/}
+			<option value="sys">&nbsp;系统内&nbsp;</option>
+			{//if/}
+		</select>
+		
+		<select id="import" name="import" onchange="show_example(this)">
+		{/if $isbasic/}
+			<option value="txt-ug">导入组织数据</option>	
+			<option value="txt-user">导入用户数据</option>					
+		{/else/}
+			<option value="xml">xml导入组织用户数据</option>
+			<option value="csv-ug">csv导入组织数据</option>	
+			<option value="csv-user">csv导入用户数据</option>
+		{//if/}
+		</select>
+		
+		<input type="file" name="data" id="data" size="30" class="intext" value="" />
+		<input type="button" value="导入" class="button_w" onclick="import_data();"/>		
+	</td></tr>
+	</table>
+</form>
+<iframe id="resultframe" name="resultframe" style="width:96%;height:570px;margin-left:10px;margin-right:10px; border: 1px solid #DCDEDD;" ></iframe>
+<script>show_example($('import'))</script>

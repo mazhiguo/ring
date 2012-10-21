@@ -1,0 +1,33 @@
+<script>
+function adjust_height()
+{
+	var omenu = top.$('menu').contentWindow.document.body;
+	var otree = $('tree').contentWindow.document.body;
+	var olist = $('list').contentWindow.document.body;
+	
+	
+	var MenuHeight = 0;	
+	var TreeHeight = 0;
+	var ListHeight = 0;
+	
+	if (omenu) MenuHeight = omenu.scrollHeight;	
+	if (otree) TreeHeight = otree.scrollHeight; 
+	if (olist) ListHeight = olist.scrollHeight-200;
+	var MaxHeight = TreeHeight>ListHeight ? TreeHeight : ListHeight;
+	if (MenuHeight > MaxHeight) MaxHeight = MenuHeight;
+	MaxHeight = parseInt(MaxHeight);
+	$('tree').height = $('list').height = top.$('content').height = top.$('menu').height = MaxHeight = window.screen.availHeight-78-33;
+}
+</script>
+<table border="0" align="center" cellspacing="0" cellpadding="0" height="100%" style="width:100%">
+<tr>
+	<td valign="top" width="20%" height="100%">
+		<iframe src="/modelsCol/show_tree/" name="tree" id="tree" scrolling="auto" frameborder="0" height="100%"  width="100%" onload="adjust_height()"></iframe>
+	</td>
+	<td valign="top" width="80%" height="100%">
+		<iframe src="/modelsCol/list" name="list" id="list" scrolling="auto" frameborder="0"  height="100%" width="100%" onload="adjust_height();"></iframe>
+	</td>
+</tr>
+</table>
+
+

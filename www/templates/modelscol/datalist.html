@@ -4,24 +4,14 @@
 		<div class="content_menu_title1">采集内容列表 - {/$col.name/} (模板名:{/$tname/})</div>
 	</div>
     <div class="list_id_title">
-        <div class="list_title_each">
-			<div class="list_title_each_name">备注</div>
-			<div class="list_title_each_info">{/$col.remark/}</div>
-			<div class="list_title_each_func"></div>
-		</div>
-        <div class="list_title_each">
-			<div class="list_title_each_name"></div>
-			<div class="list_title_each_info"></div>
-			<div class="list_title_each_func"></div>
-		</div>
 		<div class="list_title_each">
 			<div class="list_title_each_name">采集进度</div>
-			<div class="list_title_each_info">本采集共有录入人员{/$count_all/}名 目前已提交人员{/$count_over/}名 </div>
+			<div class="list_title_each_info">本采集共有录入人员 名 目前已提交人员 名 </div>
 			<div class="list_title_each_func"></div>
 		</div>
         <div class="list_title_each">
 	        <div class="list_title_each_name"> </div>
-			<div class="list_title_each_info">尚未提交人员：{/$runames/}</div>
+			<div class="list_title_each_info">尚未提交人员：</div>
 			<div class="list_title_each_func"></div>
         </div>
     </div>
@@ -32,13 +22,10 @@
                     {/if ($col.status==0 && $col.sign!=3 && in_array(4, $privs))/}
         			<input type="button" name="del_submit" value="设置采集人" onclick="window.location.href='/models/set_collector?cid={/$col.id/}'" class="button_w"/>
                     {//if/}
-                    {/if  $canwrite=='1' /}
-                    <input type="button" name="del_submit" value="{/if $col.status==0/}完成采集{/else/}激活采集{//if/}" onclick="window.location.href='/modelscol/updstatus?sign={/$col.sign/}&cid={/$col.id/}&status={/$col.status/}'" class="button_w"/>
+                    {/if in_array(2, $privs) /}
+                    <input type="button" name="del_submit" value="{/if $col.status==0/}完成采集{/else/}激活采集{//if/}" onclick="window.location.href='/modelscol/updstatus?cid={/$col.id/}&status={/$col.status/}'" class="button_w"/>
                     {//if/}
-
-                    {/if $count_all==$count_over && $count_all!=0 && $col.sign!=3 && (in_array(4, $privs) || in_array(3, $privs)) /}
-                    <input type="button" name="del_submit" value="小组提交" onclick="window.location.href='/modelscol/updUgColStatus?sign={/$col.sign/}&cid={/$col.id/}&cpid={/$col.parent_id/}'" class="button_w"/>
-                    {//if/}
+                    <input type="button" name="del_submit" value="小组提交" onclick="window.location.href='/modelscol/updstatus?cid={/$col.id/}&status={/$col.status/}'" class="button_w"/>
         		</td>
         		<td align="right">
 

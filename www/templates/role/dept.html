@@ -1,0 +1,202 @@
+<!--把多个角色分配给一个部门-->
+<script language=javascript>
+function myinsert(form)
+{
+	var i=0,j=0;
+	while (i < document.form1.s2.length)
+	{
+		var tag=0;
+		if(document.form1.s2.options[i].selected)
+		{
+			otext = document.form1.s2.options[i].text;
+			ovalue = document.form1.s2.options[i].value;
+			document.form1.s2.options[i] =null;
+			olength=document.form1.s3.length;
+			for(j=0; j<olength; j++)
+			{
+				if(ovalue==document.form1.s3.options[j].value)
+				{
+					tag=1;
+					break;
+				}
+			}
+			if(tag==0)
+			{
+				document.form1.s3.options[olength]=new Option(otext,ovalue);
+			}
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+function insertall()
+{
+	var len=document.form1.s2.length;
+	for(j=0;j<len;j++)
+	{
+		oindex=j;		
+		olength=document.form1.s3.length;
+		if(oindex>=0){
+			otext=document.form1.s2.options[j].text;
+			ovalue=document.form1.s2.options[j].value;
+			tag=0;
+			for(i=0; i<olength; i++){
+				if(ovalue==document.form1.s3.options[i].value) 
+				{
+					tag=1;
+					break;
+				}
+			}
+			if(tag==0) {
+				document.form1.s3.options[olength]=new Option(otext,ovalue);
+			}
+		}
+	}
+	for(i=len;i>=0;i--)
+	{
+		 document.form1.s2.remove(i);
+	}
+}
+function deleteall()
+{
+	var len=document.form1.s3.length;
+	for(j=0;j<len;j++)
+	{	
+		olength=document.form1.s2.length;
+		otext=document.form1.s3.options[j].text;
+		ovalue=document.form1.s3.options[j].value;
+		tag=0;
+		for(i=0; i<olength; i++){
+			if(ovalue==document.form1.s2.options[i].value) 
+			{
+				tag=1;
+				break;
+			}
+		}
+		if(tag==0)
+			document.form1.s2.options[olength]=new Option(otext,ovalue);
+	}
+	for(i=len;i>=0;i--)
+	{
+		 document.form1.s3.remove(i);
+	}
+}
+function mydelete(form)
+{
+	var i=0;
+	while (i < document.form1.s3.options.length)
+	{
+		if(document.form1.s3.options[i].selected)
+		{
+			otext = document.form1.s3.options[i].text;
+			ovalue = document.form1.s3.options[i].value;
+			document.form1.s3.options[i] =null;
+			olength=document.form1.s2.length;
+			document.form1.s2.options[olength]=new Option(otext,ovalue);
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+
+function getValue()
+{
+	for(i=0; i<document.form1.s3.length; i++)
+	{
+		document.form1.rolelist.value += document.form1.s3.options[i].value+':';
+	}
+	document.form1.submit();
+	return true;
+}
+
+function addoption() {
+	var len=window.opener.document.form1.role.length;
+	var i;
+	for(i=len;i>=0;i--) {
+		window.opener.document.form1.role.remove(i);
+	}
+	
+	len=document.form1.s3.length;
+	for( i=0;i<len;i++) {
+		var oOption = window.opener.document.createElement("OPTION");
+		oOption.text=document.form1.s3.options[i].text;
+		oOption.value=document.form1.s3.options[i].value;
+		window.opener.document.form1.role.add(oOption);
+	}
+	window.close();
+} 
+
+function doAction()
+{
+    var action=document.form1.doaction.value;
+     if(action == "addgroup" || action=="editgroup")
+     {
+       addoption(); 
+     } 
+     else
+     { 
+      getValue();
+    }
+}
+</script>
+<form name="form1" action="/role/set_roles_dept/" method="post" >
+	<input type="hidden"  name="doaction" value="{/$doaction/}">
+	<input type="hidden" name="ug_id" value="{/$cur_ug.ug_id/}">
+	<input type="hidden" name="rolelist" value="">
+	
+	<table>
+	<tr><td>
+		<div class="list">
+			<div class="content_menu_title1">为部门[{/$cur_ug.name/}]分配角色</div>
+		</div>
+	
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="left" cellpadding="5" cellspacing="0" class="list_table">
+			<tr>
+		    <td width="250" class="list_hr_bg list_hr_colum" nowrap>待选角色列表</td>
+		    <td></td>
+		    <td width="250" class="list_hr_bg list_hr_colum" nowrap>已分配的角色列表</td>
+			</tr>
+			<tr>
+				<td class="list_cb" valign="top"> 
+					<select multiple id="s2" name="s2" size=15 class="intext" style="width:250px;height:300px" >
+						{/section name=i loop=$unsetted/} 
+					  <option value="{/$unsetted[i].role_id/}">{/$unsetted[i].name/}</option>
+						{//section/}
+			    </select>
+				</td>
+				<td class="list_cb" align="center">
+				  <input type="button" class="button" name="addButton" value="增加" onclick="myinsert()" ><br /><br />
+				  <input type="button" class="button" name="deleteButton" value="删除" onclick="mydelete()" ><br /><br />
+				  <input type="button" class="button" name="addAllButton" value="全部增加" onclick="insertall()" ><br /><br />
+				  <input type="button" class="button" name="deleteAllButton" value="全部删除" onclick="deleteall()" > 
+				</td>
+				<td class="list_cb" valign="top">
+					<select multiple id="s3" name="s3" size=15 class="intext" style="width:250px;height:300px" >   
+			      {/section name=i loop=$setted/}
+			     	<option value="{/$setted[i].role_id/}">{/$setted[i].name/}</option>
+			      {//section/}
+		      </select>
+				</td>
+			</tr>
+			</table>
+	
+			<div class="clear"><br style="line-height:8px;" /></div>
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdbottom" align="center">
+		    	<input type="submit" class="button" value="确定" onclick="javascript:doAction()">&nbsp;&nbsp; 
+		    	<input type="button" class="button" value="取消" onclick="window.close()">
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td></tr>
+	</table>
+
+</form>

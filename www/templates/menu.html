@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.ug/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="utf-8">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta http-equiv="Content-Language" content="utf-8" />
+<title>menu</title>
+<link href="../../css/basic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="menu">
+	<div id="menu1_i1" class="sort_unfold">
+		<div class="title"><a href="#" onclick="expand_it('menu1')">&nbsp;数据采集</a></div>
+		<ul id="menu1_child">
+        {/if in_array(1, $privs) /}
+        <li><a href="/col/index" target="content">&nbsp;&nbsp;公开采集管理</a></li>
+        {//if/}
+		<li><a href="/modelsCol/index" target="content">&nbsp;&nbsp;公开在线采集</a></li>
+        <li><a href="/ugcol/index" target="content">&nbsp;&nbsp;部门内部采集</a></li>
+		</ul>
+	</div>
+    {/if in_array(6, $privs) /}
+	<div id="menu1_i0" class="sort_unfold">
+		<div class="title"><a href="#" onclick="expand_it('menu0')">&nbsp;数据模板</a></div>
+		<ul id="menu0_child">
+		<li><a href="/models/list" target="content">&nbsp;&nbsp;模板管理</a></li>
+		</ul>
+	</div>
+    {//if/}
+    {/if in_array(7, $privs) || in_array(8, $privs)/}
+	<div id="menu2_i1" class="sort_unfold">
+		<div class="title"><a href="#" onclick="expand_it('menu2')">&nbsp;数据汇总</a></div>
+		<ul id="menu2_child">
+        {/if in_array(7, $privs) /}
+		<li><a href="/package/package" target="content">&nbsp;&nbsp;数据汇总</a></li>
+        {//if/}
+        {/if in_array(8, $privs) /}
+		<li><a href="/package/list" target="content">&nbsp;&nbsp;汇总数据下载</a></li>
+		{//if/}
+		</ul>
+	</div>
+    {//if/}
+    {/if in_array(9, $privs) || in_array(10, $privs) || in_array(11, $privs)/}
+	<div id="menu5_i1" class="sort_unfold">
+		<div class="title"><a href="#" onclick="expand_it('menu5')">&nbsp;系统管理</a></div>
+		<ul id="menu5_child">
+        {/if in_array(9, $privs) /}
+		<li><a href="/user/index" target="content">&nbsp;&nbsp;系统帐号管理</a></li>
+        {//if/}
+        {/if in_array(10, $privs) /}
+		<li><a href="/role/list" target="content">&nbsp;&nbsp;系统角色管理</a></li>
+		{//if/}
+        {/if in_array(11, $privs) /}
+        <li><a href="/ug/index" target="content">&nbsp;&nbsp;部门结构管理</a></li>
+		{//if/}
+        {/if in_array(9, $privs) && in_array(11, $privs) /}
+        <li><a href="/init/show?basic" target="content">&nbsp;&nbsp;组织结构导入</a></li>
+        {//if/}
+		</ul>
+	</div>
+    {//if/}
+</div>
+<script>
+function expand_it(menu)
+{
+	var oChild = menu+'_child';
+	var oImg1 = menu+'_i1';
+	var child = document.getElementById(oChild);
+	var img1 = document.getElementById(oImg1);
+	if(child.style.display == 'none')
+	{
+		child.style.display = '';
+		img1.className = 'sort_unfold';
+	}
+	else
+	{
+		child.style.display = 'none';
+		img1.className = 'sort_fold';
+	}
+}
+function outspread(ctrl)
+{
+	for (var i=1; i<5; i++)
+	{
+		var oChild = 'menu'+i+'_child';
+		var oImg1 = 'menu'+i+'_i1';
+		var child = document.getElementById(oChild);
+		var img1 = document.getElementById(oImg1);
+		if (child) {
+			if (ctrl == 'open')
+			{
+				child.style.display = '';
+				img1.className = 'sort_unfold';
+			}
+			else
+			{
+				child.style.display = 'none';
+				img1.className = 'sort_fold';
+			}
+		}
+	}
+}
+</script>
+</body>
+</html>

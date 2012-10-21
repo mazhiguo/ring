@@ -1,0 +1,159 @@
+<script>
+function check_all(form, prefix, checkall) {
+	var checkall = checkall ? checkall : 'chkall';
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = form.elements[i];
+		if(e.name && e.name != checkall && (!prefix || (prefix && e.name.match(prefix)))) {
+			e.checked = form.elements[checkall].checked;
+		}
+	}
+	return false;
+}
+
+function checkAll(form) {
+for (var j = 0; j < form.elements.length; j++) {
+var box = eval(form.elements[j]); 
+
+if((box.checked == false)) 
+{
+	if((box.name=="checkall")||(box.name=="del[]"))
+	box.checked = true;
+}
+
+   }
+}
+
+function uncheckAll(form) {
+for (var j =0; j <form.elements.length; j++) {
+box = eval(form.elements[j]); 
+if (box.checked == true) 
+{
+if((box.name=="checkall")||(box.name=="del[]"))
+box.checked = false;
+}
+
+   }
+}
+
+function del_corp(name, ug_id)
+{
+	if (!window.confirm('该操作将删除单位['+name+']及其下属单位的所有组织机构、用户及其它关联信息。确定删除？'))
+	{
+		return false;
+	}
+		window.location = '/ug/del_corp/ug_id/'+ug_id+'/';
+		return true;
+}
+
+var objs = document.getElementsByTagName('input');
+var str = '';
+function get_values()
+{
+	for(var i=0; i<objs.length; i++) 
+	{
+	    o = objs[i];
+	    if(o.name=='del[]' && o.checked) 
+	    str += o.value+":";
+	}
+	return str;
+}
+function del()
+{
+	var user_ids = get_values();
+	if (user_ids == ''){
+		alert('请至少选择一个单位完成此操作。');
+		return ;	
+	}
+	if(!window.confirm('该操作将删除所选单位及其其下属部门、人员等其它相关信息，确定删除？'))
+	{
+		return false;
+	}
+	document.form1.action='/ug/del_corp/';
+	document.form1.submit();	
+}
+function add()
+{
+	if(!window.confirm('只有进行分级权限管理，才有必要创建独立单位。创建单位后需要指定管理员维护该单位的部门、人员、角色、通讯录等信息。如果无需进行分级权限管理，请通过“部门结构管理”维护组织机构信息。点击“确定”按钮继续创建单位，  点击“取消”按钮放弃本次操作。'))
+	{
+		return false;
+	}
+	window.location='/ug/on_show_add_corp/';	
+}
+</script>
+<form name="form1"  method="POST">
+
+	<table class="content">
+	
+<tr><td>
+	<div class="content_inke">
+		<div class="list_top">
+			<div class="content_menu_title1">下级单位管理 &nbsp;&nbsp; <input type="button" value="增加下级单位" class="button_w" onclick="add()" /></div>
+		</div>
+		
+		<div class="clear"></div>
+		<div class="list_content01">
+		<div id="main_content">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="150" align="left">
+				<input type="checkbox" name="checkall" onclick="check_all(this.form,'del','checkall')" /> 全选
+				&nbsp; <input type="button" name="del_submit" value="删除" class="button" onclick="del()" />
+			</td>
+			<td align="right">
+				每页
+				<select onchange="set_per_page('ug_limit','/ug/set_per_page/name/ug_limit/num/'+this.options[this.options.selectedIndex].value);">
+					{/$option_str/}
+				</select>
+				<div id="ug_limit" style="display:none"></div>
+				条
+				&nbsp; {/$pages/}
+			</td>
+			</tr></table>
+			
+			<table align="center" cellpadding="5px" cellspacing="0" class="list_table">
+				<tr align="center" class="list_hr_bg">
+					<td width="140" class="list_hr_colum">单位编码</td>
+					<td class="list_hr_colum">单位名称</td>
+					<td width="180" class="list_hr_colum">单位邮箱</td>
+					<td width="180" class="list_hr_colum">操作</td>
+				</tr>
+				{/section name=i loop=$sub_corps /}
+				<tr> <!-- align="center" bgcolor="{/cycle values='#F5F5F5,#FFFFFF'/}"-->
+					<td class="list_c"><table cellpadding="0" cellspacing="0"><tr><td><input type="checkbox" name="del[]" value="{/$sub_corps[i].ug_id/}"/></td><td>&nbsp;</td><td>{/$sub_corps[i].code/}</td></tr></table></td>
+					<td class="list_c">{/$sub_corps[i].name/}</td>
+					<td class="list_c">{/$sub_corps[i].email/}</td>
+					<td class="list_c" nowrap>
+						<a href="###" onclick="window.location='/ug/show_upd_corp/ug_id/{/$sub_corps[i].ug_id/}/';">[编辑]</a>
+						<!--
+						<a href="###" onclick="del_corp('{/$sub_corps[i].name/}', '{/$sub_corps[i].ug_id/}');">[删除]</a>
+						-->
+						<a href="###" onclick="window.location='/admin/sub_corp_admin_list/ug_id/{/$sub_corps[i].ug_id/}/';">[管理员帐号管理]</a>
+					</td>
+				</tr>
+				{/sectionelse/}
+				<tr class="list_c">
+					<td colspan="4" align="center">没有可列举的下级单位，请点击 [<a href="#" onclick="add()">增加下级单位</a>] 添加。 </td>
+				</tr>
+				{//section/}
+			</table>
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="150" align="left">
+				<span id="checkall" onclick="checkAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">全选</span> - <span id="clearall" onclick="uncheckAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">取消</span>
+				&nbsp; <input type="button" name="del_submit" value="删除" class="button" onclick="del()" />
+			</td>
+			<td align="right">
+				每页
+					<select onchange="set_per_page('ug_limit','/ug/set_per_page/name/ug_limit/num/'+this.options[this.options.selectedIndex].value);">
+						{/$option_str/}
+					</select>
+					<div id="ug_limit" style="display:none"></div>
+					条
+				&nbsp; {/$pages/}
+			</td>
+			</tr></table>
+		</div>
+		</div>
+	</div>
+	</td></tr>
+	</table>
+</form>

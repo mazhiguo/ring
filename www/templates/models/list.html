@@ -1,0 +1,114 @@
+
+<div class="content_inke">
+	<div class="list_top">
+		<div class="content_menu_title1">采集模板管理 &nbsp;&nbsp;
+			<input type="button" value="新增模板" class="button_w" onclick="window.location='/models/add'" />
+		</div>
+		<div style="float: right;">
+			<input type="text" id="q" name="q" value="{/$q/}"/> <input type="button" class="button_w" value="搜索" onclick="on_search()"/>
+		</div>
+	</div>
+
+	<div id="main_content">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+		<td>
+			<input type="checkbox" id="chkall" onclick="chk_all()"/>全选 &nbsp; <input type="button" value="删除" class="button_w" onclick="dels()"/>
+		</td>
+		<td align="right">
+			每页
+			<select onchange="set_per_page('models_limit','/models/set_per_page/name/models_limit/num/'+this.options[this.options.selectedIndex].value);">
+			{/$option_str/}
+			</select>
+			<div id="tmpl_limit" style="display:none"></div>
+			条
+			&nbsp; {/$pages/}
+		</td>
+		</tr></table>
+
+
+		<table align="center" cellpadding="5px" cellspacing="0" class="list_table">
+			<tr align="center" class="list_hr_bg">
+				<td width="160" class="list_hr_colum" nowrap>模板标示</td>
+				<td width="160" class="list_hr_colum" nowrap>模板名称</td>
+				<td width="200" class="list_hr_colum" nowrap>操  作</td>
+			</tr>
+			{/section name=i loop=$list/}
+			<tr>  <!-- bgcolor="{/cycle values='#F5F5F5,#FFFFFF'/}" -->
+				<td class="list_c"><input type="checkbox" name="del[]" value="{/$list[i].id/}"/> &nbsp;&nbsp; {/$list[i].name/}</td>
+				<td class="list_c">{/$list[i].desc/}</td>
+				<td class="list_c" nowrap>
+					<a href="/models/upd?id={/$list[i].id/}">[编辑]</a>
+					<a href="/models/del?id={/$list[i].id/}">[删除]</a>
+					<a href="/models/fields?mid={/$list[i].id/}">[字段管理]</a>
+					<a href="/models/copy?id={/$list[i].id/}">[复制该模板]</a>
+					<!--
+					<a href="/models/show?mid={/$list[i].id/}">[采集数据]</a>
+					<a href="/models/datalist?mid={/$list[i].id/}">[查看列表]</a>
+					<a href="/models/download?mid={/$list[i].id/}">[下载模板文件]</a>
+					<a href="/models/upload?mid={/$list[i].id/}">[上传采集文件]</a>
+					-->
+				</td>
+			</tr>
+			{/sectionelse/}
+			<tr class="list_c">
+				<td colspan="4" align="center">没有可列举的模板，请点击 [<a href="#" onclick="window.location='/models/add/'">新建模板</a>] 添加。 </td>
+			</tr>
+			{//section/}
+		</table>
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+		<td>
+			<input type="checkbox" id="chkall" onclick="chk_all()"/>全选 &nbsp; <input type="button" value="删除" class="button_w" onclick="dels()"/>
+		</td>
+		<td align="right">
+			每页
+			<select onchange="set_per_page('models_limit','/models/set_per_page/name/models_limit/num/'+this.options[this.options.selectedIndex].value);">
+			{/$option_str/}
+			</select>
+			<div id="models_limit" style="display:none"></div>
+			条
+			&nbsp; {/$pages/}
+		</td>
+		</tr></table>
+
+	</div>
+</div>
+
+<script>
+function chk_all()
+{
+	var flag = false;
+	if ($('#chkall').attr('checked')) flag = true;
+	$('input[name="del[]"]').each(function(i,obj){
+		$(obj).attr('checked', flag);
+ 	});
+}
+
+function dels(){
+	var ids = '';
+ 	$('input[name="del[]"]').each(function(i,obj){
+		var v = $(obj).val();
+		if ($(obj).attr('checked'))
+		{
+			ids = ids+v+',';
+		}
+ 	});
+
+ 	if (ids == '')
+ 	{
+ 		alert('请选择数据。');
+ 		return false;
+ 	}
+
+ 	if (!window.confirm('你确定要执行删除吗？'))
+	{
+		return false;
+	}
+
+ 	window.location.href = "/models/del?ids="+ids;
+}
+
+function on_search() {
+ 	window.location.href = '/models/list/?q='+$('#q').val();
+}
+</script>

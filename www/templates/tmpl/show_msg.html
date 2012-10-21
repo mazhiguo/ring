@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='utf-8'>
+<head>
+<meta http-equiv='Content-Type' content='text/html;charset=utf-8' />
+<meta http-equiv='Content-Language' content='utf-8' />
+<style>body{background:#F7F7FF;}
+.show_msg {font-size:12px;border:1px solid #109ACE;margin-top:50px;width:600px;}
+.show_msg th {height:20px;padding-left:10px;color:#fff;background:#6392C6}
+.show_msg td {background:#fff;}
+.show_msg p {padding:0;margin:0}
+.msg {margin-top:50px;margin-bottom:10px;margin-left:auto;margin-right:auto;padding:10px;padding-left:2em;
+	text-align:left;width:80%;background:#DEE7F7;border:1px solid #109ACE;font-weight:800}
+.smsg {margin-left:auto;margin-right:auto;padding:2px;text-align:left;width:80%;font-weight:800	}
+.control {margin-top:25px;margin-bottom:20px;margin-left:auto;margin-right:auto;padding:10px;padding-left:2em;text-align:left;width:80%;}</style>
+
+<script>
+function on_display()
+{
+	var tr = document.getElementById('tr_error_msg');
+	var img = document.getElementById('img_msg');
+	if (tr.style.display == 'none' ) 
+	{
+		img.src = "../../images/collapsed_no.gif";
+		tr.style.display = '';
+	}
+	else
+	{
+		img.src = "../../images/collapsed_yes.gif";
+		tr.style.display = 'none';
+	}
+}
+
+function setTime(span, time, func)
+{
+	document.getElementById(span).innerHTML = time/1000;
+	time = time-1000;
+	if (time < 0 && typeof func!='undefined') eval(func);
+	else setTimeout("setTime('"+span+"', '"+time+"', '"+func+"')", 1000);	
+}
+</script>
+
+</head><body><center>
+
+<table border="0" cellpadding='5' cellspacing='1' align='center' class='show_msg'>
+	<tr>
+		<th align='left' colspan="10">{/ $ctrl.hint /}</th>
+	</tr>
+	<tr>
+		{/ if $type == 'BACK' /}
+			<td align='center'>
+				<div class='msg'>{/ $ctrl.msg /}</div>
+				<div class='control'><a href='#' onclick='window.history.back();'>点击这里返回上一页</a></div>
+			</td>
+		{/ elseif $type == 'CLOSE' /}
+			<td align='center'>
+				<div class='msg'>{/ $ctrl.msg /}</div>
+				<div class='control'>
+					<br />本页面将在 <span id="span_close">&nbsp;</span> 秒后自动关闭！
+					<script>setTime('span_close', "{/ $ctrl.timeout /}", 'window.close();')</script>
+				</div>
+			</td>
+		{/ elseif $type == 'GOTO' /}
+			<td align='center'>
+				<div class='msg'>{/ $ctrl.msg /}</div>
+				<div class='control'>
+					<a href='{/ $ctrl.url /}'>本页面将在 <span id="span_goto">&nbsp;</span> 秒后自动跳转, 如果您的浏览器没有跳转, 请点击这里。</a>
+					<script>setTime('span_goto', '{/ $ctrl.timeout /}', 'window.location="{/ $ctrl.url /}"');</script>
+				</div>
+			</td>
+		{/ elseif $type == 'TEXT' /}
+			<td align='center'>
+				<div class='msg'>{/ $ctrl.msg /}</div>
+			</td>
+		{/ /if /}
+	</tr>
+	{/ if $ctrl.error_msg != '' /}
+		<tr>
+			<td align="center">
+				<span onclick="on_display()" style="cursor:pointer;">
+					错误信息&nbsp;<img id="img_msg" src="../../images/collapsed_yes.gif" alt="查看错误信息" />
+				</span>
+			</td>
+		</tr>
+		<!-- error message -->
+		<tr style="display:none;" id="tr_error_msg" align="center">
+			<td>
+				<textarea cols="69" rows="10" style="background-color:#E4E4E4; overflow:auto;" readonly="readonly">{/ $ctrl.error_msg /}</textarea>
+			</td>
+		</tr>
+		<tr><td colspan="10">&nbsp;</td></tr>
+	{/ /if /}
+</table>
+
+</center></body></html>

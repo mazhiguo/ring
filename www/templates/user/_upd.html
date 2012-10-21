@@ -1,0 +1,298 @@
+<script>
+function upduser()
+{
+	//check account
+	if (!is_empty('account'))
+	{
+		alert('用户帐号不能为空。');
+		$('account').focus();
+		return false;
+	}
+	if ($('account').value != '')
+	{
+		if (!check_account('account'))
+		{
+			alert('用户帐号只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+			$('account').focus();
+			return false;
+		}
+	}
+	//check name
+	if (!is_empty('name'))
+	{
+		alert('用户姓名不能为空。');
+		$('name').focus();
+		return false;
+	}
+	if ($('name').value != '')
+	{
+		if (!check_account('name'))
+		{
+			alert('用户姓名只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+			$('name').focus();
+			return false;
+		}
+	}	
+	//check display_name
+	if (!is_empty('display_name'))
+	{
+		alert('用户的显示名称不能为空。');
+		$('display_name').focus();
+		return false;
+	}
+	if ($('display_name').value != '')
+	{
+		if (!check_account('display_name'))
+		{
+			alert('用户的显示名称只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+			$('display_name').focus();
+			return false;
+		}
+	}		
+	//check mobile
+	if ($('mobile').value != '')
+	{
+		if (!check_mobile('mobile'))
+		{
+			alert('移动电话格式不正确，请输入正确的手机或保持为空。');
+			$('mobile').focus();
+			return false;
+		}
+		
+	}
+	//check email
+	if ($('email').value != '')
+	{
+		if (!check_email('email'))
+		{
+			alert('E-mail格式不正确，请输入正确的e-mail或保持为空。');
+			$('email').focus();
+			return false;
+		}
+		
+	}
+	//check tel
+	if ($('office_tel').value != '')
+	{
+		if (!check_phone('office_tel'))
+		{
+			alert('电话格式不正确，请输入正确的电话或保持为空。');
+			$('office_tel').focus();
+			return false;
+		}
+		
+	}
+	//check fax
+	if ($('fax').value != '')
+	{
+		if (!check_phone('fax'))
+		{
+			alert('传真格式不正确，请输入正确的传真号码或保持为空。');
+			$('fax').focus();
+			return false;
+		}
+		
+	}
+	//check postcode
+	if ($('postcode').value != '')
+	{
+		if (!check_post('postcode'))
+		{
+			alert('邮政编码格式不正确，请输入正确的邮政编码或保持为空。');
+			$('postcode').focus();
+			return false;
+		}
+		
+	}
+	//check url
+	if ($('webaddress').value != '')
+	{
+		if (!check_url('webaddress'))
+		{
+			alert('网址格式不正确，请输入正确的网络地址。');
+			$('webaddress').focus();
+			return false;
+		}
+		
+	}
+	//check order
+	if ($('location').value != '')
+	{
+		if (!isNumber('location'))
+		{
+			alert('位置排序格式不正确，请输入自然数。');
+			$('location').focus();
+			return false;
+		}
+	}
+	$('treechecked').value = tree.getAllChecked();
+	var frm = $('upduserform');
+	frm.action = '/user/upd';
+	frm.method = 'POST';
+	frm.submit();
+}
+function alter_detail() 
+{
+	var chkbox = $('dtlchk');
+	var detail = $('moreinfo');
+	if (chkbox.checked) 
+		detail.style.display = '';
+	else
+		detail.style.display = 'none';
+}
+</script>
+<form id="upduserform">
+	<input type="hidden" name="user_id" value="{/$user.user_id/}">
+<table>
+<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">编辑用户</div>
+				<div id="loadinggid" style="float:right;display:none;color:#FFB200;font-weight:800;">数据处理中...</div>
+		</div>
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr class="list_hr_bg">
+				<td width="110" class="tdleft tdbottom" style="text-align:left"><strong>&nbsp;基本资料</strong></td>
+				<td class="tdright tdbottom">
+					<span class="black">注：</span><span class="red-font">*</span><span class="black">为必填选项</span>
+					( <input type="checkbox" id="dtlchk" onclick="alter_detail()"/>详细选项 )
+				</td>
+				<td width="110" class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom">&nbsp;</td>
+			</tr>
+			<tr>
+				<td class="tdleft">用户帐号：</td>
+				<td class="tdright"><input type="text" id="account" name="account" maxlength="30" value="{/$user.account/}" class="intext" onblur="check_account_return('account','check_account_info',false,'');" />
+					&nbsp;<span class="red-font">*</span> 
+					<span id="check_account_info"></span>
+				</td>
+				<td class="tdleft">状&nbsp;&nbsp;&nbsp;&nbsp;态：</td>
+				<td class="tdright">
+				<input type='radio' name='state' id="state1" value='1' {/if $user.state=='1'/}checked{//if/}>活动 &nbsp;&nbsp; 
+				<input type='radio' name='state' value='0' id="state2" {/if $user.state=='0'/}checked{//if/}>不活动
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">姓&nbsp;&nbsp;&nbsp;&nbsp;名：</td>
+				<td class="tdright"><input type="text" id="name" name="name" maxlength="30" value="{/$user.name/}" class="intext" onblur="check_account_return('name','check_name_info',false,'');" />
+					&nbsp;<span class="red-font">*</span> 
+					<span id="check_name_info"></span>
+				</td>
+				<td class="tdleft">性&nbsp;&nbsp;&nbsp;&nbsp;别：</td>
+				<td class="tdright"><input type='radio' name='sex' id='sex1'  value='2' {/if $user.sex=='2'/}checked{//if/}>男 &nbsp;&nbsp; <input type='radio' name='sex' id='sex2'  value='1' {/if $user.sex=='1'/}checked{//if/}>女</td>
+			</tr>
+			<tr>
+				<td class="tdleft">显示名称：</td>
+				<td class="tdright"><input type="text" id="display_name" name="display_name" value="{/$user.display_name/}" class="intext" onblur="check_account_return('display_name','check_display_name_info',false,'');" />
+					&nbsp;<span class="red-font">*</span> 
+					<span id="check_display_name_info"></span>
+				</td>
+				<td class="tdleft">职&nbsp;&nbsp;&nbsp;&nbsp;务：</td>
+				<td class="tdright"><input type="text" name="position" id="position" value="{/$user.position/}" class="intext" /></td>
+			</tr>
+			<tr>
+				<td class="tdleft">G&nbsp;I&nbsp;D：</td>
+				<td colspan="3" class="tdright">
+					{/if $user.gid != ''/}
+						{/$user.gid/}
+						<input type="hidden" name="old_gid" id="old_gid" value="{/$user.gid/}" />
+					{/else/}
+						<input type="text" name="gid" id="gid" readonly class="intext"  style="width:80px"/>
+						<input type="button" value="分配GID" class="button" onclick="get_unused_gid('1')"  />
+						<div id="get_unused_gid" style="display:inline"></div>
+					{//if/}
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">位置排序：</td>
+				<td colspan="3" class="tdright">
+					<input type="text" id="location" name="location" value="{/$user.location/}" class="intext" onblur="check_number_return('location','check_location_info', true, '请输入无符号整数，为空则自动排序');" />
+					&nbsp;<span id="check_location_info">请输入无符号整数，为空则自动排序</span>
+				</td>
+			</tr>
+</table>
+<table id="moreinfo" align="center" cellpadding="5px" cellspacing="0" class="form_table" style="display:none">			
+			<tr>
+				<td class="tdleft">移动电话：</td>
+				<td class="tdright"><input type="text" name="mobile" id ="mobile" maxlength="30" value="{/$user.mobile/}" class="intext" onblur="check_mobile_return('mobile','check_mobile_info', true, '');" />
+					&nbsp;<span id="check_mobile_info"></span>
+				</td>
+				<td class="tdleft">电子邮件：</td>
+				<td class="tdright"><input type="text" name="email" id="email" value="{/$user.email/}" class="intext" onblur="check_email_return('email','check_email_info', true, '');" />
+					&nbsp;<span id="check_email_info"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">办公电话：</td>
+				<td class="tdright"><input type="text" name="office_tel" id="office_tel" maxlength="30" value="{/$user.office_tel/}" class="intext" onblur="check_phone_return('office_tel','check_office_tel_info', true, '');" />
+					&nbsp;<span id="check_office_tel_info"></span>
+				</td>
+				<td class="tdleft">网&nbsp;&nbsp;&nbsp;&nbsp;址：</td>
+				<td class="tdright"><input type="text" id="webaddress" name="webaddress" value="{/$user.webaddress/}" class="intext" onblur="check_url_return('webaddress','check_webaddress_info', true, '');" />
+					&nbsp;<span id="check_webaddress_info"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">传&nbsp;&nbsp;&nbsp;&nbsp;真：</td>
+				<td class="tdright"><input type="text" id="fax" name="fax" value="{/$user.fax/}" class="intext" onblur="check_phone_return('fax','check_fax_info', true, '');" />
+					&nbsp;<span id="check_fax_info"></span>
+				</td>
+				<td class="tdleft">创建人：</td>
+				<td class="tdright">{/$user.creator_account/}</td>
+			</tr>
+			<tr>
+				<td class="tdleft">地&nbsp;&nbsp;&nbsp;&nbsp;址：</td>
+				<td class="tdright"><input type="text" name="address" id="address" value="{/$user.address/}" class="intext" /></td>
+				<td class="tdleft">创建日期：</td>
+				<td class="tdright">{/$user.creator_time/}</td>
+			</tr>
+			<tr>
+				<td class="tdleft">邮&nbsp;&nbsp;&nbsp;&nbsp;编：</td>
+				<td class="tdright"><input type="text" name="postcode" id="postcode" maxlength="30" value="{/$user.postcode/}" class="intext" onblur="check_post_return('postcode','check_post_info', true, '');" />
+					&nbsp;<span id="check_post_info"></span>
+				</td>
+				<td class="tdleft">备&nbsp;&nbsp;&nbsp;&nbsp;注：</td>
+				<td class="tdright"><textarea name="remark" id="remark" wrap="soft" rows="2" class="intext">{/$user.remark/}</textarea></td>
+			</tr>
+</table>      
+		<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft">所属部门：</td>
+				<td colspan="3" class="tdright" style="height:auto">
+					<span  title="选中当前选中节点及已请求子节点。" onclick="check_branch(tree);" class="txt" 
+						onmouseover="this.className='txt_mouseover'" onmouseout="this.className='txt_mouseout'"
+						onmousedown="this.className='txt_mousedown'" onmouseup="this.className='txt_mouseup'">
+					选中分支</span>
+					<span  title="取消当前选中节点及子节点。" onclick="uncheck_branch(tree);" class="txt" 
+						onmouseover="this.className='txt_mouseover'" onmouseout="this.className='txt_mouseout'"
+						onmousedown="this.className='txt_mousedown'" onmouseup="this.className='txt_mouseup'">
+					取消分支</span>			
+					<span  title="请求当前选中节点的下级子节点，点击一次请求一级。" onclick="expand_selected(tree);" class="txt" 
+						onmouseover="this.className='txt_mouseover'" onmouseout="this.className='txt_mouseout'"
+						onmousedown="this.className='txt_mousedown'" onmouseup="this.className='txt_mouseup'">
+					展开分支</span>
+					<span  title="收缩当前选中节点及子节点。" onclick="collapse_selected(tree);" class="txt" 
+						onmouseover="this.className='txt_mouseover'" onmouseout="this.className='txt_mouseout'"
+						onmousedown="this.className='txt_mousedown'" onmouseup="this.className='txt_mouseup'">
+					收缩分支</span>
+				<div style="width:100%; height:280px; overflow:auto; background-color:#ffffff; border:solid 1px thin; border-color:#DCDCDC;">
+					<div id="treebox" class="innerTree"></div>
+					<input type="hidden" name="treechecked" id="treechecked" value="" />
+				</div>
+				</td>
+			</tr>
+		</table>
+		<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+		<tr>
+			<td class="tdleft tdbottom">&nbsp;</td>
+			<td colspan="3" class="tdright tdbottom">
+				<input type="button" value="保存" class="button" onclick="upduser()"/>
+				<input type="button" value="取消" class="button" onclick="window.history.back();"/>
+			</td>
+		</tr>
+		</table>
+</form>		
+<script>
+load_user_upd_tree('{/$user.user_id/}');
+</script>

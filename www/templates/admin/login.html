@@ -1,0 +1,67 @@
+<body style="background:#F6F6F8;">
+<style type="text/css">
+<!--
+* {margin:0px;padding:0px;font-size:12px;border:none;}
+body{ height:600px;background:url(/images/login/bg.jpg) #013273 repeat-x top left; width:800px;margin:0px auto;}
+.login{background:url(/images/login/log_bg.jpg) top left no-repeat; height:100%;}
+.top{vertical-align:bottom; text-indent:10px; font-size:16px; font-weight:bold;color:#b7e4eb;}
+.main{ vertical-align:top;}
+.name{ vertical-align:bottom; height:200px; text-align:center;}
+.pw{text-align:center;}
+.copyright{text-align:right; vertical-align:top;}
+.input{width:180px; height:20px; border:#CCCCCC 1px solid; font-size:14px; line-height:20px;}
+label{width:100px; text-align:right;padding-right:20px; font-size:14px;font-weight:bold;color:#006e99;}
+.buttons{text-align:center;}
+.button_login,.button_reset{ width:61px; height:25px; background:url(/images/login/button_bg.jpg) left top no-repeat; font-size:14px; line-height:25px; font-weight:bold;}
+.button_login{color:#ff7e00;margin-left:100px;}
+.button_reset{color:#5497bd;margin-left:10px;}
+.copyright{vertical-align:middle; color:#FFF;padding-right:100px;}
+-->
+</style>
+<script>
+function login()
+{
+	var account = $('account').value;
+	var pwd = $('password').value;
+	if (account == '')
+	{
+		alert('Account could not be empty!');
+		return;
+	}
+	if (pwd == '')
+	{
+		alert('Password could not be empty!');
+		return;
+	}
+	var frm = $('login');
+	frm.action = '/admin/login/';
+	frm.method = 'POST';
+	frm.submit();
+}
+
+</script>
+<form id="login">
+<table width="100%" border="1" cellpadding="0" cellspacing="0" align="center" class="login">
+  <tr height="110px">
+  	<td class="top">&nbsp;</td>
+  </tr>
+  <tr height="300px">
+  <td class="main">
+		<table width="100%" border="1" cellpadding="0" cellspacing="0" align="center">
+		<tr class="name" height="50px"><td><label>帐号</label><input type="text" name="account" id='account' class="input" size="20"  onblur="check_login_account('account');" onkeydown='if(event.keyCode==13){login(); return;}'/></td></tr>
+		<tr class="pw" height="32px"><td><label>密码</label><input type="password" name="password" id='password' class="input" size="20" onkeydown='if(event.keyCode==13){login(); return;}' /></td></tr>
+		<tr>
+			<td class="buttons" ><input type="button" class="button_login" value="登录" onclick="login()" /><input type="reset" class="button_reset" name="Submit" value="重置"></td>
+		</tr>
+		<tr class="pw" height="45"><td style="vertical-align:bottom;"><div id='check_adminaccount' style="overflow:auto; text-align:left; color:#7799EE; text-indent:317px;"></div></td></tr>
+		</table>
+	</td>
+  </tr>
+  <tr height="120px">
+  	<td class="copyright">版权所有 &copy; 多相复杂系统国家重点实验室 </td>
+  </tr>
+</table>
+<script>
+	try {	$('account').focus(); } catch(e) {}
+</script>	
+</form>

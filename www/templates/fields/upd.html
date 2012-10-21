@@ -1,0 +1,120 @@
+<script>
+//表单提交
+function add()
+{
+	if (!is_empty('name'))
+	{
+		alert('字段标示：不能为空。');
+		$('#name').focus();
+		return false;
+	}
+	if (!is_empty('desc'))
+	{
+		alert('字段名称不能为空。');
+		$('#desc').focus();
+		return false;
+	}
+
+    $('#isshow').val(0);
+    if ($('#isshow').attr('checked'))
+        $('#isshow').val(1);
+
+    $('#required').val(0);
+    if ($('#required').attr('checked'))
+        $('#required').val(1);
+
+	$('#form').action = "/models/addfields/";
+	$('#form').submit();
+}
+</script>
+
+<form id="form" name="form" method="post">
+	<input type="hidden" name="id" id='id' size="40" maxlength="20" value="{/$model.id/}" class="intext" />
+
+	<div class="list">
+		<div class="content_menu_title1">编辑字段[{/$model.desc/}]</div>
+	</div>
+	<div class="clear"></div>
+	<div id="main_content">
+		<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+		<tr>
+			<td class="tdleft tdtop">&nbsp;</td>
+			<td class="tdright tdtop"><span class="black">注：</span><span class="red-font">*</span><span class="black">为必填选项</span></td>
+		</tr>
+		<tr>
+			<td class="tdleft">字段标示：</td>
+			<td class="tdright">
+				<input type="text" name="name" id='name' size="40" maxlength="20" value="{/$model.name/}" class="intext" />
+				&nbsp;<span class="red-font">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="tdleft">字段名称：</td>
+			<td class="tdright">
+				<input type="text" name="desc" id='desc' size="40" maxlength="20" value="{/$model.desc/}" class="intext" />
+				&nbsp;<span class="red-font">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="tdleft">类型选择：</td>
+			<td class="tdright">
+				<select id="type" name="type">
+					<option value="text" {/if $model.type=="text"/}selected{//if/}>单行文本框</option>
+					<option value="password" {/if $model.type=="password"/}selected{//if/}>密码框</option>
+					<option value="textarea" {/if $model.type=="textarea"/}selected{//if/}>文本区域</option>
+					<option value="file" {/if $model.type=="file"/}selected{//if/}>上传控件</option>
+					<option value="select" {/if $model.type=="select"/}selected{//if/}>下拉菜单</option>
+					<option value="radio" {/if $model.type=="radio"/}selected{//if/}>单选按钮</option>
+					<option value="checkbox" {/if $model.type=="checkbox"/}selected{//if/}>复选框</option>
+					<option value="editor" {/if $model.type=="editor"/}selected{//if/}>编辑器</option>
+					<option value="datetime" {/if $model.type=="datetime"/}selected{//if/}>日期时间</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="tdleft">数据值：</td>
+			<td class="tdright">
+				<input type="text" name="values" id='values' size="40" maxlength="250" value="{/$model.values/}" class="intext" />
+				<span style="color:#999;">下拉菜单、单选按钮、复选框等拥有多项默认数据填写方式: a=1|b=2|c=3</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="tdleft">长度：</td>
+			<td class="tdright">
+				<input type="text" name="lenght" id='lenght' size="40" maxlength="20" value="{/$model.lenght/}" class="intext" />
+			</td>
+		</tr>
+		<tr>
+			<td class="tdleft">规则：</td>
+			<td class="tdright">
+				<input type="text" name="rules" id='rules' size="40" maxlength="120" value="{/$model.rules/}" class="intext" />
+			</td>
+		</tr>
+		<tr>
+			<td class="tdleft">规则描述：</td>
+			<td class="tdright">
+				<input type="text" name="rulesdesc" id='rulesdesc' size="40" maxlength="20" value="{/$model.rulesdesc/}" class="intext" />
+			</td>
+		</tr>
+		<tr>
+			<td class="tdleft">必填：</td>
+			<td class="tdright">
+				<input type="checkbox" name="required" id='required' value="0" {/if ($model.required=="1")/}checked{//if/}/> 必填
+			</td>
+		</tr>
+		<tr>
+			<td class="tdleft">列表显示：</td>
+			<td class="tdright">
+				<input type="checkbox" name="isshow" id='isshow' value="0" {/if ($model.isshow=="1")/}checked{//if/}/> 显示
+			</td>
+		</tr>
+		<tr>
+			<td class="tdleft tdbottom">&nbsp;</td>
+			<td class="tdright tdbottom">
+				<input type="button" value="保存" class="button" onclick="add();"/>
+				<input type="button" value="取消" class="button" onclick="window.history.back(-1)"/>
+			</td>
+		</tr>
+		</table>
+	</div>
+</form>

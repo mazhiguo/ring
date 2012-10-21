@@ -1,0 +1,122 @@
+
+<table class="content">
+<tr><td>
+	<div class="content_inke">
+		<div class="list_top">
+			<div class="content_menu_title1">系统备份恢复 &nbsp;&nbsp;
+			<span id="loading" style="display:none"><img src="/images/loading.gif"/>系统数据备份中，请等待。</span>
+			<span id="loading2" style="display:none"><img src="/images/loading.gif"/>系统数据正在恢复中，请耐心等待、不要执行其他操作。</span>
+			</div>
+			<div class="underling_content_menu_title1">
+			<span id="rs_bak"></span>
+			<input type="button" value="备份数据" class="button" onclick="Ajax.Updater({url:'/dbbak/bak',id:'rs_bak', evalscripts:'true', loadingid:'loading'});"/>
+			<input type="button" value="备份恢复" class="button" onclick="resume('{/ $bak_path /}')"/>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="list_content01">
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="list_table">
+				<tr align="center" class="list_hr_bg">
+					<td width="" class="list_hr_colum" nowrap>序号</td>
+					<td width="160" class="list_hr_colum" nowrap>文件名称</td>
+					<td class="list_hr_colum" nowrap>文件大小(Bytes)</td>
+					<td width="120" class="list_hr_colum" nowrap>备份时间</td>
+					<td width="200" class="list_hr_colum" nowrap>操  作</td>
+				</tr>
+				{/section name=i loop=$ls/}
+				<tr>
+					<td class="list_c">&nbsp;{/$smarty.section.i.index+1/}</td>
+					<td class="list_c">{/$ls[i].name/}</td>
+					<td class="list_c">{/$ls[i].size/}</td>
+					<td class="list_c">{/$ls[i].time/}</td>
+					<td class="list_c" nowrap>
+						<a href="#" onclick="resume_db('{/$ls[i].name/}');">[恢复]</a>
+						<a href="#" onclick="Ajax.Updater({url:'/dbbak/del/{/$ls[i].name/}',id:'rs_bak',evalscripts:'true'})">[删除]</a>
+						<a href="/dbbak/download?name={/$ls[i].name/}" target="_blank">[下载]</a>
+					</td>
+				</tr>
+				{//section/}
+				<tr>
+					<td colspan="5">
+					说明：<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、系统备份包括数据库中数据及服务器配置文件、当前已导入License。<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、导入备份文件将覆盖现有数据库数据，服务器配置文件和当前License。<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、备份文件默认存放目录为：{/$bak_path/}
+					</td>
+				</tr>
+			</table>
+		</div>
+		</div>
+	</div>
+	</td></tr>
+</table>
+
+<script>
+function resume(path)
+{
+	alert("请将备份文件存放在服务安装路径目录下：\n"+path+"\n存放完毕后，请刷新当前页面，即可显示备份文件信息。");
+}
+function resume_db(dbname)
+{
+	lock_screen(top);
+	hidden_select();
+	var msg = "提示：\r\n";
+	msg += "1.即将恢复此次备份系统，请对当前系统做备份！\r\n";
+	msg += "2.恢复此次备份系统时，服务器将会被暂时停止！\r\n";
+	msg += "3.本操作将清空当前数据库，请确认恢复前是否需要对当前数据进行备份！\r\n";
+	msg += "4.数据库恢复完成后，将进行其对应的license自动导入和相关配置文件的自动导入！\r\n";
+	msg += "在恢复过程中，请耐心等待，不要作其他任何动作，以免恢复失败！\r\n";
+	msg += "恢复完成后，将要重新登陆，确认恢复么？如需要返回，请点‘取消’！";
+	if (!top.confirm(msg))
+	{
+		clear_div(top);
+		return;
+	}
+	lock_screen_show_message(top, '系统恢复中，请稍等...');
+	Ajax.Updater({jsfunc:'callback', url:'/dbbak/resume?name='+dbname, evalscripts:'true', loadingid:'loading2'})
+}
+function callback(ajax)
+{
+	var msg = ajax.responseText;
+	if (msg.indexOf('db_resume_failed') != -1)
+	{
+		lock_failed_func('恢复失败！');
+	}
+	else if (msg.indexOf('db_resume_success') != -1)
+	{
+		lock_screen_show_message(top, "数据恢复成功！license重新导入成功！请重新登陆！");
+		clear_div(top);
+		top.window.location = '/admin/logout';
+		//lock_screen_show_message(top, "数据恢复成功！license重新导入成功！<br/>下一步将进行GID的相关处理！");
+		//var url = '/license/import_gid?logout=true';
+		//Ajax.Updater({jsfunc:'callback2', url:url, params:'gid=gid', method:'POST', evalscripts:'true'});
+	}
+	else if (msg.indexOf('import_license_failed') != -1)
+	{
+		lock_failed_func('数据恢复成功！license导入失败！页面将自动退出重新登陆！');
+		top.window.location = '/admin/logout';
+	}
+	else
+	{
+		clear_div(top);
+		alert(msg);
+		return;
+	}
+}
+function callback2(ajax)
+{
+	var msg = ajax.responseText;
+	if (msg.indexOf('re_login_on') != -1)
+	{
+		lock_screen_show_message(top, "请重新登陆！");
+		clear_div(top);
+		top.window.location = '/admin/logout';
+	}
+	else
+	{
+		clear_div(top);
+		return;
+	}
+}
+</script>

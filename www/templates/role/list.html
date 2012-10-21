@@ -1,0 +1,168 @@
+<script>
+function check_all(form, prefix, checkall) {
+	var checkall = checkall ? checkall : 'chkall';
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = form.elements[i];
+		if(e.name && e.name != checkall && (!prefix || (prefix && e.name.match(prefix)))) {
+			e.checked = form.elements[checkall].checked;
+		}
+	}
+	return false;
+}
+function checkAll(form) {
+for (var j = 0; j < form.elements.length; j++) {
+var box = eval(form.elements[j]); 
+
+if((box.checked == false)) 
+{
+	if((box.name=="checkall")||(box.name=="del[]"))
+	box.checked = true;
+}
+
+   }
+}
+
+function uncheckAll(form) {
+for (var j =0; j <form.elements.length; j++) {
+box = eval(form.elements[j]); 
+if (box.checked == true) 
+{
+if((box.name=="checkall")||(box.name=="del[]"))
+box.checked = false;
+}
+
+   }
+}
+function search()
+{
+	var content = $('content').value
+	if ($('content').value != '')
+	{
+		if (!check_account('content'))
+		{
+			alert('查询内容只能由汉字、字母、数字组成。');
+			$('content').focus();
+			return false;
+		}
+	}else
+    {
+        alert('请输入查询内容！');
+        $('content').focus();
+		return false;
+    }
+	window.location = "/role/search/content/"+content;
+	return true;
+}
+
+var objs = document.getElementsByTagName('input');
+var str = '';
+function get_values()
+{
+	for(var i=0; i<objs.length; i++) 
+	{
+	    o = objs[i];
+	    if(o.name=='del[]' && o.checked) 
+	    str += o.value+":";
+	}
+	return str;
+}
+function del()
+{
+	var user_ids = get_values();
+	if (user_ids == ''){
+		alert('请至少选择一个角色完成此操作。');
+		return ;	
+	}
+	if(!window.confirm('该角色可能已分配给相关部门或人员，确定删除？'))
+	{
+		return false;
+	}
+	document.form1.action='/role/del/';
+	document.form1.submit();	
+}
+
+
+
+</script>
+<form name="form1" method="POST">
+
+	<table class="content">
+	
+<tr><td>
+	<div class="content_inke">
+		<div class="list_top">
+			<div class="content_menu_title1">角色权限管理 &nbsp;&nbsp; <input type="button" value="新增角色" class="button_w" onclick="window.location='/role/add'" /></div>
+			<div class="underling_content_menu_title1">
+				单位内角色关键字搜索：<input type="text" name="content" id="content" value="{/$content/}" align="absmiddle" /> 
+				<input type="button" value="查询" class="button" onclick="search()" align="absmiddle" />
+			</div>	
+		</div>
+		
+		<div class="clear"></div>
+		<div class="list_content01">
+		<div id="main_content">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="150" align="left">
+				<input type="checkbox" name="checkall" onclick="check_all(this.form,'del','checkall')" /> 全选
+				&nbsp; <input type="button" name="del_submit" value="删除" class="button" onclick="del()" />
+			</td>
+			<td align="right">
+				每页
+				<select onchange="set_per_page('role_limit','/ug/set_per_page/name/role_limit/num/'+this.options[this.options.selectedIndex].value);">
+				{/$option_str/}
+				</select>
+				<div id="role_limit" style="display:none"></div>
+				条
+				&nbsp; {/$pages/}
+			</td>
+			</tr></table>
+
+
+			<table align="center" cellpadding="5px" cellspacing="0" class="list_table">
+				<tr align="center" class="list_hr_bg">
+					<td width="160" class="list_hr_colum" nowrap>角色名称</td>
+					<td class="list_hr_colum" nowrap>备注</td>
+					<td width="120" class="list_hr_colum" nowrap>创建人</td>
+					<td width="200" class="list_hr_colum" nowrap>操  作</td>
+				</tr>
+				{/section name=i loop=$list/}
+				<tr>  <!-- bgcolor="{/cycle values='#F5F5F5,#FFFFFF'/}" -->
+					<td class="list_c"><input type="checkbox" name="del[]" value="{/$list[i].role_id/}"/> &nbsp;&nbsp; {/$list[i].name/}</td>
+					<td class="list_c">{/$list[i].remark/}</td>
+					<td class="list_c">{/$list[i].creator_account/}</td>
+					<td class="list_c" nowrap>
+						<a href="#" onclick="window.location='/role/upd/role_id/{/$list[i].role_id/}'">[编辑]</a>
+						<a href="#" onclick="show_role_users('{/$list[i].role_id/}')">[分配至用户]</a>
+						<a href="#" onclick="show_role_depts('{/$list[i].role_id/}')">[分配至部门]</a>
+					</td>
+				</tr>
+				{/sectionelse/}
+				<tr class="list_c">
+					<td colspan="4" align="center">没有可列举的角色，请点击 [<a href="#" onclick="window.location='/role/add/'">新建角色</a>] 添加。 </td>
+				</tr>
+				{//section/}
+			</table>
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="150" align="left">
+				<span id="checkall" onclick="checkAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">全选</span> - <span id="clearall" onclick="uncheckAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">取消</span>
+				&nbsp; <input type="button" name="del_submit" value="删除" class="button" onclick="del()" />
+			</td>
+			<td align="right">
+				每页
+				<select onchange="set_per_page('role_limit','/ug/set_per_page/name/role_limit/num/'+this.options[this.options.selectedIndex].value);">
+				{/$option_str/}
+				</select>
+				<div id="role_limit" style="display:none"></div>
+				条
+				&nbsp; {/$pages/}
+			</td>
+			</tr></table>
+
+		</div>
+		</div>
+	</div>
+	</td></tr>
+	</table>
+				
+</form>

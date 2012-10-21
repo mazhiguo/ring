@@ -1,0 +1,44 @@
+<script>
+function set_role_depts()
+{
+	$('treechecked').value = tree.getAllChecked();
+	var frm = $('form1');
+	frm.action = '/role/set_role_depts';
+	frm.method = 'POST';
+	frm.submit();
+}
+</script>
+<form id="form1" >
+	<input type="hidden" name="role_id" value="{/$role.role_id/}">
+	<table>
+	<tr><td>
+		<div class="list">
+			<div class="content_menu_title1">将角色[{/$role.name/}]分配给部门</div>
+		</div>
+	
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="left" cellpadding="5" cellspacing="0" class="list_table">
+			<tr>
+				<td class="list_cb" valign="top"> 
+					<input type="hidden" name="treechecked" id="treechecked" value="" />
+					<div id="treebox" class="innerTree" style="width:100%; height:290px; overflow:auto; background-color:#ffffff;border:solid 1px thin; border-color:#DCDCDC;"></div>
+				</td>
+			</tr>
+			</table>
+			<div class="clear"><br style="line-height:8px;" /></div>
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdbottom" align="center">
+		     <input type="button" class="button" value="确定" onclick="set_role_depts();">&nbsp;&nbsp; 
+		     <input type="button" class="button" value="取消" onclick="window.close()">
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td></tr>
+	</table>
+</form>    
+<script>
+load_role_depts_tree('{/$role.role_id/}');
+</script>

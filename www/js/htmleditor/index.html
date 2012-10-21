@@ -1,0 +1,23 @@
+
+<HTML>
+	<HEAD>
+		<TITLE>  </TITLE>
+	</HEAD>
+	<BODY>
+
+		<textarea id="htmlbody" name="htmlbody" style="display:none"></textarea>
+		<iframe id="editor" name="editor" src="htmltool.html" frameBorder="0" marginHeight="0" marginWidth="0" scrolling="no" style="height:200px; width:640px"></iframe>
+
+		<BR><input type="button" value="确定" onclick="on_submit()"/>
+
+	</BODY>
+</HTML>
+
+<script>
+function on_submit()
+{
+	var $ = function (id) { return document.getElementById(id); }
+	var hbody = window.frames["editor"].window.frames["htmleditor"].document.getElementsByTagName("body")[0].innerHTML;
+	alert(hbody);
+}
+</script>

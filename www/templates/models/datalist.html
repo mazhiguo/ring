@@ -1,0 +1,51 @@
+
+<div class="content_inke">
+	<div class="list_top">
+		<div class="content_menu_title1">采集模板</div>
+	</div>
+		
+	<div id="main_content">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+		<td align="right">
+			每页
+			<select onchange="set_per_page('models_limit','/models/set_per_page/name/models_limit/num/'+this.options[this.options.selectedIndex].value);">
+			{/$option_str/}
+			</select>
+			<div id="tmpl_limit" style="display:none"></div>
+			条
+			&nbsp; {/$pages/}
+		</td>
+		</tr></table>
+
+
+		<table align="center" cellpadding="5px" cellspacing="0" class="list_table">
+			<tr align="center" class="list_hr_bg">
+				<td width="40">编号</td>
+				{/section name=i loop=$fields/}
+					<td class="list_hr_colum" nowrap>{/$fields[i].desc/}</td>
+				{//section/}
+				<td width="200" class="list_hr_colum" nowrap>操  作</td>
+			</tr>
+			{/section name=i loop=$list/}
+			<tr>
+				{/section name=j loop=$list[i]/}
+				<td class="list_c">{/$list[i][j]/}</td>
+				{//section/}
+			</tr>
+			{//section/}
+		</table>
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+		<td align="right">
+			每页
+			<select onchange="set_per_page('models_limit','/models/set_per_page/name/models_limit/num/'+this.options[this.options.selectedIndex].value);">
+			{/$option_str/}
+			</select>
+			<div id="models_limit" style="display:none"></div>
+			条
+			&nbsp; {/$pages/}
+		</td>
+		</tr></table>
+
+	</div>
+</div>

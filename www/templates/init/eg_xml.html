@@ -1,0 +1,23 @@
+示例：
+
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- {/if $type=='sys'/}系统{/else/}单位{//if/}内初始化 -->
+<root>
+	<ugs>
+		<ug code='kaifa' parent_code='0' name='研发中心' sign='1' remark='' url='' email='' location='1'/>
+		<ug code='kaifa_3' parent_code='kaifa' name='开发三部' sign='1' remark='' url='' email='' location='2'/>
+		<ug code='kaifa_4' parent_code='kaifa' name='开发四部' sign='1' remark='' url='' email='' location='3'/>
+		{/if $type == 'sys'/}
+		<!--下级单位导入 -->
+		<ug code='fgs1' parent_code='0' name='分公司1' sign='0' remark='' url='' email='test1@test1.com' location='4'/>
+		<ug code='fgs1_scb' parent_code='fgs1' name='市场部' sign='1' remark='' url='' email='test1@test1.com' location='5'/>
+		{//if/}
+	</ugs>
+	<users>
+		<user account='test1' name='test1' display_name='test1' pwd='111111' ug_code='0|kaifa|kaifa_3' setgid='0' state='1'  sex='0' remark='' location='2' position='' birthday='1989-11-11' mobile='' office_tel='010-82151080' fax='010-82151080' postcode='100084' webaddress='' address='' email='test1@dianji.com'  />
+		<user account='test2' name='test2' display_name='test2' pwd='111111' ug_code='0|kaifa|kaifa_3' setgid='1' state='1'  sex='0' remark='' location='3' position='' birthday='1990-11-11' mobile='' office_tel='010-82151080' fax='010-82151080' postcode='100084' webaddress='' address='' email='test2@dianji.com'  />
+		{/if $type == 'sys'/}
+<user account='test3' name='test3' display_name='test3' pwd='111111' ug_code='fgs1|fgs1_d1' setgid='1' state='1'  sex='0' remark='分公司1/营销中心' location='3' position='' birthday='1990-11-11' mobile='' office_tel='010-82151080' fax='010-82151080' postcode='100084' webaddress='' address='' email='test3@dianji.com'  />
+		{//if/}	
+	</users>
+</root>

@@ -1,0 +1,61 @@
+<div class="list">
+	<div class="content_menu_title1">采集数据[{/$model.desc/}]</div>
+</div>
+<div class="clear"></div>
+<div id="main_content">
+	<form id="form" name="form" method="post" action="/models/upddata" enctype="multipart/form-data">
+		<input type="hidden" name="cid" value="{/$cid/}"/>
+		<input type="hidden" name="mid" value="{/$model.id/}"/>
+		<input type="hidden" name="id" value="{/$id/}"/>
+		<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			{/section name=i loop=$htmls/}
+			<tr>
+				<td>{/$htmls[i][0]/}:</td>
+				<td>{/$htmls[i][1]/}</td>
+			</tr>
+			{//section/}
+			<tr>
+				<td>状态:</td>
+				<td>
+                    <select name="status">
+                        <option value="0" {/if $data.status==0/}selected{//if/}>草稿</option>
+                        <option value="1" {/if $data.status==1/}selected{//if/}>正式</option>
+                    </select>
+                </td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><input type="submit" value="提交" class="button"/></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+
+<script src="/js/edit/kindeditor.js"></script>
+<script>
+    $(function(){
+        $('.meditor').each(function(i, e){
+            var self = $(e);
+            var id = self.attr('id');
+            KE.show({
+                id : id,
+                afterCreate : function(id) {
+                	KE.event.ctrl(document, 13, function() {
+                		KE.util.setData(id);
+                		document.forms['form'].submit();
+                	});
+                	KE.event.ctrl(KE.g[id].iframeDoc, 13, function() {
+                		KE.util.setData(id);
+                		document.forms['form'].submit();
+                	});
+                }
+            });
+        })
+    });
+
+    $('#form').submit(function(){
+    	{/$_scripts/}
+     	return true;
+    })
+</script>

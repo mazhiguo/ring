@@ -1,0 +1,109 @@
+{template header}
+<script>	
+	function startChat() {
+		gid = document.getElementById('gid_ctt').value;		
+		window.open('elava://chat?contact=5000.'+gid,'_blank');
+	}
+	
+	function startTalk() {
+		gid = document.getElementById('gid_ctt').value;		
+		window.open('elava://call?contact=5000.'+gid,'_blank');
+	}
+	
+	function addFriend() {
+		gid = document.getElementById('gid_ctt').value;		
+		window.open('elava://add/?contact=5000.'+gid,'_blank');
+	}
+	
+	function checkOnine() {
+		gid = document.getElementById('gid_ctt').value;	
+		document.getElementById('img').src="$ctt_url/cgi-bin/chkonline/5000."+gid+':'+"$ctt_ico";
+	}
+	
+	
+	
+</script>
+<form id="login_ctt" action="demo_ctt.php" method="POST">
+<table align="center" cellspacing="1" cellpadding="5">
+<tr>
+	<th colspan="2" align="center">
+	登录GKE3.3
+	</th>
+</tr>
+<tr>
+	<td>
+	用户gid:
+	</td>
+	<td>
+	<input type="text" name="login_gid" />
+	</td>
+</tr>
+<tr>
+	<td>
+	用户密码:
+	</td>
+	<td>
+	<input type="password" name="login_pw" />
+	</td>
+</tr>
+<tr>
+	<td colspan="2" align="center">
+	<input type="submit" name="login_submit" value="提交" />
+	</td>
+</tr>
+</table>
+</form>
+
+<table align="center" cellspacing="1" cellpadding="5">
+<tr>
+	<td>
+	请选择GID：
+	</td>
+	<td>	
+	<select id="gid_ctt" onchange="checkOnine();">
+	{loop $user_info $v}
+		<option value="$v['gid']">$v['gid']</option>
+	{/loop}
+	</select>
+	</td>
+</tr>
+<tr>
+	<td colspan="2" align="center">
+	<img id="img" width="20" height="20"/>
+	<input type="button" value="聊天请求" onclick="startChat();"/>
+	<input type="button" value="语音聊天" onclick="startTalk();"/>
+	<input type="button" value="加为好友" onclick="addFriend();"/>
+	</td>
+</tr>
+</table>
+
+<form action="demo_ctt.php" method="POST">
+<table align="center" cellspacing="1" cellpadding="5">
+<tr>	
+	<td>部落ID:</td>
+	<td><input type="text" name="addtribe_id"  /></td>
+</tr>
+<tr>	
+	<td colspan="2" align="center"><input type="submit" name="addtribe_submit" value="加入该部落" /></td>
+</tr>
+</table>
+</form>
+
+<form action="demo_ctt.php" method="POST">
+<table align="center" cellspacing="1" cellpadding="5">
+<tr>	
+	<td>部落ID:</td>
+	<td><input type="text" name="entertribe_id"  /></td>
+</tr>
+<tr>	
+	<td colspan="2" align="center"><input type="submit" name="entertribe_submit" value="进入该部落" /></td>
+</tr>
+</table>
+</form>
+
+<script>
+	gid_first = document.getElementById('gid_ctt').value;
+	document.getElementById('img').src="$ctt_url/cgi-bin/chkonline/5000."+gid_first+':'+"$ctt_ico";
+</script>	
+{template footer}
+

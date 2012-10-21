@@ -1,0 +1,17 @@
+
+<div class="top">
+	<div class="nav">
+	<ul>
+		<li class="welcome">
+		欢迎您 <span class="user_name">{/$adminaccount/}</span>&nbsp;&nbsp;</li>
+		<li class="change_unit">上次登陆时间：{/$lastlogin/}</li>
+	</ul>	
+	<ul style="text-align:right; float:right;">	
+		<li class="index" onmouseover="this.className='index_over'" onmouseout="this.className='index'"><a href="/" target="_top">首页</a></li>
+		<li class="setting" onmouseover="this.className='setting_over'" onmouseout="this.className='setting'"><a href="#" onclick="admin_reset_pwd('{/$adminadminid/}')">个人设置</a></li>
+	 <li class="help" onmouseover="this.className='help_over'" onmouseout="this.className='help'"><a href="#">帮助</a></li> 
+		<li class="logout" onmouseover="this.className='logout_over'" onmouseout="this.className='logout'"><a href="/admin/logout/" target="_top">退出</a></li>
+	</ul>
+	</div>
+</div>
+

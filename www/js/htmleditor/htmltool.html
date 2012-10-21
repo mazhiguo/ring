@@ -1,0 +1,104 @@
+
+<HTML>
+ <HEAD>
+  <TITLE>  </TITLE>
+  <script language="javascript" src="editor.js"></script>
+  <style type="text/css">
+	.editor {border:1px solid #c5c5c5; border-top:0px; background-color:#ffffff;}
+	.htable {width:100%; border:1px solid #C5C5C5;}
+	.ico{vertical-align:middle; text-align:center; padding:0px 2px;}
+  </style>
+ </HEAD>
+ <BODY scroll="no">
+	<DIV id="diveditor" style="background:url(images/bg.gif);">
+		<table border="0" cellspacing="0" cellpadding="0" class="htable">
+			<tr>
+				<td class="ico">
+					<select id="selectfontface" onchange="fontface(this)">
+						<option value="-1">- 字体 -</option>
+						<option value="宋体">宋体</option>
+						<option value="黑体">黑体</option>
+						<option value="楷体">楷体</option>
+						<option value="隶书">隶书</option>
+						<option value="幼圆">幼圆</option>
+						<option value="Arial">Arial</option>
+						<option value="Arial Narrow">Arial Narrow</option>
+						<option value="Arial Black">Arial Black</option>
+						<option value="Comic Sans MS">Comic Sans MS</option>
+						<option value="Courier">Courier</option>
+						<option value="Courier">System</option>
+						<option value="Times New Roman">Times New Roman</option>
+						<option value="Verdana">Verdana</option>
+					</select>
+				</td>
+				<td class="ico" style="padding-right:2px;">
+					<select id="selectfontsize" onchange="fontsize(this)">
+						<option value="-1">- 字号 -</option>
+						<option value="1">极小</option>
+						<option value="2">特小</option>
+						<option value="3">小</option>
+						<option value="4">中</option>
+						<option value="5">大</option>
+						<option value="6">特大</option>
+						<option value="7">极大</option>
+					</select>
+				</td>
+				 <td class="ico">
+					<div id="divfontcolor"></div>
+					<script>document.getElementById('divfontcolor').innerHTML = drawCube();</script>
+				</td>
+				<td class="ico" onmousedown="mouse_down(this)" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/6.gif" alt="加粗" onclick="bold(this)"/>
+				</td>
+				<td class="ico" onmousedown="mouse_down(this)" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/7.gif" alt="斜体" onclick="italic(this)" />
+				</td>
+				<td class="ico" onmousedown="mouse_down(this)" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/8.gif" alt="下划线" onclick="underline(this)" />
+				</td>
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/9.gif" alt="居左" onclick="justifyleft(this)" />
+				</td>
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/10.gif" alt="居中" onclick="justifycenter(this)" />
+				</td>
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/11.gif" alt="居右" onclick="justifyright(this)" />
+				</td>
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/12.gif" alt="数字序号" onclick="insertorderedlist(this)" />
+				</td>
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/13.gif" alt="圆点序号" onclick="insertunorderedlist(this)" />
+				</td> 
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/14.gif" alt="向前缩进" onclick="outdent(this)" />
+				</td>
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/15.gif" alt="向后缩进" onclick="indent(this)" />
+				</td>
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<img src="images/18.gif" alt="添加链接" onclick="createlink(this)" />
+				</td>
+				<!--
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<input type="button" value="删除线" onclick="strikethrough(this)"/>
+				</td>
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<input type="button" value="上标" onclick="superscript(this)"/>
+				</td>
+				<td class="ico" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)">
+					<input type="button" value="下标" onclick="subscript(this)"/>
+				</td>
+				-->
+				<td class="ico" onmouseover="set_mode_tip(this)" onmouseout="hide_tip()">
+					<input type="checkbox" id="switch" onclick="set_mode(this.checked)"/>
+				</td>
+				<td class="ico" width="90%">&nbsp;</td>
+			</tr>
+		</table>
+		<iframe id="htmleditor" name="htmleditor" frameBorder="0" marginHeight="0" marginWidth="0" class="editor"></iframe>
+		<textarea id="sourceeditor" class="editor" style="overflow:hidden; display:none;"></textarea>
+	</div>
+ </BODY>
+</HTML>

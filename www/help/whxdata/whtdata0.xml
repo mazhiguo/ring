@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='gb2312' ?>
+<tocdata>
+<book name="关于产品" >
+<item name="产品介绍" url="other/chanpinjieshao.htm" />
+  <item name="主要功能列表" url="other/zhuyaogongnengliebiao.htm" />
+  <item name="工作界面简介" url="other/gongzuojiemianjianjie.htm" />
+</book>
+<book name="登录管理界面" >
+  <item name="如何快速登入管理界面" url="other/login.htm" />
+</book>
+     <book name="个人设置">
+  <item name="个人设置" url="other/xgmm.htm" />
+    </book>
+<book name="组织结构管理">
+  <book name="部门结构管理">
+ <item name="组织结构" url="zz/zzjggl.htm" />
+  <item name="添加组织" url="zz/tjzz.htm" />
+   <item name="查看组织" url="zz/ckzz.htm" />
+  <item name="编辑组织" url="zz/bjzz.htm" />
+  <item name="删除组织" url="zz/sczz.htm" />
+  <item name="分配角色" url="zz/fpjs.htm" />
+  <item name="分配短信" url="zz/fpdx.htm" />
+  <item name="人员管理" url="zz/fpyh.htm"/></book>
+  <book name="用户信息管理">
+  <item name="用户信息管理" url="yh/yhgl.htm" />
+  <item name="添加用户" url="yh/tjyh.htm" />
+  <item name="查看用户" url="yh/ckyh.htm" />
+    <item name="编辑用户" url="yh/bjyh.htm" />
+  <item name="删除用户" url="yh/scyh.htm" />
+    <item name="分配短信" url="yh/fpdx.htm" />
+  <item name="分配角色" url="yh/fpjs.htm" />
+   <item name="修改密码" url="yh/xgmm.htm" /></book>
+  <book name="下级单位管理">
+  <item name="下级单位管理" url="xjdw/xjdwgl.htm" />
+  <item name="新增下级单位" url="xjdw/tjdw.htm" />
+  <item name="查看下级单位" url="xjdw/ckdw.htm" />
+    <item name="编辑下级单位" url="xjdw/bjdw.htm" />
+  <item name="删除下级单位" url="xjdw/scdw.htm" />
+  <item name="管理员帐号管理" url="xjdw/zhgl.htm" />
+
+</book></book>
+   <book name="常用功能">
+  <book name="通讯录管理">
+  <item name="通讯录管理" url="txlgl/txlgl.htm" />
+  <item name="添加通讯录" url="txlgl/tjtxl.htm" />
+    <item name="编辑通讯录" url="txlgl/bjtxl.htm" />
+  <item name="删除通讯录" url="txlgl/sctxl.htm" />
+ <item name="自定义分组" url="txlgl/zdy.htm" />
+ <item name="选择接收用户" url="txlgl/jsyh.htm" />
+</book>
+  <book name="角色权限管理">
+	<item name="角色权限管理" url="js/jsgl.htm" />
+  <item name="添加角色" url="js/tjjs.htm" />
+  <item name="编辑角色" url="js/bjjs.htm" />
+  <item name="查询角色" url="js/cxjs.htm" />
+  <item name="删除角色 " url="js/scjs.htm" />
+   <item name="分配至用户" url="js/fpyh.htm" />
+    <item name="分配至部门" url="js/fpzz.htm" />
+</book>
+  <book name="频道管理">
+  <item name="频道管理" url="khdgl/pdgl.htm" />
+  <item name="添加频道" url="khdgl/tjpd.htm" />
+  <item name="查询频道" url="khdgl/cxpd.htm" />
+    <item name="编辑频道" url="khdgl/bjpd.htm" />
+  <item name="删除频道" url="khdgl/scpd.htm" />
+</book>
+<book name="协作区管理"> 
+<item name="协作区管理" url="khdgl/xzqgl.htm" />
+ <item name="创建协作区" url="khdgl/cjxzq.htm" />
+  <item name="解散协作区" url="khdgl/scxzq.htm" />
+  </book>
+  <book name="发送系统通知">
+  <item name="发送系统通知" url="khdgl/fsxx.htm" />
+</book>
+</book>
+	   <book name="系统管理及配置">
+	   <book name="管理员维护"> 
+ <item name="管理员维护" url="xtgl/glygl.htm" />
+  <item name="添加管理员" url="xtgl/tjgly.htm" />
+  <item name="删除管理员" url="xtgl/scgly.htm" />
+  <item name="修改密码" url="xtgl/xgmm.htm" />
+  </book>
+ <item name="发送文件限制" url="xtgl/fswjsz.htm" />
+ <item name="服务器状态控制" url="xtgl/fwqkz.htm" />
+ <item name="通讯服务器设置" url="khdgl/fwqsz.htm" />
+ <item name="授权访问API" url="khdgl/ipsz.htm" />
+ <item name="服务器配置" url="xtgl/fwqpz.htm" />
+  </book>
+  <book name="License管理">
+	<item name="License管理" url="ls/lsgl.htm" />
+  <item name="License信息" url="ls/ckls.htm" />
+  <item name="License申请" url="ls/sqls.htm" />
+  <item name="License导入" url="ls/drls.htm" />
+<item name="GID管理及申请" url="xtgl/yhgid.htm" />
+</book>
+      <book name="如何安全退出系统">
+  <item name="如何安全退出系统" url="other/exit.htm" />
+    </book>
+     <book name="关于本帮助系统">
+  <item name="关于本帮助系统" url="other/jishuzhichi.htm" />
+    <item name="电子信箱" url="other/dianzixinxiang.htm" />
+      <item name="服务热线" url="other/fuwurexian.htm" />
+        <item name="联系方式" url="other/lianxifangfa.htm" />
+    </book>
+<remoteitem name="www.dianji.com" url="http://www.dianji.com" />
+
+</tocdata>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

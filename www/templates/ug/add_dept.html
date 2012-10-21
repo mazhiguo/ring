@@ -1,0 +1,96 @@
+<script>
+function adddept(){
+	if (!is_empty('name')) {
+		alert('部门名称不能为空。');
+		$('name').focus();
+		return false;
+	}
+	if (!check_account_return('name','check_name_info','false')) {
+		alert('部门名称只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+		$('name').focus();
+		return false;
+	}
+	if (is_empty('email')) {
+		if (!check_email('email')){
+			alert('E-mail格式不正确，请输入正确的e-mail或保持为空。');
+			$('email').focus();
+			return false;
+		}
+	}
+	var frm = $('adddeptfrm');
+	frm.action = '/ug/add_ug';
+	frm.method = 'POST';
+	frm.submit();
+}
+
+function ajax_request_depts() {
+	Ajax.Updater({url:'/ug/ajax_show_dept', id:'aj_parent_id', loadingid:'loading'});
+}
+
+</script>
+<form id="adddeptfrm">
+	<input type="hidden" name="sign" value='1' />
+	<input type="hidden" name="add_dept" value='1' />
+	<table>
+	<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">增加新部门</div>
+				<div id="loading" style="float:right;display:none;color:#FFB200;font-weight:800;">数据处理中...</div>
+		</div>
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft tdtop">&nbsp;</td>
+				<td class="tdright tdtop"><span class="black">注：</span><span class="red-font">*</span><span class="black">为必填选项</span></td>
+			</tr>
+			<tr>
+				<td class="tdleft">部门名称：</td>
+				<td class="tdright">
+					<input type="text" name="name" id="name" size="30" maxlength="20" value="" class="intext" onblur="check_account_return('name','check_name_info','false','不能为空');" />
+					&nbsp;<span class="red-font">*</span> 
+					<span id="check_name_info">填写部门名称，最多20个字</span>
+					</td>
+			</tr>
+			<tr>
+				<td class="tdleft">部门编码：</td>
+				<td class="tdright">
+					<input type="text" name="code" id="code" size="30" maxlength="20" class="intext" value=""/>
+					 &nbsp;部门编码填写需保证其唯一性，如为空系统将自动生成
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">父组织：</td>
+				<td class="tdright">
+					<div id="aj_parent_id">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">部门邮箱：</td>
+				<td class="tdright">
+					<input type="text" name="email" id="email" size="30" value="" class="intext" onblur="check_email_return('email','check_email_info', true, '');" />
+					&nbsp;<span id="check_email_info"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">备  注：</td>
+				<td class="tdright">
+					<textarea name="remark" id="remark" wrap="soft" cols="32" rows="2" class="intext"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom">
+			    <input type="button" class="button" value="确定" onclick="adddept();" />
+			    <input type="button" class="button" value="取消" onclick="window.location='/ug/ug_dept_list';" />
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td></tr>
+	</table>
+</form>
+<script>
+ajax_request_depts();
+</script>

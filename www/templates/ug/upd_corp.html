@@ -1,0 +1,116 @@
+<script>
+function validata()
+{
+	if (!is_empty('name'))
+	{
+		alert('下级单位名称不能为空。');
+		$('name').focus();
+		return false;
+	}
+	if (!check_account_return('name','check_name_info','false'))
+	{
+		alert('单位名称只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+		$('name').focus();
+		return false;
+	}
+	if (is_empty('email'))
+	{
+		$('check_email_info').innerHTML = '';
+		if(!check_email('email'))
+		{
+			$('check_email_info').innerHTML = "<img src='/images/check_error.gif'> 格式不正确";
+			$('email').focus();
+			return false;
+		}
+	}
+
+	return true;
+}
+</script>
+<form method="post" action="/ug/upd_ug/" onsubmit="return validata();">
+	<input type="hidden" name="sign" value="0" >
+	<input type="hidden" name="ug_id"  size="40" maxlength="20" value="{/$corp.ug_id/}">
+
+	<table>
+	<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">编辑单位</div>
+		</div>
+
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft">单位名称：</td>
+				<td class="tdright">
+					<input type="text" name="name" id="name"  size="40" maxlength="20" value="{/$corp.name/}" class="intext" onblur="check_account_return('name','check_name_info','false','不能为空');" />
+					&nbsp;<span class="red-font">*</span>
+					<span id="check_name_info">填写单位名称</span>
+				</td>
+			</tr>
+			<tr>
+			<tr>
+				<td class="tdleft">单位编码：</td>
+				<td class="tdright">
+					<input type="text" name="code" size="40" maxlength="20" value="{/$corp.code/}" class="intext">
+					&nbsp;单位编码填写需保证其唯一性，如为空系统将自动生成
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">单位邮箱：</td>
+				<td class="tdright">
+					<input type="text" name="email" id="email" size="40" value="{/$corp.email/}" class="intext" onblur="check_email_return('email','check_email_info', true, '');" />
+					&nbsp;<span id="check_email_info"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">备  注：</td>
+				<td class="tdright">
+					<textarea name="remark" wrap="soft" cols="38" rows="4" class="intext">{/$corp.remark/}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">创建人：</td>
+				<td class="tdright">
+					{/$corp.creator_account/}
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">创建日期：</td>
+				<td class="tdright">
+					{/$corp.creator_time/}
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">修改人：</td>
+				<td class="tdright">
+					{/$corp.mender_account/}
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">修改日期：</td>
+				<td class="tdright">
+					{/$corp.mender_time/}
+				</td>
+			</tr>
+
+			<tr>
+				<td class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom">
+					<input type="submit" name="upd_ug_submit" value="确定" class="button" />
+				 	<input type="button" class="button"  value="取消" onclick="window.history.back()" />
+				</td>
+			</tr>
+			</table>
+		</div>
+
+
+</td></tr>
+	</table>
+
+	<script>
+		try {	$('name').focus(); } catch(e) {}
+	</script>
+
+</form>
+

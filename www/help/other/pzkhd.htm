@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>如何使用GKE3.3客户端配置工具</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+<link rel="stylesheet" href="../help.css" type="text/css">
+</head>
+<body marginwidth="20" marginheight="20" leftmargin="20">
+<br><br>
+<b><font size="3">如何使用GKE3.3客户端配置工具</font></b> 
+<hr color="000099" size="1"><br>
+用户在第一次登录GKE3.3客户端时，可以使用该配置工具配置服务器连接参数。请按照以下步骤操作：
+<br>
+<ol>
+  <li>找到GKE3.3客户端配置工具。</li>
+  <li>双击运行该工具，进入操作界面。</li>
+  <p><img src="../images/041.gif"  ></p> 
+  <li>单击“读取用户目录配置文件”，获得相关配置信息。</li>
+  <p><img src="../images/042.gif"  ></p> 
+  <li>请核对该信息是否与实际服务器配置信息相符。（如果不了解具体信息，请向网络管理员咨询）
+</li>
+<li>单击“读取系统目录配置文件”，获得相关配置信息。</li>
+ <p><img src="../images/043.gif"  ></p> 
+   <li>请核对该信息是否与实际服务器配置信息相符。（如果不了解具体信息，请向网络管理员咨询）</li>
+  <li>如果发现以上读取的信息与实际服务器配置信息不相符，则需要对服务器配置信息进行修改。
+例如：企业服务器域名为aaa.bbb.net；端口为4662。读取的信息为SC=elava.vicp.net；SC_PORT=10000。
+</li>
+    <li>请在窗口上方的输入框中输入实际服务器配置信息。</li>
+  <li>如上述例子则要选择“域名”，输入aaa.bbb.net；修改端口为4662。</li>
+  <p><img src="../images/044.gif"  ></p> 
+    <li>最后，单击“修改”完成配置。</li>
+	<p><img src="../images/045.gif"  ></p> 
+  <li>请再次分别单击“读取用户目录配置文件”和“读取系统目录配置文件”，以便核实修改后的信息是否正确。</li>
+    <li>当所有信息相吻合后，即可单击“退出”完成操作。</li>
+</ol>
+<p><img src="../images/tip3.gif"> 相关参数说明：
+</p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="36" valign="top"><p><strong>&nbsp; </strong></p></td>
+    <td width="334" valign="top"><p class="aaa aaa">读取用户目录文件： </p>
+        <ul class="aaa aaa">
+          <li>读取 Lava-Lava 企业版用户目录（ X:\Documents and Settings\user\My Documents\My GKE3.3\appdata\conf\ ）下的 Lava.ini 配置文件，并将里面 [NET] 下的 SC 和 SC_PORT 的值读取出来显示给用户。 </li>
+        </ul>        <p class="aaa aaa">如果此文件不存在则会提示“没有找到用户目录下 lava.ini ! ” </p>
+        <ul class="aaa aaa">
+          <li>读取系统目录文件： </li>
+        </ul>        <p class="aaa aaa">读取 Lava-Lava 企业版安装目录（ X:\Program Files\Dianji\GKE 3.0\appdata\ conf\ ）下的 Lava.ini 配置文件，并将里面 [NET] 下的 SC 和 SC_PORT 的值读取出来显示给用户。 </p>
+        <p class="aaa aaa">如果此文件不存在则会提示“没有找到系统目录下 lava.ini ! ” </p>
+        <p class="aaa aaa">修改： </p>
+        <p><span class="aaa aaa">将用户输入的 IP 地址（或域名）和端口号，写入用户目录和系统目录下 lava.ini ，修改 “NET”的 SC 值 和 SC_PORT 值。 </span><span class="aaa"><strong></strong></span></p></td>
+  </tr>
+</table>
+<p>&nbsp; </p>
+</body>
+</html> 
+

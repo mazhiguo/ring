@@ -1,0 +1,41 @@
+	
+	数据导入实施说明
+
+
+1. 配置(import.php)
+$xml_dir = 'D:\dianji\cvs\dianji\ring\server\_projects\cb_bank'; // Line11 ,参考2
+
+$host = "localhost"; //数据库服务器 默认localhost或127.0.0.1 Line:14
+$db_user = "msdb"; //数据库访问账号，默认msdb
+$db_pwd = "msdb"; //数据库访问账号对应访问密码，默认 msdb
+$db_name = "msdb"; //数据库名称， 默认msdb
+
+$default_user_pwd = "123456"; // 用户初始密码
+$clear_all = false;// 是否只执行清空数据，default:false (注：url方式和命令行方式有所不同，参考4)
+
+
+2. 人行xml数据的存放目录，配置$xml_dir(import.php)
+$xml_dir -│
+					│
+					├─ug
+					│      dept.xml
+					│
+					└─user
+					        personGID=277.xml
+					        personGID=10.xml
+					        personGID=278.xml
+					        personGID=279.xml
+									...
+如$xml_dir = /home/xxx/xml
+组织结构的xml文件存放于  /home/xxx/personalxml/ug/dept.xml
+其中用户的xml文件存放于 /home/xxx/personalxml/user/*.xml 注：所有用户的xml文件放在 /home/xxx/xml/user/目录下
+
+3. 执行导入脚本(import.php)
+在命令行下 执行命令 php import.php  等待完成！
+如 	/usr/local/php/bin php /home/xxx/personalxml/import.php
+
+
+4. 清空数据
+
+方式1：设置参数$clear_all = true;适合命令行执行方式；
+方式2：URL带GET参数 import.php?clear_all=1 ;适合url调用方式

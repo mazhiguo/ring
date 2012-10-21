@@ -1,0 +1,69 @@
+<script>
+function adddept(){
+	if (!is_empty('name')) {
+		alert('名称不能为空。');
+		$('name').focus();
+		return false;
+	}
+	if (!check_account_return('name','check_name_info','false')) {
+		alert('名称只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+		$('name').focus();
+		return false;
+	}
+	
+	var frm = $('adddeptfrm');
+	frm.action = '/col/add_ug';
+	frm.method = 'POST';
+	frm.submit();
+}
+
+</script>
+<form id="adddeptfrm">
+	<input type="hidden" name="sign" value='1' />
+	<input type="hidden" name="add_dept" value='1' />
+	<table>
+	<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">增加新的采集活动</div>
+				<div id="loading" style="float:right;display:none;color:#FFB200;font-weight:800;">数据处理中...</div>
+		</div>
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft tdtop">&nbsp;</td>
+				<td class="tdright tdtop"><span class="black">注：</span><span class="red-font">*</span><span class="black">为必填选项</span></td>
+			</tr>
+			<tr>
+				<td class="tdleft">活动名称：</td>
+				<td class="tdright">
+					<input type="text" name="name" id="name" size="30" maxlength="20" value="" class="intext" onblur="check_account_return('name','check_name_info','false','不能为空');" />
+					&nbsp;<span class="red-font">*</span> 
+					<span id="check_name_info">填写活动名称，最多20个字</span>
+					</td>
+			</tr>
+			<tr>
+				<td class="tdleft">活动编码：</td>
+				<td class="tdright">
+					<input type="text" name="code" id="code" size="30" maxlength="20" class="intext" value=""/>
+					 &nbsp;活动编码填写需保证其唯一性，如为空系统将自动生成
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">备  注：</td>
+				<td class="tdright">
+					<textarea name="remark" id="remark" wrap="soft" cols="32" rows="2" class="intext"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom">
+			    <input type="button" class="button" value="确定" onclick="adddept();" />
+			    <input type="button" class="button" value="取消" onclick="window.location='/ug/ug_dept_list';" />
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td></tr>
+	</table>
+</form>

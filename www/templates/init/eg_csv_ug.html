@@ -1,0 +1,89 @@
+<pre>
+<br/>&nbsp;&nbsp;示例：<br/>
+<table align="center" cellpadding="5" cellspacing="1" width="100%" bgcolor="#C6C3C6">
+	<tr align="center" bgcolor="#D6D3CE">
+		<td nowrap="nowrap" width="10%">code</td>
+		<td nowrap="nowrap" width="10%">parent_code</td>
+		<td nowrap="nowrap" width="10%">name</td>
+		<td nowrap="nowrap" width="10%">sign</td>
+		<td nowrap="nowrap">remark</td>
+		<td nowrap="nowrap">url</td>
+		<td nowrap="nowrap" width="10%">email</td>
+		<td nowrap="nowrap" width="10%">location</td>
+	</tr>
+	<tr align="center" bgcolor="#FFFFFF">
+		<td nowrap="nowrap">kaifa</td>
+		<td nowrap="nowrap">0</td>
+		<td nowrap="nowrap">研发中心</td>
+		<td nowrap="nowrap">1</td>
+		<td nowrap="nowrap" align="left">父节点为系统默认code为“0”的单位。</td>
+		<td nowrap="nowrap">dianji.com</td>
+		<td nowrap="nowrap"></td>
+		<td nowrap="nowrap">1</td>		
+	</tr>
+	<tr align="center" bgcolor="#FFFFFF">
+		<td nowrap="nowrap">kaifa_3</td>
+		<td nowrap="nowrap">kaifa</td>
+		<td nowrap="nowrap">开发三部</td>
+		<td nowrap="nowrap">1</td>
+		<td nowrap="nowrap" align="left">父节点为部门“研发中心”。</td>
+		<td nowrap="nowrap"></td>
+		<td nowrap="nowrap"></td>
+		<td nowrap="nowrap">2</td>		
+	</tr>
+	<tr align="center" bgcolor="#FFFFFF">
+		<td nowrap="nowrap">kaifa_4</td>
+		<td nowrap="nowrap">kaifa</td>
+		<td nowrap="nowrap">开发四部</td>
+		<td nowrap="nowrap">1</td>
+		<td nowrap="nowrap" align="left">标识为1表示部门；排序不能重复。</td>
+		<td nowrap="nowrap"></td>
+		<td nowrap="nowrap"></td>
+		<td nowrap="nowrap">3</td>		
+	</tr>
+	{/if $type == 'sys'/}
+	<tr align="center" bgcolor="#FFFFFF">
+		<td nowrap="nowrap">fgs1</td>
+		<td nowrap="nowrap">0</td>
+		<td nowrap="nowrap">分公司1</td>
+		<td nowrap="nowrap">0</td>
+		<td nowrap="nowrap" align="left">标识为0表示单位；code为0的下级单位。</td>
+		<td nowrap="nowrap"></td>
+		<td nowrap="nowrap"></td>
+		<td nowrap="nowrap">4</td>		
+	</tr>
+	<tr align="center" bgcolor="#FFFFFF">
+		<td nowrap="nowrap">fgs1_d1</td>
+		<td nowrap="nowrap">fgs1</td>
+		<td nowrap="nowrap">营销中心</td>
+		<td nowrap="nowrap">1</td>
+		<td nowrap="nowrap" align="left">创建下级单位“分公司1”的部门。</td>
+		<td nowrap="nowrap"></td>
+		<td nowrap="nowrap"></td>
+		<td nowrap="nowrap">5</td>		
+	</tr>
+	{//if/}
+	<tr align="center" bgcolor="#FFFFFF">
+		<td nowrap="nowrap" align="center" >
+		说明：
+		</td>		
+		<td nowrap="nowrap" align="left" colspan="7" style="padding-left:1em;">
+		<li>code:要导入的组织的编码；</li>
+		<li>parent_code:其父组织的编码；</li>
+		<li>name:组织名称，同一父组织下不能同名；</li>
+		<li>sign:{/if $type=='sys'/}<strong>0表示单位</strong>，{//if/}1表示部门；</li>
+		<li>remark:备注；</li>
+		<li>url:网址；</li>
+		<li>email:电子邮件；</li>
+		<li>location:排序，不能重复；</li>
+		<li><strong>注：
+		{/if $type == 'sys'/}
+		系统内初始化导入，可以进行下级单位的导入、跨单位的导入组织和用户数据。<br />
+		{/else/}
+		单位内初始化导入，只能进行本单位内的部门和用户导入。<br />
+		{//if/}
+		（各个属性顺序不能更改，且必须存在；code、name、sign不能为空。）</strong></li>
+		</td>
+	</tr>
+</table>
+</pre>

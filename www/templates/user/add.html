@@ -1,0 +1,254 @@
+<script>
+function adduser()
+{
+	//check account
+	if (!is_empty('account'))
+	{
+		alert('用户帐号不能为空。');
+		$('account').focus();
+		return false;
+	}
+	if ($('account').value != '')
+	{
+		if (!check_account('account'))
+		{
+			$('check_account_info').innerHTML = "<img src='/images/check_error.gif'> 用户账号已存在!";
+			alert('用户帐号只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+			$('account').focus();
+			return false;
+		}
+	}
+	if(!user_account_flag)
+	{
+		alert('用户帐号已存在,请重新填写。');
+		$('account').select();
+		$('account').focus();
+		return false;
+	}
+	//check name
+	if (!is_empty('name'))
+	{
+		alert('用户姓名不能为空。');
+		$('name').focus();
+		return false;
+	}
+	if ($('name').value != '')
+	{
+		if (!check_account('name'))
+		{
+			alert('用户姓名只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+			$('name').focus();
+			return false;
+		}
+	}	
+	//check password
+	if (!is_empty('password'))
+	{
+		alert('密码不能为空。');
+		$('password').focus();
+		return false;
+	}
+	if ($('password').value.length<6 || $('password').value.length>12)
+	{
+		alert('密码长度必须在6-12位之间，请重新输入。');
+		$('password').focus();
+		return false;
+	}
+	if (!check_pwd('password'))
+	{
+		alert('密码只能由大小写英文字母和数字组成，请重新输入。');
+		$('password').focus();
+		return false;
+	}
+	if (!is_empty('repassword'))
+	{
+		alert('重复密码不能为空。');
+		$('repassword').focus();
+		return false;
+	}
+	if ($('repassword').value.length<6 || $('repassword').value.length>12)
+	{
+		alert('重复密码长度必须在6-12位之间，请重新输入。');
+		$('repassword').focus();
+		return false;
+	}
+	if (!check_pwd('repassword'))
+	{
+		alert('重复密码只能由大小写英文字母和数字组成，请重新输入。');
+		$('repassword').focus();
+		return false;
+	}
+	if ($('password').value != $('repassword').value)
+	{
+		alert('两次密码输入不一致，请重新输入。');
+		return false;
+	}
+
+	//check mobile
+	if ($('mobile').value != '')
+	{
+		if (!check_mobile('mobile'))
+		{
+			alert('移动电话格式不正确，请输入正确的手机或保持为空。');
+			$('mobile').focus();
+			return false;
+		}
+		
+	}
+	//check email
+	if ($('email').value != '')
+	{
+		if (!check_email('email'))
+		{
+			alert('E-mail格式不正确，请输入正确的e-mail或保持为空。');
+			$('email').focus();
+			return false;
+		}
+		
+	}
+	//check tel
+	if ($('office_tel').value != '')
+	{
+		if (!check_phone('office_tel'))
+		{
+			alert('电话格式不正确，请输入正确的电话或保持为空。');
+			$('office_tel').focus();
+			return false;
+		}
+		
+	}
+
+	var frm = $('adduserform');
+	frm.method = 'POST';
+	frm.action = '/user/add';
+	frm.submit();
+}
+function ajax_request_depts() {
+	Ajax.Updater({url:'/ug/ajax_show_dept/{/$active_ug_id/}', id:'aj_parent_id', loadingid:'loading'});
+}
+
+var user_account_flag = false;
+//检测用户帐户是否已经存在
+function check_user_account()
+{
+  var account = $('account').value;
+  if (account == "")
+  {
+  	$('check_account_info').innerHTML = "<img src='/images/check_error.gif'> 不能为空";
+  	$('account').focus();
+  	return;
+  }
+  var id, url, params;
+  id = 'check_account_info';
+  url = '/user/check_user_account/';
+  params = 'account='+account;
+  Ajax.Updater({id:id, url:url, params:params, evalscripts:'true'});	
+}
+</script>
+<form id="adduserform" method="POST">
+	<table>
+<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">新增账号</div>
+                <div id="loading" style="float:right;display:none;color:#FFB200;font-weight:800;">数据处理中...</div>
+		</div>
+		<div class="clear"></div>
+		<div id="main_content">
+<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+<tr class="list_hr_bg">
+	<td class="tdleft tdbottom" style="text-align:left"><strong>&nbsp;基本资料</strong></td>
+	<td class="tdright tdbottom">
+		<span class="black">注：</span><span class="red-font">*</span><span class="black">为必填选项</span>
+	</td>
+	<td class="tdleft tdbottom">&nbsp;</td>
+	<td class="tdright tdbottom">&nbsp;</td>
+</tr>
+<tr>
+	<td class="tdleft">用户帐号：</td>
+	<td class="tdright"><input type="text" id="account" name="account" maxlength="30" value="{/$user.account/}" class="intext" onblur="check_user_account();" />
+		&nbsp;<span class="red-font">*</span> 
+		<span id="check_account_info"></span>
+	</td>
+	<td class="tdleft">状&nbsp;&nbsp;&nbsp;&nbsp;态：</td>
+	<td class="tdright">
+		<input type='radio' name="state" id="state1" value='1' checked='checked' />活动 &nbsp;&nbsp; 
+		<input type='radio' name="state" id="state2" value='0' />不活动
+	</td>
+</tr>
+<tr>
+	<td class="tdleft">姓&nbsp;&nbsp;&nbsp;&nbsp;名：</td>
+	<td class="tdright"><input type="text" id="name" name="name" maxlength="30" value="{/$user.name/}" class="intext" onblur="check_account_return('name','check_name_info',false,'');" />
+		&nbsp;<span class="red-font">*</span> 
+		<span id="check_name_info"></span>
+	</td>
+	<td class="tdleft">性&nbsp;&nbsp;&nbsp;&nbsp;别：</td>
+	<td class="tdright"><input type='radio' name='sex' id='sex1' value='2' checked>男 &nbsp;&nbsp; <input type='radio' name='sex' id='sex2' value='1'>女</td>
+</tr>
+<tr>
+	<td class="tdleft">密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+	<td class="tdright" colspan="3"><input type="password" id="password" name="password" value="" class="intext" onblur="check_pwd_return('password','check_pwd_info','请输入6-12位英文字母和数字组合');" />
+		&nbsp;<span class="red-font">*</span> 
+		<span id="check_pwd_info">请输入6-12位英文字母和数字组合</span>
+	</td>
+</tr>
+<tr>
+	<td class="tdleft">重复密码：</td>
+	<td class="tdright" colspan="3"><input type="password" id="repassword" name="repassword" value="" class="intext" onblur="check_repwd_return('password','repassword','check_repwd_info','请重复输入密码，6-12位英文字母和数字组合');" />
+		&nbsp;<span class="red-font">*</span> 
+		<span id="check_repwd_info">请重复输入密码，6-12位英文字母和数字组合</span>
+	</td>
+</tr>
+<tr>
+	<td class="tdleft">位置排序：</td>
+	<td colspan="3" class="tdright">
+		<input type="text" id="location" name="location" class="intext" value="{/$user.location/}" onblur="check_number_return('location','check_location_info', true, '请输入自然数，为空则自动排序');" />
+		&nbsp;<span id="check_location_info">请输入自然数，为空则自动排序</span>
+	</td>
+</tr>
+<tr>
+	<td class="tdleft">所在部门：</td>
+	<td class="tdright" colspan="3" id="aj_parent_id">
+	</td>
+</tr>
+<tr>
+	<td class="tdleft">账号角色：</td>
+	<td class="tdright" colspan="3">
+        {/$check_str_role/}&nbsp;<span class="red-font">*</span> 
+	</td>
+</tr>
+<tr>
+	<td class="tdleft">职&nbsp;&nbsp;&nbsp;&nbsp;务：</td>
+	<td class="tdright"><input type="text" name="position" id="position" value="{/$user.position/}" class="intext" /></td>
+	<td class="tdleft">移动电话：</td>
+	<td class="tdright"><input type="text" name="mobile" id ="mobile" maxlength="30" value="{/$user.mobile/}" class="intext" onblur="check_mobile_return('mobile','check_mobile_info', true, '');" />
+		&nbsp;<span id="check_mobile_info"></span>
+	</td>
+</tr>
+<tr>
+	<td class="tdleft">电子邮件：</td>
+	<td class="tdright"><input type="text" name="email" id="email" value="{/$user.email/}" class="intext" onblur="check_email_return('email','check_email_info', true, '');" />
+		&nbsp;<span id="check_email_info"></span>
+	</td>
+	<td class="tdleft">办公电话：</td>
+	<td class="tdright"><input type="text" name="office_tel" id="office_tel" maxlength="30" value="{/$user.office_tel/}" class="intext" onblur="check_phone_return('office_tel','check_office_tel_info', true, '');" />
+		&nbsp;<span id="check_office_tel_info"></span>
+	</td>
+</tr>
+<tr>
+	<td class="tdleft">备&nbsp;&nbsp;&nbsp;&nbsp;注：</td>
+	<td class="tdright" colspan="3"><textarea name="remark" id="remark" wrap="soft" rows="2" class="intext" cols="72">{/$user.remark/}</textarea></td>
+</tr>
+<tr>
+	<td class="tdleft tdbottom">&nbsp;</td>
+	<td colspan="3" class="tdright tdbottom">
+		<input type="button" value="保存" class="button" onclick="adduser()"/>
+		<input type="button" value="取消" class="button" onclick="window.location='/user/list'" />
+	</td>
+</tr>
+</table>
+</form>
+
+<script>
+
+ajax_request_depts();
+</script>

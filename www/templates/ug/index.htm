@@ -1,0 +1,31 @@
+<script>
+// modified by zhangqitao @2008-8-11	
+function adjust_height()
+{
+	var omenu = top.$('menu').contentWindow.document.body;
+	var otree = $('tree').contentWindow.document.body;
+	var olist = $('list').contentWindow.document.body;
+	
+	var MenuHeight = 0;	
+	var TreeHeight = 0;
+	var ListHeight = 0;
+	
+	if (omenu) MenuHeight = omenu.scrollHeight;	
+	if (otree) TreeHeight = otree.scrollHeight; 
+	if (olist) ListHeight = olist.scrollHeight-200;
+	var MaxHeight = TreeHeight>ListHeight ? TreeHeight : ListHeight;
+	if (MenuHeight > MaxHeight) MaxHeight = MenuHeight;
+	MaxHeight = parseInt(MaxHeight);
+	$('tree').height = $('list').height = top.$('content').height = top.$('menu').height = MaxHeight = window.screen.availHeight-78-33;
+}
+</script>
+<table border="0" align="center" cellspacing="0" cellpadding="0" style="width:100%">
+<tr>
+	<td valign="top" width="20%" height="100%">
+		<iframe src="/ug/show_ug_tree/" width="100%" name="tree" id="tree" scrolling="auto" height="100" frameborder="0" onload="adjust_height()" ></iframe>
+	</td>
+	<td valign="top" width="80%" height="100%">
+		<iframe src="/ug/ug_dept_list" width="100%" name="list" id="list" scrolling="auto" height="100" frameborder="0" onload="adjust_height()"></iframe>
+	</td>
+</tr>
+</table>

@@ -1,0 +1,216 @@
+<script>
+function check_all(form, prefix, checkall) {
+	var checkall = checkall ? checkall : 'chkall';
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = form.elements[i];
+		if(e.name && e.name != checkall && (!prefix || (prefix && e.name.match(prefix)))) {
+			e.checked = form.elements[checkall].checked;
+		}
+	}
+	return false;
+}
+
+function checkAll(form) {
+	for (var j = 0; j < form.elements.length; j++) {
+		var box = eval(form.elements[j]); 
+		if((box.checked == false)) 
+		{
+			if((box.name=="checkall")||(box.name=="del[]"))
+			box.checked = true;
+		}
+   }
+}
+
+function uncheckAll(form) {
+	for (var j =0; j <form.elements.length; j++) {
+		box = eval(form.elements[j]); 
+		if (box.checked == true) 
+		{
+			if((box.name=="checkall")||(box.name=="del[]"))
+			box.checked = false;
+		}
+   }
+}
+
+function del_dept(name, ug_id)
+{
+	if (!window.confirm('该操作将删除该部门['+name+']及其下属部门，部门下人员将放到根节点不被删除，确定删除该部门？'))
+		return false;
+	window.location = '/ug/del_dept/ug_id/'+ug_id+'/';
+	return true
+}	
+
+function get_offspring_depts()
+{
+	var url = '/ug/ug_dept_list/'
+	if ($('offspring').checked != true)
+		window.location = url;
+	else
+		window.location = url+'control/offspring/'
+}
+
+function goto_user_list(ug_id)
+{
+	var url = '/ug/goto_user_list/';
+	var params = 'ug_id='+ug_id;
+	Ajax.Updater({id:'outer', url:url, params:params, evalscripts:'true'});
+	window.parent.location='/user/index';
+}
+
+var objs = document.getElementsByTagName('input');
+var str = '';
+function get_values()
+{
+	for(var i=0; i<objs.length; i++) 
+	{
+	    o = objs[i];
+	    if(o.name=='del[]' && o.checked) 
+	    str += o.value+":";
+	}
+	return str;
+}
+function del()
+{
+	var user_ids = get_values();
+	if (user_ids == ''){
+		alert('请至少选择一个部门完成此操作。');
+		return ;	
+	}
+	if(!window.confirm('该操作将删除所选部门及其下属部门，部门下人员将放到根节点不被删除，确定删除该部门？'))
+		return false;
+	document.form1.action='/ug/del_dept';
+	document.form1.submit();	
+}
+
+
+// ajax请求显示增加部门页面 add by zhangqitao @2008-04-07
+function view_dept_ls(action) {
+	if (action == 'add') $('switch_btn').value = '增加新部门';
+	else if (action == 'upd')$('switch_btn').value = '编辑部门';
+	$('switch_div').innerHTML = '子部门列表';
+	$('lmain').style.display = '';
+	$('rmain').style.display='none';
+}
+
+function switch_add_dept() {
+	if ($('switch_btn').value == '增加新部门') ajax_show_adddept();
+	else view_dept_ls('add');
+}	
+
+function ajax_show_adddept() {
+	var url = "/ug/show_add_dept";
+	Ajax.Updater({url:url, id:'rmain', loadingid:'switch_loading', evalscripts:'true'});
+	$('lmain').style.display = 'none';
+	$('rmain').style.display = '';
+	$('switch_btn').value = '子部门列表';
+	$('switch_div').innerHTML = '增加新部门';
+}
+</script>
+	<div class="content">
+	<div class="content_inke">
+		<div class="list_top">
+				<div class="content_menu_title">·{/$current_ug.name/}·</div>
+				<div class="content_menu_title1">部门管理</div>
+				<div class="underling_content_menu_title1" style="float:right;">
+					{/if $corp_sign == '1'/}
+					<a href="###" onclick="up_down('up','/ug/up_down/action/up/ug_id/{/$current_ug.ug_id/}/parent_id/{/$current_ug.parent_id/}');">[上移]</a> &nbsp;
+					<a href="###" onclick="up_down('down','/ug/up_down/action/down/ug_id/{/$current_ug.ug_id/}/parent_id/{/$current_ug.parent_id/}');">[下移]</a> &nbsp;
+					<div style="display:none" id="up_down"></div>
+					<a href="###" onclick="del_dept('{/$current_ug.name/}', '{/$current_ug.ug_id/}');" >[删除]</a> &nbsp;
+					<a href="###" onclick="window.location='/ug/show_upd_dept/ug_id/{/$current_ug.ug_id/}';">[编辑]</a>
+					{/else/}
+					<a href="###" onclick="window.location='/ug/show_upd_corp/ug_id/{/$current_ug.ug_id/}/';">[编辑]</a>	
+					{//if/}
+				</div>
+		</div>
+		<div class="list_id_title">
+			<div class="list_title_each">
+				<div class="list_title_each_name">人员</div>
+				<div class="list_title_each_info">全部人员{/$total_users_num/}人 {/if $corp_sign == '1'/}, 直属人员{/$cur_users_num/}人 {//if/}	</div>
+				<div class="list_title_each_func">{/if $corp_sign == '1' /}	<a href="#" onclick="goto_user_list('{/$current_ug.ug_id/}')">[人员管理]</a> {//if/}	</div>
+			</div>
+			{/if $corp_sign == '1'/}
+			<div class="list_title_each">
+				<div class="list_title_each_name">角色</div>
+				<div class="list_title_each_info">{/$role_str/}</div>
+				<div class="list_title_each_func">{/if $corp_sign == '1' /}	<a href="#"  onclick="show_roles_dept('{/$current_ug.ug_id/}');" >[分配角色]</a>	{//if/}</div>
+			</div>
+			{//if/}
+		</div>
+		
+		<form name="form1"  method="POST">
+		<div class="list_content01_pohto" id="switch_div">子部门列表</div>
+		<div class="list_content01_pohto_bg">
+			<input type="button" value="增加新部门" id="switch_btn" class="button_w" style="cursor:pointer" onclick="window.location='/ug/show_add_dept'" />
+		</div>
+		<div id="switch_loading" class="list_content01_pohto_bg" style="display:none">
+			<img src="/images/loading.gif" />Loading...
+		</div>
+		<div style="float:right; margin:16px 10px auto auto;">
+			<input type="checkbox" name="offspring" id="offspring" {/$checked/} onclick="get_offspring_depts()" />显示所有下属部门
+		</div>
+		
+		<div class="clear"></div>
+		<div class="list_content01" id="lmain">
+		<div id="main_content">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="150" align="left" nowrap>
+				<input type="checkbox" name="checkall" onclick="check_all(this.form,'del','checkall')" /> 全选
+				&nbsp; <input type="button" name="del_submit" value="删除" onclick="del()" class="button"/>
+			</td>
+			<td align="right" nowrap>
+				每页
+				<select onchange="set_per_page('ug_limit','/ug/set_per_page/name/ug_limit/num/'+this.options[this.options.selectedIndex].value);">
+					{/$option_str/}
+				</select>
+				<div id="ug_limit" style="display:none"></div>
+				条
+			  &nbsp; {/$pages/}</td>
+			</tr></table>
+
+			<table cellspacing="0" cellpadding="0" class="list_table">
+			<tr align="center" class="list_hr_bg">
+		    <td width="140" class="list_hr_colum">部门编码</td>
+		    <td width="110" class="list_hr_colum">部门名称</td>
+		    <td width="150" class="list_hr_colum">部门邮箱</td>
+		    <td height="32" align="center" class="list_hr_colum">操作</td>
+			</tr>
+			{/section name=i loop=$sub_depts /}
+			<tr class="list_c">
+				<td><table cellpadding="0" cellspacing="0"><tr><td><input type="checkbox" name="del[]" value="{/$sub_depts[i].ug_id/}"/></td><td>&nbsp;</td><td>{/$sub_depts[i].code/}</td></tr></table></td>
+				<td align="center">{/$sub_depts[i].name/}</td>
+				<td>{/$sub_depts[i].email/}</td>
+				<td nowrap>
+					<a href="###" onclick="window.location='/ug/show_upd_dept/ug_id/{/$sub_depts[i].ug_id/}';">[编辑]</a>
+					<a href="###" onclick="show_roles_dept('{/$sub_depts[i].ug_id/}');">[分配角色]</a>
+					<!--
+					<a href="###" onclick="window.location='/user/list/ug_id/{/$sub_depts[i].ug_id/}/name/{/$sub_depts[i].name/}/'">[人员管理]</a>
+					-->
+					<a href="###" onclick="window.location='/ug/go_to_user_list/ug_id/{/$sub_depts[i].ug_id/}/name/{/$sub_depts[i].name/}/'">[人员管理]</a>
+				</td>
+			</tr>
+			{/sectionelse/}
+		  <tr class="list_c">
+				<td colspan="4" align="center">没有可列举的子部门，请点击 [<a href="#" onclick="window.location='/ug/show_add_dept/';">增加新部门</a>] 建立子部门。 </td>
+			</tr>
+			{//section/}
+			</table>
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="150" align="left" nowrap>
+				<span id="checkall" onclick="checkAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">全选</span> - <span id="clearall" onclick="uncheckAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">取消</span>
+				&nbsp; <input type="button" name="del_submit" value="删除" class="button" onclick="del()"/>
+			</td>
+			<td align="right" nowrap>
+				每页
+				<select onchange="set_per_page('ug_limit','/ug/set_per_page/name/ug_limit/num/'+this.options[this.options.selectedIndex].value);">
+					{/$option_str/}
+				</select>
+				<div id="ug_limit" style="display:none"></div>
+				条
+				&nbsp; {/$pages/}</td>
+			</tr></table>
+		</div>
+		</div>
+		</form>	
+

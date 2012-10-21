@@ -1,0 +1,132 @@
+<pre>
+<br/>&nbsp;&nbsp;示例：<br/>
+<table align="center" cellpadding="5" cellspacing="1" width="150%" bgcolor="#C6C3C6">
+	<tr align="center" bgcolor="#D6D3CE">
+		<td nowrap="nowrap" >account</td>
+		<td nowrap="nowrap" >name</td>
+		<td nowrap="nowrap" >display_name</td>
+		<td nowrap="nowrap" >pwd</td>
+		<td nowrap="nowrap" >ug_code</td>
+		<td nowrap="nowrap" >setgid</td>
+		<td nowrap="nowrap" >state</td>
+		<td nowrap="nowrap" >sex</td>
+		<td nowrap="nowrap" >remark</td>
+		<td nowrap="nowrap" >location</td>
+		<td nowrap="nowrap" >position</td>
+		<td nowrap="nowrap" >birthday</td>
+		<td nowrap="nowrap" >mobile</td>
+		<td nowrap="nowrap" >office_tel</td>
+		<td nowrap="nowrap" >fax</td>
+		<td nowrap="nowrap" >postcode</td>
+		<td nowrap="nowrap" >webaddress</td>
+		<td nowrap="nowrap" >address</td>
+		<td nowrap="nowrap" >email</td>
+	</tr>
+	<tr align="center" bgcolor="#FFFFFF">
+		<td nowrap="nowrap" >test1</td>
+		<td nowrap="nowrap" >test1</td>
+		<td nowrap="nowrap" >test1</td>
+		<td nowrap="nowrap" >111111</td>
+		<td nowrap="nowrap" >kaifa|kaifa_3</td>
+		<td nowrap="nowrap" >1</td>
+		<td nowrap="nowrap" >1</td>
+		<td nowrap="nowrap" >0</td>
+		<td nowrap="nowrap" >研发中心/开发三部</td>
+		<td nowrap="nowrap" >1</td>
+		<td nowrap="nowrap" ></td>
+		<td nowrap="nowrap" >1911-11-11</td>
+		<td nowrap="nowrap" ></td>
+		<td nowrap="nowrap" >010-82151080</td>
+		<td nowrap="nowrap" >010-82151080</td>
+		<td nowrap="nowrap" >010-82151080</td>
+		<td nowrap="nowrap" >www.dianji.com</td>
+		<td nowrap="nowrap" >北京点击科技有限公司</td>
+		<td nowrap="nowrap" >test1@dianji.com</td>
+	</tr>	
+	<tr align="center" bgcolor="#FFFFFF">
+		<td nowrap="nowrap" >test2</td>
+		<td nowrap="nowrap" >test2</td>
+		<td nowrap="nowrap" >test2</td>
+		<td nowrap="nowrap" >111111</td>
+		<td nowrap="nowrap" >kaifa|kaifa_3</td>
+		<td nowrap="nowrap" >1</td>
+		<td nowrap="nowrap" >1</td>
+		<td nowrap="nowrap" >0</td>
+		<td nowrap="nowrap" >研发中心/开发三部</td>
+		<td nowrap="nowrap" >1</td>
+		<td nowrap="nowrap" ></td>
+		<td nowrap="nowrap" >1911-11-11</td>
+		<td nowrap="nowrap" ></td>
+		<td nowrap="nowrap" >010-82151080</td>
+		<td nowrap="nowrap" >010-82151080</td>
+		<td nowrap="nowrap" >010-82151080</td>
+		<td nowrap="nowrap" >www.dianji.com</td>
+		<td nowrap="nowrap" >北京点击科技有限公司</td>
+		<td nowrap="nowrap" >test2@dianji.com</td>
+	</tr>
+	{/if $type=='sys'/}
+	<tr align="center" bgcolor="#FFFFFF">
+		<td nowrap="nowrap" >test3</td>
+		<td nowrap="nowrap" >test3</td>
+		<td nowrap="nowrap" >test3</td>
+		<td nowrap="nowrap" >111111</td>
+		<td nowrap="nowrap" >fgs|fgs1_d1</td>
+		<td nowrap="nowrap" >1</td>
+		<td nowrap="nowrap" >1</td>
+		<td nowrap="nowrap" >0</td>
+		<td nowrap="nowrap" >分公司1/营销中心</td>
+		<td nowrap="nowrap" >1</td>
+		<td nowrap="nowrap" ></td>
+		<td nowrap="nowrap" >1911-11-11</td>
+		<td nowrap="nowrap" ></td>
+		<td nowrap="nowrap" >010-82151080</td>
+		<td nowrap="nowrap" >010-82151080</td>
+		<td nowrap="nowrap" >010-82151080</td>
+		<td nowrap="nowrap" >www.dianji.com</td>
+		<td nowrap="nowrap" >北京点击科技有限公司</td>
+		<td nowrap="nowrap" >test3@dianji.com</td>
+	</tr>	
+	{//if/}
+	<tr align="center" bgcolor="#FFFFFF">
+		<td nowrap="nowrap" align="center" colspan="1">说明：</td>
+		<td nowrap="nowrap" align="left" colspan="19">
+			<li>account：用户账号（唯一标识）；</li>
+			<li>name:用户名称；</li>
+			<li>display_name：用户显示名称；</li>
+			<li>pwd：用户密码；</li>
+			<li>ug_code：
+			{/if $type == 'sys'/}
+				<strong>所属单位、部门编码（多个编码使用“|”分隔），如指定多个单位则过滤整条数据，如不指定单位或指定单位不存在则默认用户所属单位为当前单位；
+			{/else/}
+				<strong>所属部门编码（多个编码使用“|”分隔），用户所属单位为当前单位，
+			{//if/}
+				不属于用户所属单位的部门将被过滤；</strong>	
+			</li>
+			<li>setgid：是否自动分配gid，1表示分配，0表示不分配；</li>
+			<li>state：用户状态，1表示激活状态，0表示冻结状态；</li>
+			<li>sex：用户性别，0表示男，1表示女；</li>
+			<li>remark：用户备注；</li>
+			<li>location：用户排序；</li>
+			<li>position：用户职位；</li>
+			<li>birthday：用户生日；</li>
+			<li>mobile：用户手机；</li>
+			<li>office_tel；办公室电话；</li>
+			<li>fax：传真；</li>
+			<li>postcod：邮政编码；</li>
+			<li>webaddress：网址；</li>
+			<li>address：地址；</li>
+			<li>email：电子邮件；</li>
+			<li>
+			<strong>
+			注：
+			{/if $type == 'sys'/}
+			系统内初始化导入，可以进行下级单位的导入、跨单位的导入组织和用户数据。<br />
+			{/else/}
+			单位内初始化导入，只能进行本单位内的部门和用户导入。<br />
+			{//if/}
+			（各个属性顺序不能更改，且必须存在；account、pwd、不能为空。）</strong>
+			</li>
+		</td>
+	</tr>	
+</table>
+</pre>

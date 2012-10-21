@@ -1,0 +1,215 @@
+<style>
+.form_table tr td {
+    vertical-align: middle;
+}
+</style>
+
+<!--增加角色页面-->
+<script>
+//表单提交前名称检查
+function check_tmpl_name()
+{
+	if (!is_empty('name'))
+	{
+		alert('模板名称不能为空。');
+		$('#name').focus();
+		return false;
+	}
+	if ($('#name').value != '')
+	{
+		if (!check_account('name'))
+		{
+			alert('模板名称只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+			$('#name').focus();
+			return false;
+		}
+	}
+	return true; 
+}	
+//ajax check name
+function check_name()
+{
+	//检查模板名
+	if (!check_account_return('name','check_role_is_rename',false,'')) {
+		return false;
+	}
+	check_role_is_rename($('#name').value)
+}
+
+//表单提交
+function add_role()
+{
+	if (!check_tmpl_name()) {return;}
+	$('#form').action = "/tmpl/add/";
+	$('#form').submit();
+}
+</script>
+<form id="form" name="form" method="post">
+	<input type="hidden" id="num" name="num" />
+	<table>
+	<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">新增模板</div>
+		</div>
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft tdtop">&nbsp;</td>
+				<td class="tdright tdtop"><span class="black">注：</span><span class="red-font">*</span><span class="black">为必填选项</span></td>
+			</tr>
+			<tr>
+				<td class="tdleft">模板名称：</td>
+				<td class="tdright">
+					<input type="text" name="name" id='name' size="40" maxlength="20" value="" class="intext" onblur="check_name()" />
+					&nbsp;<span class="red-font">*</span>
+					<span id="check_role_is_rename"></span>
+					<span id='loading' style="display:none">
+					&nbsp;<img src="/images/loading.gif" align="absmiddle"/>Loading
+					</span> 
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">备注：</td>
+				<td class="tdright">
+					<textarea name="remark" id='remark' wrap="soft" cols="37" rows="4" class="intext"></textarea>				
+				</td>
+			</tr>
+			<tr>
+			  <td class="tdleft">自定义表项：</td>
+				<td class="tdright">
+				  <input name="addv_btn" id="addv_btn" type="button" class="button"	onClick="addTmplInfo();" value="增加" />
+          <input name="del_btn" id="del_btn" type="button" class="button"	onClick="delTmplInfo();" value="删除" />
+        </td>
+			<tr>
+				<td class="tdleft"></td>
+				<td class="tdright">
+					<table border="0" name="TmplInfo" id="TmplInfo">
+					  <tr height="25px">
+					    <td width="5px" align="center">
+                            <input type="checkbox" id="selectallTmplInfo" onClick="Selecet()">
+                        </td>
+					    <td align="center" width="160px">项目名称</td>
+					    <td align="center" width="160px">填表类型</td>
+					    <td align="center" width="160px">长度</td>
+					    <td align="center" width="160px">默认值</td>
+					    <td align="center" width="80px">是否必添</td>
+					    <td align="center" >验证规则</td>
+					  </tr>
+					</table>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom">
+					<input type="button" value="保存" class="button" onclick="add_role();"/>
+					<input type="button" value="取消" class="button" onclick="window.history.back(-1)"/>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td></tr>
+	</table>
+</form>
+<script>	
+	try { $('#name').focus(); } catch(e) {}
+
+  var num=0;
+  
+  function getTd(s)
+  {
+    var td = document.createElement('td');
+    td.innerHTML = s;
+    return td;
+  }
+  	
+	//增加一行
+  function addTmplInfo()
+  {
+  	num++;
+    $('#num').val(num);
+    
+    var otr = document.getElementById("TmplInfo").insertRow(-1);
+  	var checkTd=document.createElement("td");
+  	var rowIndex = num;
+    
+    var s = '';
+    
+    s = '<input type="checkbox" class="check" name="checkItemTmplInfo'+rowIndex+'" id="checkItemTmplInfo'+rowIndex+'" style="width: 100%" value="'+rowIndex+'" class="mid"/>';
+    otr.appendChild(getTd(s));
+    
+    s = '<input type="text" id="tmplname'+rowIndex+'" name="tmplname'+rowIndex+'"/>';
+    otr.appendChild(getTd(s));
+    
+    s = '<select mid="'+rowIndex+'" id="tmpltype'+rowIndex+'" name="tmpltype'+rowIndex+'" onchange="mchange(this)"><option value="text">单行文本框</option><option value="password">密码框</option><option value="textarea">多行文本框</option><option value="select">下拉框</option><option value="checkbox">复选框</option><option value="radio">单选按钮</option></select>';
+    otr.appendChild(getTd(s));
+    
+    s = '<input type="text" id="tmpllength'+rowIndex+'" name="tmpllength'+rowIndex+'" size="4"/>';
+    otr.appendChild(getTd(s));
+    
+    s = '<input type="text" id="tmpldefvalue'+rowIndex+'" name="tmpldefvalue'+rowIndex+'"/>';
+    otr.appendChild(getTd(s));
+    
+    s = '<input type="checkbox" id="tmplrequired'+rowIndex+'" name="tmplrequired'+rowIndex+'" value="1"/>';
+    otr.appendChild(getTd(s));
+    
+    s = '<input type="text" id="tmplrule'+rowIndex+'" name="tmplrule'+rowIndex+'"/>';
+    otr.appendChild(getTd(s));
+  	
+  	return rowIndex;
+  }
+  
+  //删除选中的行
+  function delTmplInfo()
+  {
+  	var oTable = document.getElementsByName("checkItemTmplInfo");
+  	var selectall = document.getElementById("selectallTmplInfo");  
+  	if(oTable == null || oTable.length == 0)
+  		return;
+  	for(var index=oTable.length-1;index>=0;index--)
+  	{
+  		if(oTable[index].checked){
+  		  document.getElementById("TmplInfo").deleteRow(index+1);
+  		}
+  	}
+  	selectall.checked = false;
+  }
+
+  //选择所有行,反选所有行
+  function Selecet()
+  {
+  	var selectall = document.getElementById("selectallTmplInfo");
+  	var oTable = document.getElementsByName("checkItemTmplInfo"); 
+  	if(oTable == null || oTable.length == 0)
+  		return;
+  	for(var index=oTable.length-1;index>=0;index--)
+  	{
+  		if(selectall.checked){
+  			oTable[index].checked = true;
+  		}else{
+  			oTable[index].checked = false;
+  		}
+  	}
+  }
+  
+  // 选择下拉框
+  function mchange(obj)
+  {
+    var v = $(obj).val();
+    if (v=='select' || v=='checkbox' || v=='radio')
+    {
+        var id = $(obj).attr('mid');
+        //$('#tmpldefvalue'+id).attr({readOnly:'readOnly'});
+        var arr = [];
+        while(true)
+        {
+            var c = prompt("请输入值");
+            if (c != '') arr.push(c);
+            if (!confirm('是否还继续输入?')) break;
+        }
+        $('#tmpldefvalue'+id).val(arr.join(','));
+    }
+    
+  }
+</script>	

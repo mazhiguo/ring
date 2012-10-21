@@ -1,0 +1,97 @@
+<script>
+// modify by zhangqitao@2008-04-02
+function reset_pwd()
+{
+	var pwd = 'password';
+	var repwd = 'repassword';
+	//check password
+	if (!is_empty(pwd))
+	{
+		alert('密码不能为空。');
+		$(pwd).focus();
+		return false;
+	}
+	if ($(pwd).value.length<6 || $(pwd).value.length>12)
+	{
+		alert('密码长度必须在6-12位之间，请重新输入。');
+		$(pwd).focus();
+		return false;
+	}
+	if (!check_pwd(pwd))
+	{
+		alert('密码只能由大小写英文字母和数字组成，请重新输入。');
+		$(pwd).focus();
+		return false;
+	}
+	if (!is_empty(repwd))
+	{
+		alert('重复密码不能为空。');
+		$(repwd).focus();
+		return false;
+	}
+	if ($(repwd).value.length<6 || $(repwd).value.length>12)
+	{
+		alert('重复密码长度必须在6-12位之间，请重新输入。');
+		$(repwd).focus();
+		return false;
+	}
+	if (!check_pwd(repwd))
+	{
+		alert('重复密码只能由大小写英文字母和数字组成，请重新输入。');
+		$(repwd).focus();
+		return false;
+	}
+	if ($(pwd).value != $(repwd).value)
+	{
+		alert('两次密码输入不一致，请重新输入。');
+		$(repwd).focus();
+		return false;
+	}
+	var frm = $('resetpwdform');
+	frm.action = '/user/reset_pwd';
+	frm.method = 'POST';
+	frm.submit();
+}
+</script>
+<form id="resetpwdform">
+	<table>
+<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">重置用户的密码</div>
+		</div>
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft tdtop">用户帐号：</td>
+				<td class="tdright tdtop">
+				{/$user.account/}
+				<input type="hidden" name="user_id" value="{/$user.user_id/}"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">新密码：</td>
+				<td class="tdright"><input type="password" name="password" id="password" class="intext" onblur="check_pwd_return('password','check_pwd_info','请输入6-12位英文字母和数字组合');" />
+					&nbsp;<span class="red-font">*</span> 
+					<span id="check_pwd_info">请输入6-12位英文字母和数字组合</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">重复新密码：</td>
+				<td class="tdright"><input type="password" name="repassword" id="repassword" class="intext" onblur="check_repwd_return('password','repassword','check_repwd_info','请重复输入密码，6-12位英文字母和数字组合');" />
+					&nbsp;<span class="red-font">*</span> 
+					<span id="check_repwd_info">请重复输入密码，6-12位英文字母和数字组合</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom">
+					<input type="button" value="确定" class="button" onclick="reset_pwd();" />
+					<input type="button" value="取消" class="button" onclick="window.history.back();" />
+				</td>
+			</tr>
+			</table>
+		</div>
+</td></tr>
+</table>
+</form>

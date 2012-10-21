@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- 说明:-->
+<!--
+	1.
+	2.
+-->
+<root>
+	<ugs>
+		<ug name='研发中心' code='001' parent_code='0' sign='1' remark='北京点击科技有限公司/研发中心' url='' email='' location=''/>
+		<ug name='' code='002' parent_code='0' sign='0' remark='' url='' email='' location=''/>
+	</ugs>
+	<users>
+		<user account='章启涛' name='章启涛' />
+	</users>
+</root>

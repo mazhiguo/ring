@@ -1,0 +1,90 @@
+<script>
+
+// 是否选择子部门，checkbox检查
+function chkbranch()
+{
+	var chkbox = document.getElementById('chkbox');
+	var branch = document.getElementById('branch');
+	if (chkbox.checked) branch.value = '1';
+	else branch.value = '0';
+    request_role_users(tree.getSelectedItemId());
+}
+
+function set_role_users()
+{
+	get_mutiselect_values('select2', 'userlist');
+	var frm = $('form1');
+	frm.action = '/role/set_role_users';
+	frm.method = 'POST';
+	frm.submit();
+}
+</script>
+<form id="form1">
+	<input type="hidden" name="role_id" value="{/$role.role_id/}">
+	<input type="hidden" name="userlist" id="userlist" value="">
+	<table>
+	<tr><td>
+		<div class="list">
+			<div class="content_menu_title1">将角色[{/$role.name/}]分配给用户</div>
+			<div class="underling_content_menu_title1" style="float:right;">
+				从本单位中查找：
+				<input type="text" name="content" id="content" size="8" class="intext"/>
+				<input type="button" name="search_btn" value="查询" onclick="request_search_users('corp')" class="button" />
+			</div>			
+		</div>
+	
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="left" cellpadding="5" cellspacing="0" class="list_table">
+			<tr>
+			<td class="list_hr_bg list_hr_colum" nowrap>从部门中选择用户</td>
+		    <td class="list_hr_bg list_hr_colum" width="180" nowrap>待选用户列表</td>
+		    <td class="list_hr_bg list_hr_colum" width="80"></td>
+		    <td class="list_hr_bg list_hr_colum" width="180" nowrap>已分配该角色的用户列表</td>
+			</tr>
+			<tr>
+				<td class="list_cb" align="left" valign="top">
+					<div id="treebox" class="innerTree" style="height:350px;verflow:auto; background-color:#ffffff;border:solid 1px thin; border-color:#DCDCDC;"></div>
+					<!-- <div style="height:350px; overflow:auto; background-color:#ffffff;border:solid 1px thin; border-color:#DCDCDC;">
+						<div id="treebox" class="innerTree"></div>						
+					</div> -->
+					<input type="hidden" id="branch" value="" />
+					<input type="checkbox" id="chkbox" onclick="chkbranch();"/>下属部门人员显示到待选列表
+				</td>
+				<td class="list_cb" valign="top"> 
+					<select multiple id="select1" name="select1" size="15" class="intext" style="width:100%;height:360px" >
+						{/section name=i loop=$unsetted/} 
+						{//section/}
+					 </select>
+				</td>
+				<td class="list_cb" align="center">
+					<input type="button" value="增加" onclick="move_selected('select1', 'select2')" class="button"/><br /><br />
+					<input type="button" value="删除" onclick="move_selected('select2', 'select1');" class="button"/><br /><br />
+					<input type="button" value="全部增加" onclick="move_all('select1', 'select2')" class="button"/><br /><br />
+					<input type="button" value="全部删除" onclick="move_all('select2', 'select1')" class="button"/><br /><br />
+				</td>
+				<td class="list_cb" valign="top">
+					<select multiple id="select2" name="select2" size="15" class="intext" style="width:100%;height:360px" >   
+				      	{/section name=i loop=$setted/}
+				     		<option value="{/$setted[i].user_id/}">{/$setted[i].name/}</option>
+				      	{//section/}
+		      		</select>
+				</td>
+			</tr>
+			</table>
+			<div class="clear"><br style="line-height:8px;" /></div>
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdbottom" align="center">
+		     <input type="button" class="button" value="确定" onclick="set_role_users()">&nbsp;&nbsp; 
+		     <input type="button" class="button" value="取消" onclick="window.close()">
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td></tr>
+	</table>
+</form>
+<script>
+load_role_users_tree();
+</script>

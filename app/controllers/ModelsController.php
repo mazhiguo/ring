@@ -18,7 +18,7 @@ class ModelsController extends DefaultController
 		$this->view->assign('q', $q);
 
 		$total_recode = $this->ModelsDB->db_count($q);
-		$limit = !empty( $_SESSION['models_limit']) ? $_SESSION['models_limit'] : 10;
+		$limit = !empty( $_SESSION['tmpl_limit']) ? $_SESSION['tmpl_limit'] : 10;
 		$total_pages = ceil($total_recode/$limit);
 		$curr_page = isset($_GET['page']) ? max(intval($_GET['page']), 1) : 1;
 		$curr_page = $curr_page > $total_pages ? $total_pages : $curr_page;
@@ -28,18 +28,9 @@ class ModelsController extends DefaultController
 
 		$option_str = make_option_string($limit);
 		$list = $this->ModelsDB->db_get_all($limit, $offset, $q);
-        foreach ($list as $k=>$v) {
-            if ($v['sign'] == '1') {
-                $v['sign'] = '公开模板';
-            }else {
-                $v['sign'] = '部门模板';
-            }
-            $list[$k] = $v;
-        }
 		$this->view->assign('list', $list);
 		$this->view->assign('option_str', $option_str);
 		$this->view->assign('pages', $out_url);
-        $this->view->assign('privs', $_SESSION['AdminPrivs']); 
 
 		$this->view->display('header.html');
 		$this->view->display('models/list.html');
@@ -49,11 +40,10 @@ class ModelsController extends DefaultController
 	// 添加模板
 	public function on_add()
 	{
-		if (isset($_REQUEST['name']) && trim($_REQUEST['name'])!='')
+		if (isset($_REQUEST) && trim($_REQUEST['name'])!='')
 		{
 			$name = $_REQUEST['name'];
 			$desc = $_REQUEST['desc'];
-            
 
 			// 判断name是否已经存在
 			$m = $this->ModelsDB->db_get_one_by_name($name);
@@ -71,15 +61,7 @@ class ModelsController extends DefaultController
 			}
             else show_msg('GOTO', array('url'=>'/models/list/', 'msg'=>'保存失败.'));
             return;
-		}else
-        {
-            $newname = '';
-            do {
-                $newname = $_SESSION['AdminAccount'].'_'.date("Ymd").'_'.rand(100,999);
-            } while ($this->ModelsDB->db_get_one_by_name($newname));
-            
-            $this->view->assign('newname', $newname);
-        }
+		}
 
 		$this->view->display('header.html');
 		$this->view->display('models/add.html');
@@ -122,15 +104,7 @@ class ModelsController extends DefaultController
 			}
             else show_msg('GOTO', array('url'=>'/models/list/', 'msg'=>'保存失败.'));
             return;
-		}else
-        {
-            $newname = '';
-            do {
-                $newname = $_SESSION['AdminAccount'].'_'.date("Ymd").'_'.rand(100,999);
-            } while ($this->ModelsDB->db_get_one_by_name($newname));
-            
-            $this->view->assign('newname', $newname);
-        }
+		}
 
 		$this->view->assign('model', $model);
 		$this->view->display('header.html');
@@ -204,13 +178,10 @@ class ModelsController extends DefaultController
 		$list = $this->ModelsDB->db_get_all_fields($mid);
 		$this->view->assign('list', $list);
 		$this->view->assign('mid', $mid);
-        $this->view->assign('model', $model);
-        $this->view->assign('privs', $_SESSION['AdminPrivs']);
 		$this->view->display('header.html');
 		$this->view->display('fields/list.html');
 		$this->view->display('footer.html');
 	}
-    
 
 	// 添加字段
 	public function on_addfields()
@@ -372,23 +343,23 @@ HTML;
 
 			if($type == 'text')
 			{
-				$_html = "<input type='text' id='m_{$name}' name='$name' alt='{$rulesdesc}' title='{$rulesdesc}' value='$values'/>";
+				$_html = "<input type='text' id='m_{$name}' name='$name' value='$values'/>";
 			}
 			else if($type == 'password')
 			{
-				$_html = "<input type='password' id='m_{$name}' name='$name' alt='{$rulesdesc}' title='{$rulesdesc}' value=''/>";
+				$_html = "<input type='password' id='m_{$name}' name='$name' value=''/>";
 			}
 			else if($type == 'textarea')
 			{
-				$_html = "<textarea id='m_{$name}' name='$name' alt='{$rulesdesc}' title='{$rulesdesc}' style='width:400px;height:230px;'></textarea>";
+				$_html = "<textarea id='m_{$name}' name='$name' style='width:400px;height:230px;'></textarea>";
 			}
 			else if($type == 'file')
 			{
-				$_html = "<input type='file' id='m_{$name}' name='$name' alt='{$rulesdesc}' title='{$rulesdesc}' />";
+				$_html = "<input type='file' id='m_{$name}' name='$name' />";
 			}
 			else if($type == 'select')
 			{
-				$_html = "<select id='m_{$name}' name='$name' alt='{$rulesdesc}' title='{$rulesdesc}'>";
+				$_html = "<select id='m_{$name}' name='$name'>";
 				$arr = explode('|', $values);
 				foreach($arr as $i)
 				{
@@ -404,7 +375,7 @@ HTML;
 				foreach($arr as $i)
 				{
 					list($k, $v) = explode('=', $i);
-					if(isset($k) && isset($v)) $_html .= "<input type='radio' id='m_{$name}' name='$name' alt='{$rulesdesc}' title='{$rulesdesc}' value='$k'/> $v &nbsp;&nbsp;";
+					if(isset($k) && isset($v)) $_html .= "<input type='radio' id='m_{$name}' name='$name' value='$k'/> $v &nbsp;&nbsp;";
 				}
 			}
 			else if($type == 'checkbox')
@@ -414,16 +385,16 @@ HTML;
 				foreach($arr as $i)
 				{
 					list($k, $v) = explode('=', $i);
-					if(isset($k) && isset($v)) $_html .= "<input type='checkbox' id='m_{$name}[]' name='{$name}[]' alt='{$rulesdesc}' title='{$rulesdesc}' value='$k'/> $v &nbsp;&nbsp;";
+					if(isset($k) && isset($v)) $_html .= "<input type='checkbox' id='m_{$name}[]' name='{$name}[]' value='$k'/> $v &nbsp;&nbsp;";
 				}
 			}
 			else if($type == 'editor')
 			{
-				$_html = "<textarea id='m_{$name}' name='$name' class='meditor' alt='{$rulesdesc}' title='{$rulesdesc}' style='width:650px;height:230px;'></textarea>";
+				$_html = "<textarea id='m_{$name}' name='$name' class='meditor' style='width:650px;height:230px;'></textarea>";
 			}
 			else if($type == 'datetime')
 			{
-                $_html = "<input type='text' id='m_{$name}' name='$name' alt='{$rulesdesc}' title='{$rulesdesc}' value='$values'/>";
+                $_html = "<input type='text' id='m_{$name}' name='$name' value='$values'/>";
 			}
 
             $htmls[] = array($desc, $_html.'&nbsp;'.$_r);

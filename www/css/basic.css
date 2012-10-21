@@ -1,0 +1,167 @@
+/***********************************************全局***********/
+body, ul, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset { margin: 0; padding: 0; }
+body { font-size:12px; color:#555555;margin-top:5px;background:#e3eaf1;}
+textarea {border:1px solid #555555;font-size:12px;padding:3px}
+table { empty-cells: show;width:98%;font-size:12px; }
+a:link,a:visited {color:#555555;text-decoration:none}
+a:hover {color:#EB8A3D;text-decoration:underline}
+/************************************************表格**************/
+.main_button {padding:0px; height:22px; overflow:hidden; padding-left: 5px; padding-right: 5px; color:#ffffff;
+			background:#FF9934;border: 0px; border-bottom:#718087 1px solid;}
+.sub_button {border:0px; width:70px;height:20px;text-align:center;line-height:20px;background-image: url(../images/left/botton1.jpg);background-repeat: no-repeat;background-position:center;}
+
+.td_bg1 {background:#F5F5F5;}
+.td_bg2 {background:#fff;}
+.intext {border:1px solid #c0c0c0; font-size:12px; padding:2px; padding-left:3px;} /**input 'text'**/
+.login {margin-top:20px}
+.login td {border:none;background:none;}
+.red-font{color:red}
+.strong {font-weight:800}
+
+
+*{ font-size:12px; margin:0px;padding:0px; list-style:none; text-decoration:none; font-family:Tahoma Arial verdana '宋体';}
+.clear {clear:both;}
+td {line-height:26px; height:26px; word-break: break-all; text-indent:3px; word-wrap:break-word;}
+
+/** left **/
+
+.menu{width:145px; height:610px; margin:0px auto auto 5px;background-image: url(../images/bg0.gif);background-repeat: no-repeat;background-position: bottom; background-color:#E3EAF2;}
+.operate{ width:145px; height:28px; margin:5px auto; clear:both; }
+.operate .button{border:0px; background: url(../images/left/botton.jpg) top left no-repeat; width:66px; height:20px; float:left; text-align:center; line-height:20px; margin-right:1px;}
+.title{ width:145px; height:32px; margin:0px; text-align:left; padding:0px;}
+.title a{width:131px; height:21px; color:#1e70a4; font-weight:bold; display:block;}
+.sort_unfold,.sort_fold{width:133px; height:27px; line-height:27px; text-align:left;}
+.sort_unfold{ width:100%; height:auto; background:url(../images/left/sort_unfold.jpg) top left no-repeat;margin:0px; padding:0px;}
+.sort_unfold ul{ width:133px; margin:0px; padding:0px;}
+.sort_unfold li{ width:100%; height:auto; margin:0px; padding:0px;}
+.sort_fold{ width:100%; height:auto; background:url(../images/left/sort_fold.jpg) top left no-repeat; margin:0px; padding:0px;}
+.sort_fold ul{ width:133px; margin:0px; padding:0px;}
+.sort_fold ul li{ margin:0px; padding:0px;}
+.sort_unfold li a,.sort_fold li a{width:131px; height:21px; line-height:21px; border:#CCC 1px solid; display:block; margin:1px; background:#f4f5f5;color:#525252;}
+.sort_unfold li a:hover,.sort_fold li a:hover{background:#FFF;color:#09518d;}
+
+#sidebar{ float:left;}
+
+/** top **/
+body{width:100%;margin:0px auto;}
+#admin_main{ width:100%; height:auto; margin:0px auto;}
+.top{background:url(../images/top/top_bg.jpg) #b3eafe right top no-repeat; width:100%;}
+.logo_title{ height:54px; line-height:54px; text-indent:50px; background:url(../images/top/logo.jpg) center left no-repeat;margin-left:100px; font-size:16px; color:#2c639c;}
+.nav{background:url(../images/top/nav_bg.jpg) left top repeat-x;height:33px; line-height:33px;padding-left:20px; width:100%}
+.nav a, .nav a:link, .nav a:visited{color:#d6f1fd;  font-weight:bold;}
+.nav a:hover{color:#FFF; font-weight:bold;}
+
+.welcome{color:#83efff; font-weight:bold; float:left; }
+.change_unit{text-indent:15px; color:#d1d2d2; font-weight:bold; float:left;}
+.select{color:#83efff; font-weight:bold; float:left; padding-top:0px;}
+*html .select{padding-top:6px;}
+
+.unit_name{color:#fcb202; font-weight:bold;}
+.user_name{color:#fcb202; font-weight:bold;}
+
+.index {width:48px; height:30px; line-height:30px;background:url(../images/top/index.jpg) left center no-repeat; float:left;padding:0 25px 0 5px;}
+.setting{width:68px; height:30px; line-height:30px;background:url(../images/top/setting.jpg) left center no-repeat;float:left;padding:0 25px 0 5px;}
+.help{width:48px; height:30px; line-height:30px;background:url(../images/top/help.jpg) left center no-repeat;float:left;padding:0 25px 0 5px;}
+.logout{width:48px; height:30px; line-height:30px;background:url(../images/top/logout.jpg) left center no-repeat;float:left;padding:0 25px 0 5px;}
+.index_over {width:44px; height:26px; line-height:26px;background:url(../images/top/index.jpg) left center no-repeat; float:left;padding:0 25px 0 5px; border: 2px solid #3E85B1;}
+.setting_over{width:64px; height:26px; line-height:26px;background:url(../images/top/setting.jpg) left center no-repeat;float:left;padding:0 25px 0 5px; border: 2px solid #3E85B1;}
+.help_over{width:44px; height:26px; line-height:26px;background:url(../images/top/help.jpg) left center no-repeat;float:left;padding:0 25px 0 5px; border: 2px solid #3E85B1;}
+.logout_over{width:44px; height:26px; line-height:26px;background:url(../images/top/logout.jpg) left center no-repeat;float:left;padding:0 25px 0 5px; border: 2px solid #3E85B1;}
+
+/** main **/
+#main{ width:1000px; height:563px; margin:0px; background:#FFF;padding:0px;}
+#right{ width:160px; height:563px;float:left; background-color:#FFFFFF;}
+right_content{width:100%; height:563px;background-color:#FFFFFF;}
+.main_title {font-size:14px; color:#00448a; border:#CCCCCC 1px solid; height:22px; line-height:30px; text-indent:20px;margin:5px; background:#FFFFFF;}
+.note{height:20px; line-height:20px; text-indent:10px;}
+.reddot{color:#FF0000;padding-left:5px;}
+.input{border:#CCCCCC 1px solid; height:20px;}
+.textarea{border:#CCCCCC 1px solid;}
+
+/** 通用按钮 **/
+.button {border:0px; width:70px;height:20px;text-align:center;line-height:20px;background-image: url(../images/left/botton1.jpg);background-repeat: no-repeat;background-position:center;}
+.button_w {border:0px; width:80px;height:23px;text-align:center;line-height:23px;background-image: url(../images/main/button.jpg);background-repeat: no-repeat;background-position:center;}
+.button a { color:#ea8b1b; font-weight:bold;}
+.button_s {border:0px; background:url(../images/main/button_s.jpg) top left no-repeat; width:60px; height:23px; text-align:center; line-height:23px;}
+.button_l {border:0px; background:url(../images/main/button_l.jpg) top left no-repeat; width:90px; height:30px; text-align:center; line-height:30px; font-size:14px; cursor:pointer;}
+
+/** 用户和部门.单位树 **/
+#tree1{ width:160px; height:auto; clear:both; margin-left:3px;}
+#file_tree_menu{float: left;height:auto;width:100%;}
+#file_tree_menu .tree_menu_bg1{background-image: url(../images/bf-tree.gif);background-repeat: repeat-y;background-position: center;}
+#file_tree_menu .tree_menu_bg2{background-image: url(../images/add4-tree.gif);background-position: center;}
+
+/** 右侧内容区 **/
+.content{ width:100%; background:#F6F6F8; height:400;}
+.content_inke{width:98%;height:auto;border: 2px solid #D5E1E8; margin:10px auto;}
+.list_top{width:98%;height:30px; line-height:30px;clear:both;}
+
+/** 内容区顶部和标题 **/
+.list{width:98%;height:30px; line-height:30px;clear:both;margin:10px;background-color: #FFF;border: 1px solid #E6E6E8;}
+.content_menu_title{float:left; text-indent: 15px; font-weight:bold; font-size: 18px; color:#00458A; white-space: nowrap;}
+.content_menu_title1{ float:left; text-indent: 15px; font-size: 14px; color:#00458A; white-space: nowrap;}
+.content_menu_title2{float:left; text-indent: 15px; font-size: 12px; color:#000000; white-space: nowrap;}
+.content_menu_title3{float:left; font-size: 12px; font-weight:bold; color:#00458A; white-space: nowrap;}
+.underling_content_menu_title1{float: right; text-align: right; white-space: nowrap;}
+.content_title2{font-size:15px;font-weight:bold;}
+.list_id_title{width:98%; height:auto; padding:5px 0px 5px 0px; margin:0px auto;background:#EDEDED;}
+.list_title_each{ width:100%; height:20px;}
+.list_title_each_name{width:110px; height:15px; line-height:15px; float:left; font-size:12px; font-weight:bold;}
+.list_title_each_info{width:360px; height:15px; line-height:15px; float:left;}
+.list_title_each_func{width:70px; height:15px; line-height:15px; float:left;}
+
+/** 页内清单区 **/
+.list_content01{ width:98%; height:auto; margin:0px auto 5px auto;border:solid 1px #5F9CBC;}
+.list_content01_pohto{ width:101px; height:28px; line-height:28px; float:left;background:url(../images/list.gif) no-repeat bottom; margin:10px 0px 0px 4px; color:#FFFFFF; font-size:14px; font-weight:bold; text-align:center;}
+.list_content01_pohto_bg{ width:90px; height:23px;float:left;margin:15px 0px 0px 5px}
+
+#main_content{ width:98%; height:auto; clear:both; margin: 0px auto;}
+
+.list_table_funcs {width:100%; padding:0px; }
+.list_table_funcs tr td { white-space: nowrap;}
+
+.list_table {width:100%; padding:0px; border:0px; border-bottom: 2px solid #DCDEDD;}
+.list_hr_bg {height:32px; line-height:32px; background: url(../images/04.gif) center left repeat-x;}
+.list_hr_colum {height:30px; line-height:30px; border-left:1px solid #ffffff; border-right:1px solid #DCDEDD; white-space: nowrap;}
+.list_c{text-indent:3px; background-color:#fefefe; background-image:url(../images/list_c_bg.gif); background-repeat :repeat-x ; background-position: bottom; height:34px;}
+.list_cb{text-indent:3px; background-color:#fefefe; background-image:url(../images/list_cb_bg.gif); background-repeat :repeat-x ; background-position: bottom; height:34px;}
+
+.form_table {width:98%; border:0px; border-top:1px solid #FFFFFF;}
+.form_table tr td {vertical-align: top; border-left:1px solid #DCDEDD; border-right:1px solid #FFFFFF; border-top:1px solid #DCDEDD; border-bottom:1px solid #FFFFFF;}
+.form_table tr td.tdtop {}
+.form_table tr td.tdleft {border-left:0; text-align: right; width:80px;white-space: nowrap;}
+.form_table tr td.tdright {border-right:0; text-align: left;}
+.form_table tr td.tdbottom {border-bottom:0;border-left:0;border-right:0;}
+
+/** 页内清单的上下操作区域 **/
+.list_content{ width:95%; height:25px; margin:10px auto;}
+
+/**** 分页 css样式 add by zhangqitao*****/
+.pages {font-size:12px;padding:2px;font-family:Arial;width:auto}
+.pages a {margin:5px;text-decoration:none;color:#555555}
+.cur_page {background:#CEDBEF;padding:4px;margin:0px;color:#555555;font-weight:800}
+.total {padding:1px}
+.go_pages {padding:1px}
+.page_input {background:#ffffff;border:1px solid #CEDBEF;color:#555555;width:30px;margin:0px;padding:0px}
+.go_button {background:#CEDBEF;cursor:pointer;margin-right:2px;}
+/**** showmsg 样式 add by zhangqitao *****/
+.show_msg {font-size:12px;border:1px solid #109ACE;margin-top:50px;width:600px;}
+.show_msg th {height:20px;padding-left:10px;color:#fff;background:#6392C6}
+.show_msg td {background:#fff;}
+.show_msg p {padding:0;margin:0}
+.msg {margin-top:50px;margin-bottom:25px;margin-left:auto;margin-right:auto;padding:10px;padding-left:2em;
+	text-align:left;width:80%;background:#DEE7F7;border:1px solid #109ACE;font-weight:800}
+.smsg {margin-left:auto;margin-right:auto;padding:2px;text-align:left;width:80%;font-weight:800	}
+.control {margin-top:25px;margin-bottom:20px;margin-left:auto;margin-right:auto;padding:10px;padding-left:2em;text-align:left;width:80%;}</style>
+/***** 二次动态请求树风格，不继承父css风格 add by zhangqitao***********/
+.innerTree {overflow:hidden;}
+.innerTree tr td{border:0px; text-indent:0px;}
+.innerTree tr td{height:18px;line-height:18px}
+.txt {color:#555555;font-weight:800;cursor:pointer}
+.txt_mouseout {color:#555555;font-weight:800;cursor:pointer}
+.txt_mouseover {color:#FF9A31;font-weight:800;cursor:pointer}
+.txt_mousedown {color:#FFC784;font-weight:800;cursor:pointer}
+.txt_mouseup {color:#555555;font-weight:800;cursor:pointer}
+/***** 增加所有页面内滚动条风格 add by zhangqitao **************/
+html {scrollbar-face-color:#DEE3E7;scrollbar-highlight-color:#FFFFFF;scrollbar-shadow-color:#DEE3E7;scrollbar-3dlight-color:#D1D7DC;
+		scrollbar-arrow-color:#006699;scrollbar-track-color:#EFEFEF;scrollbar-darkshadow-color:#98AAB1;}

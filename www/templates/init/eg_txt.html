@@ -1,0 +1,38 @@
+<table>
+	<tr>
+		<td align="left">说明：</td>
+	</tr>
+	<tr>
+		<td align="left" style="padding-left:2em">1.组织数据（部门信息）与用户数据需要分开导入。</td>
+	</tr>	
+	<tr>
+		<td align="left" style="padding-left:2em">2.您可以选择存放组织数据或用户数据的文本文档(*.txt)进行导入。</td>
+	</tr>
+	<tr>
+		<td align="left" style="padding-left:2em">
+		3.存放组织数据的文本文档，内容需要按照“组织编码、父组织编码、部门名称、标识、备注、网址、email、排序”顺序排列，并用“,”隔开。
+		<br />
+		示例：
+		<br />
+			<span style="padding-left:2em">yanfa,0,研发中心,1,,,,,</span>
+		<br />	
+			<span style="padding-left:2em">yanfa_1,yanfa,研发一部,1,,,,,</span>
+		<br />
+			<span style="padding-left:2em">yanfa_2,yanfa,研发二部,1,,,,,</span>
+		</td>
+	</tr>
+	<tr>
+		<td align="left" style="padding-left:2em">
+		4.存放用户数据的文本文档，内容需要按照“账号、名称、显示名称、密码、部门编码、是否分配gid、状态、性别、备注、排序、职位、生日、移动电话、办公电话、传真、邮编、网址、地址、email”顺序排列，并用“,”隔开，如某项为空
+仍需用“,”隔开。
+		<br />
+		示例：
+			<br />
+			<span style="padding-left:2em">用户1,用户1,用户1,123456,yanfa,1,1,1,,,主管,,,,,,,,,</span>
+		<br />	
+			<span style="padding-left:2em">用户2,用户2,用户2,123456,yanfa|yanfa_1,1,1,1,,,,,,,,,,,,</span>
+		<br />
+			<span style="padding-left:2em">用户3,用户3,用户3,123456,yanfa|yanfa_2,1,1,1,,,,,,,,,,,,</span>
+		</td>
+	</tr>
+</table>

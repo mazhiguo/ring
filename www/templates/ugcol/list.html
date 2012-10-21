@@ -1,0 +1,195 @@
+<script>
+function check_all(form, prefix, checkall) {
+	var checkall = checkall ? checkall : 'chkall';
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = form.elements[i];
+		if(e.name && e.name != checkall && (!prefix || (prefix && e.name.match(prefix)))) {
+			e.checked = form.elements[checkall].checked;
+		}
+	}
+	return false;
+}
+
+function checkAll(form) {
+	for (var j = 0; j < form.elements.length; j++) {
+		var box = eval(form.elements[j]);
+		if((box.checked == false))
+		{
+			if((box.name=="checkall")||(box.name=="del[]"))
+			box.checked = true;
+		}
+   }
+}
+
+function uncheckAll(form) {
+	for (var j =0; j <form.elements.length; j++) {
+		box = eval(form.elements[j]);
+		if (box.checked == true)
+		{
+			if((box.name=="checkall")||(box.name=="del[]"))
+			box.checked = false;
+		}
+   }
+}
+
+function del_col(name, col_id)
+{
+	if (!window.confirm('该操作将删除该采集活动['+name+']及其采集内容，确定删除该采集活动？'))
+		return false;
+	window.location = '/ugcol/del_col/ug_id/'+col_id+'/';
+	return true
+}
+
+function goto_user_list(ug_id)
+{
+	window.parent.location='/modelsCol/index?id='+ug_id;
+    return true;
+}
+
+var objs = document.getElementsByTagName('input');
+var str = '';
+function get_values()
+{
+	for(var i=0; i<objs.length; i++)
+	{
+	    o = objs[i];
+	    if(o.name=='del[]' && o.checked)
+	    str += o.value+":";
+	}
+	return str;
+}
+function del()
+{
+	var user_ids = get_values();
+	if (user_ids == ''){
+		alert('请至少选择一个对象完成此操作。');
+		return ;
+	}
+	if(!window.confirm('该操作将删除所选对象及其下属对象，确定删除？'))
+		return false;
+	document.form1.action='/ugcol/del_col';
+	document.form1.submit();
+}
+
+</script>
+<div class="content">
+	<div class="content_inke">
+		<div class="list_top">
+			<div class="content_menu_title">·{/$current_col.name/}·</div>
+			<div class="content_menu_title1">部门采集管理</div>
+		</div>
+		<div class="list_id_title">
+			<div class="list_title_each">
+				<div class="list_title_each_name">数据</div>
+				<div class="list_title_each_info">全部已录入数据{/$total_users_num/}笔 {/if $current_col.sign == '1'/}, 该活动数据{/$cur_users_num/}笔 {//if/}</div>
+				<div class="list_title_each_func"></div>
+			</div>
+			{/if $current_col.sign == '0'/}
+			<div class="list_title_each">
+				<div class="list_title_each_name">模板</div>
+				<div class="list_title_each_info">{/$role_str/}</div>
+				<div class="list_title_each_func"><a href="#"  onclick="window.parent.location='/models/list';" >[管理模板]</a></div>
+			</div>
+			{//if/}
+		</div>
+
+		<form name="form1"  method="POST">
+		<div class="list_content01_pohto" id="switch_div">{/if $current_col.sign == '0'/}采集内容列表{/else/}采集数据列表{//if/}</div>
+		<div class="list_content01_pohto_bg">
+            {/if $current_col.sign == '0'/}
+			<input type="button" value="增加新内容" id="switch_btn" class="button_w" style="cursor:pointer" onclick="window.location='/ugcol/show_add_corp/parent_id/{/$current_col.id/}'" />
+			{/else/}
+			<input type="button" value="增加新活动" id="switch_btn" class="button_w" style="cursor:pointer" onclick="window.location='/ugcol/show_add_dept'" />
+			{//if/}
+		</div>
+		<div id="switch_loading" class="list_content01_pohto_bg" style="display:none">
+			<img src="/images/loading.gif" />Loading...
+		</div>
+		<div class="clear"></div>
+		<div class="list_content01" id="lmain">
+		<div id="main_content">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="150" align="left" nowrap>
+				<input type="checkbox" name="checkall" onclick="check_all(this.form,'del','checkall')" /> 全选
+				&nbsp; <input type="button" name="del_submit" value="删除" onclick="del()" class="button"/>
+			</td>
+			<td align="right" nowrap>
+				每页
+				<select onchange="set_per_page('ugcol_limit','/ugcol/set_per_page/name/ugcol_limit/num/'+this.options[this.options.selectedIndex].value);">
+					{/$option_str/}
+				</select>
+				<div id="ug_limit" style="display:none"></div>
+				条
+			  &nbsp; {/$pages/}</td>
+			</tr></table>
+
+			<table cellspacing="0" cellpadding="0" class="list_table">
+			<tr align="center" class="list_hr_bg">
+            {/if $current_col.sign == '0'/}
+		    <td width="140" class="list_hr_colum">内容编码</td>
+		    <td width="110" class="list_hr_colum">内容名称</td>
+		    <td width="150" class="list_hr_colum">所用模板</td>
+            <td width="100" class="list_hr_colum">采集状态</td>
+		    <td height="32" align="center" class="list_hr_colum">操作</td>
+		    {/else/}
+		    <td width="140" class="list_hr_colum">活动编码</td>
+		    <td width="200" class="list_hr_colum">活动名称</td>
+            <td width="100" class="list_hr_colum">活动状态</td>
+		    <td height="32" align="center" class="list_hr_colum">操作</td>
+		    {//if/}
+			</tr>
+			{/section name=i loop=$sub_depts /}
+			{/if $current_col.sign == '0'/}
+			<tr class="list_c">
+				<td><table cellpadding="0" cellspacing="0"><tr><td><input type="checkbox" name="del[]" value="{/$sub_depts[i].id/}"/></td><td>&nbsp;</td><td>{/$sub_depts[i].code/}</td></tr></table></td>
+				<td align="center">{/$sub_depts[i].name/}</td>
+				<td align="center">{/$sub_depts[i].tmpl_name/}</td>
+                <td align="center">{/$sub_depts[i].status/}</td>
+				<td nowrap>
+					<a href="###" onclick="window.location='/ugcol/show_upd_corp/ug_id/{/$sub_depts[i].id/}';">[编辑]</a>
+					<a href="###" onclick="window.parent.location='/models/list';">[模板管理]</a>
+					<a href="###" onclick="goto_user_list('{/$sub_depts[i].id/}');">[在线采集]</a>
+				</td>
+			</tr>
+			{/else/}
+			<tr class="list_c">
+				<td><table cellpadding="0" cellspacing="0"><tr><td><input type="checkbox" name="del[]" value="{/$sub_depts[i].id/}"/></td><td>&nbsp;</td><td>{/$sub_depts[i].code/}</td></tr></table></td>
+				<td align="center">{/$sub_depts[i].name/}</td>
+                <td align="center">{/$sub_depts[i].status/}</td>
+				<td nowrap>
+					<a href="###" onclick="window.location='/ugcol/show_upd_dept/ug_id/{/$sub_depts[i].id/}';">[编辑]</a>
+                    <a href="###" onclick="del_col('{/$sub_depts[i].name/}', '{/$sub_depts[i].id/}');" >[删除]</a>
+				</td>
+			</tr>
+			{//if/}
+			{/sectionelse/}
+            <tr class="list_c">
+                {/if $current_col.sign == '0'/}
+				<td colspan="4" align="center">目前尚无采集内容，请点击 [<a href="#" onclick="window.location='/ugcol/show_add_corp/';">增加采集内容</a>] 建立新的采集内容。 </td>
+				{/else/}
+				<td colspan="3" align="center">目前尚无采集活动，请点击 [<a href="#" onclick="window.location='/ugcol/show_add_dept/';">增加采集活动</a>] 建立新的采集活动。 </td>
+				{//if/}
+			</tr>
+
+			{//section/}
+			</table>
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="150" align="left" nowrap>
+				<span id="checkall" onclick="checkAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">全选</span> - <span id="clearall" onclick="uncheckAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">取消</span>
+				&nbsp; <input type="button" name="del_submit" value="删除" class="button" onclick="del()"/>
+			</td>
+			<td align="right" nowrap>
+				每页
+				<select onchange="set_per_page('ugcol_limit','/ugcol/set_per_page/name/ugcol_limit/num/'+this.options[this.options.selectedIndex].value);">
+					{/$option_str/}
+				</select>
+				<div id="ug_limit" style="display:none"></div>
+				条
+				&nbsp; {/$pages/}</td>
+			</tr></table>
+		</div>
+		</div>
+		</form>
+    </div>
+</div>

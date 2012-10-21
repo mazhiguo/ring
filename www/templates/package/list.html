@@ -1,0 +1,158 @@
+<script>
+function check_all(form, prefix, checkall) {
+	var checkall = checkall ? checkall : 'chkall';
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = form.elements[i];
+		if(e.name && e.name != checkall && (!prefix || (prefix && e.name.match(prefix)))) {
+			e.checked = form.elements[checkall].checked;
+		}
+	}
+	return false;
+}
+function checkAll(form) {
+for (var j = 0; j < form.elements.length; j++) {
+var box = eval(form.elements[j]); 
+
+if((box.checked == false)) 
+{
+	if((box.name=="checkall")||(box.name=="del[]"))
+	box.checked = true;
+}
+
+   }
+}
+
+function uncheckAll(form) {
+for (var j =0; j <form.elements.length; j++) {
+box = eval(form.elements[j]); 
+if (box.checked == true) 
+{
+if((box.name=="checkall")||(box.name=="del[]"))
+box.checked = false;
+}
+
+   }
+}
+function search()
+{
+	var content = $('content').value
+	if (content != '')
+	{
+		if (!check_account('content'))
+		{
+			alert('查询内容只能由汉字、字母、数字组成。');
+			$('content').focus();
+			return false;
+		}
+	}
+	window.location = "/package/search/content/"+content;
+	return true;
+}
+
+var objs = document.getElementsByTagName('input');
+var str = '';
+function get_values()
+{
+	for(var i=0; i<objs.length; i++) 
+	{
+	    o = objs[i];
+	    if(o.name=='del[]' && o.checked) 
+	    str += o.value+":";
+	}
+	return str;
+}
+function del()
+{
+	var user_ids = get_values();
+	if (user_ids == ''){
+		alert('请至少选择一个频道完成此操作。');
+		return ;	
+	}
+	if( !window.confirm('该操作是不可逆的，确定删除？') )
+	{
+		return false;
+	}
+	document.form1.action='/package/del/';
+	document.form1.submit();	
+}
+
+</script>
+<form name="form1" method="POST" style="margin:0px;padding:0px;>
+	<table class="content" cellspacing="0" cellpadding="0">
+	<tr><td>
+	<div class="content_inke">
+		<div class="list_top">
+			<div class="content_menu_title1">汇总数据管理 &nbsp;&nbsp; </div>
+			<div class="underling_content_menu_title1">
+				关键字搜索：
+				<input type="text" name="content" id="content" value="{/$content/}"  align="absmiddle"  />
+				<input type="button" value="查询" class="button" onclick="search()"  align="absmiddle" />
+			</div>
+		</div>
+
+		<div class="clear"></div>
+		<div class="list_content01">
+		<div id="main_content">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="150" align="left">
+				<input type="checkbox" name="checkall" onclick="check_all(this.form,'del','checkall')" /> 全选
+				&nbsp; <input type="button" name="del_submit" value="删除" class="button" onclick="del()" />
+			</td>
+			<td align="right">
+				每页
+				<select onchange="set_per_page('package_limit','/package/set_per_page/name/package_limit/num/'+this.options[this.options.selectedIndex].value);">
+				{/$option_str/}
+				</select>
+				<div id="package_limit" style="display:none"></div>
+				条
+				&nbsp; {/$pages/}
+			</td>
+			</tr></table>
+
+			<table align="center" cellpadding="5px" cellspacing="0" class="list_table">
+				<tr align="center" class="list_hr_bg">
+					<td width="180" class="list_hr_colum">汇总名称</td>
+                    <td width="130" class="list_hr_colum">汇总模板</td>
+					<td width="100" class="list_hr_colum">汇总数据条数</td>
+					<td width="80" class="list_hr_colum">创建人</td>
+                    <td width="120" class="list_hr_colum">创建时间</td>
+					<td class="list_hr_colum">操  作</td>
+				</tr>
+				{/section name=i loop=$pack_list/}
+				<tr> 
+					<td class="list_c"><table cellpadding="0" cellspacing="0"><tr><td><input type="checkbox" name="del[]" value="{/$pack_list[i].pack_id/}"/></td><td>&nbsp;</td><td>{/$pack_list[i].name/}</td></tr></table></td>
+					<td class="list_c">{/$pack_list[i].tmpl_name/}</td>
+					<td class="list_c">{/$pack_list[i].datacount/}</td>
+                    <td class="list_c">{/$pack_list[i].create_account/}</td>
+                    <td class="list_c">{/$pack_list[i].create_time/}</td>
+					<td class="list_c"><a href="/package/download?pack_id={/$pack_list[i].pack_id/}" target="_blank">[下载]</a></td>
+				</tr>
+				{/sectionelse/}
+				<tr class="list_c">
+					<td colspan="6" align="center">没有可用汇总数据 [<a href="#" onclick="window.location='/package/package'">数据汇总</a>] 创建。 </td>
+				</tr>
+				{//section/}
+			</table>
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="150" align="left">
+				<span id="checkall" onclick="checkAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">全选</span> - <span id="clearall" onclick="uncheckAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">取消</span>
+				&nbsp; <input type="button" name="del_submit" value="删除" class="button" onclick="del()" />
+			</td>
+			<td align="right">
+				每页
+				<select onchange="set_per_page('package_limit','/package/set_per_page/name/package_limit/num/'+this.options[this.options.selectedIndex].value);">
+				{/$option_str/}
+				</select>
+				<div id="package_limit" style="display:none"></div>
+				条
+				&nbsp; {/$pages/}
+			</td>
+			</tr></table>
+		</div>
+		</div>
+	</div>
+	</td></tr>
+	</table>
+
+</form>

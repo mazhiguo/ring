@@ -1,0 +1,109 @@
+<script>
+function check_name()
+{
+	//检查角色名
+	if (!check_account_return('name','check_role_is_rename',false,'')) {
+		return false;
+	}
+	//check_role_is_rename($('name').value)
+}
+
+//表单提交,add by zhangqitao@2008-03-26
+function upd_role()
+{
+	if (!is_empty('name'))
+	{
+		alert('角色名称不能为空。');
+		$('name').focus();
+		return false;
+	}
+	if ($('name').value != '')
+	{
+		if (!check_account('name'))
+		{
+			alert('角色名称只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+			$('name').focus();
+			return false;
+		}
+	}
+	get_mutiselect_values('select2', 'valuelist');
+	$('form1').action = "/role/upd/";
+	$('form1').submit();		
+}
+</script>
+<form id="form1" name="form1" method="post">
+	<input type="hidden" name="role_id" value="{/$role.role_id/}" />
+	<input type="hidden" id="valuelist" name="valuelist" value=""/>
+
+	<table>
+	<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">编辑角色</div>
+		</div>
+
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft tdtop">&nbsp;</td>
+				<td class="tdright tdtop"><span class="black">注：</span><span class="red-font">*</span><span class="black">为必填选项</span></td>
+			</tr>
+			<tr>
+				<td class="tdleft">角色名称：</td>
+				<td class="tdright">
+					<input type="text" name="name" id="name" size="40" value="{/$role.name/}" {/if $role.name == '默认角色'/}readonly="readonly"{//if/} class="intext" onblur="check_name()" />
+					&nbsp;<span class="red-font">*</span>
+					<span id="check_role_is_rename"></span>
+					<span id='loading' style="display:none">
+					&nbsp;<img src="/images/loading.gif" align="absmiddle"/>Loading
+					</span> 
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">角色权限：</td>
+				<td class="tdright">
+					<table border="0">
+					<tr>
+					<td width="200">
+					<select multiple id="select1" size="15" class="intext" style="width:200px;height:250px">
+					{/$option_str_unused/}
+					</select>
+					</td>
+					<td width="100" class="list_cb" align="center">
+					<br />
+					<br />
+					<input type="button" value="增加" onclick="move_selected('select1', 'select2')" class="button"/><br /><br />
+					<input type="button" value="删除" onclick="move_selected('select2', 'select1');" class="button"/><br /><br />
+					<input type="button" value="全部增加" onclick="move_all('select1', 'select2')" class="button"/><br /><br />
+					<input type="button" value="全部删除" onclick="move_all('select2', 'select1')" class="button"/><br />
+					</td>
+					<td width="200">
+					<select multiple id="select2" size="15" class="intext" style="width:200px;height:250px">
+						{/$option_str_used/}
+					</select>
+					</td>
+					<td>
+					</td>
+					</tr>
+					</table>				
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">备注：</td>
+				<td class="tdright">
+					<textarea name="remark" id='remark' wrap="soft" cols="37" rows="4" class="intext">{/$role.remark/}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom">
+					<input type="button" value="保存" class="button" onclick="upd_role();"/>
+					<input type="button" value="取消" class="button" onclick="window.history.back()"/>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td></tr>
+	</table>
+</form>
+

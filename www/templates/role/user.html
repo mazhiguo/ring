@@ -1,0 +1,61 @@
+<script>
+function set_roles_user() {
+	get_mutiselect_values('s2', 'rolelist');
+	var frm = $('rolefrm');
+	frm.action ='/role/set_roles_user';
+	frm.method = 'POST';
+	frm.submit();
+}
+</script>
+<form id="rolefrm" action="/" method="post" >
+<table>
+	<tr><td>
+		<div class="list">
+			<div class="content_menu_title1">为用户[{/$user.account/}]分配角色</div>
+		</div>
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="left" cellpadding="5" cellspacing="0" class="list_table">
+			<tr>
+		    <td width="250" class="list_hr_bg list_hr_colum" nowrap>待选角色列表</td>
+		    <td></td>
+		    <td width="250" class="list_hr_bg list_hr_colum" nowrap>已分配的角色列表</td>
+			</tr>
+			<tr>
+				<input type="hidden" name="user_id" value="{/$user.user_id/}">
+				<input type="hidden" name="rolelist" id="rolelist" value="">
+				<td class="list_cb" valign="top"> 
+					<select multiple id="s1" class="intext" style="width:250px;height:300px" >
+						{/section name=i loop=$unsetted/} 
+					  <option value="{/$unsetted[i].role_id/}">{/$unsetted[i].name/}</option>
+						{//section/}
+			    </select>
+				</td>
+				<td class="list_cb" align="center">
+					<input type="button" value="增加" onclick="move_selected('s1', 's2')" class="button"/><br /><br />
+					<input type="button" value="删除" onclick="move_selected('s2', 's1');" class="button"/><br /><br />
+					<input type="button" value="全部增加" onclick="move_all('s1', 's2')" class="button"/><br /><br />
+					<input type="button" value="全部删除" onclick="move_all('s2', 's1')" class="button"/><br /><br />
+				</td>
+				<td class="list_cb" valign="top">
+					<select multiple id="s2" size=15 class="intext" style="width:250px;height:300px" >   
+			      {/section name=i loop=$setted/}
+			     	<option value="{/$setted[i].role_id/}">{/$setted[i].name/}</option>
+			      {//section/}
+      		</select>
+				</td>
+			</tr>
+			</table>
+			<div class="clear"><br style="line-height:8px;" /></div>
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdbottom" align="center">
+			    <input type="button" class="button" value="确定" onclick="set_roles_user()">&nbsp;&nbsp; 
+			    <input type="button" class="button" value="取消" onclick="window.close();">
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td></tr>
+</table>
+</form>

@@ -1,0 +1,11 @@
+{/if $canbeusednum/}
+	已使用GID数量{/$usednum/}达到GID可用数量{/$canbeusednum/}，请升级扩容。
+{/else/}
+	{/$pages/}
+	<select onchange="$('gid').value=this.options[this.options.selectedIndex].value">
+		<option value="">请选择</option>
+	{/section name=i loop=$gid_list/}
+		<option value="{/$gid_list[i].gid/}">{/$gid_list[i].gid/}</option>
+	{//section/}
+	</select>
+{//if/}

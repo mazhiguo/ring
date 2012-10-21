@@ -1,0 +1,158 @@
+<script>
+
+function validata()
+{
+	if (!is_empty('name'))
+	{
+		alert('名称不能为空。');
+		$('name').focus();
+		return false;
+	}
+	if (!check_account_return('name','check_name_info','false'))
+	{
+		alert('名称只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+		$('name').focus();
+		return false;
+	}
+    
+    get_mutiselect_values('select2', 'valuelist');
+    get_mutiselect_values('select4', 'valuelist2');
+
+	return true;
+}
+</script>
+<form method="post" action="/ugcol/upd_corp/" onsubmit="return validata();">
+	<input type="hidden" name="ug_id" value="{/$corp.id/}" />
+    <input type="hidden" name="parent_id" value="{/$corp.parent_id/}" />
+    <input type="hidden" id="valuelist" name="valuelist" />
+    <input type="hidden" id="valuelist2" name="valuelist2" />
+
+    <table>
+        <tr>
+            <td>
+		<div class="list">
+            <div class="content_menu_title1">编辑采集内容</div>
+		</div>
+
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft">内容名称：</td>
+				<td class="tdright">
+					<input type="text" name="name" id="name"  size="30" maxlength="20" value="{/$corp.name/}" class="intext" onblur="check_account_return('name','check_name_info','false','不能为空');" />
+					&nbsp;<span class="red-font">*</span>
+					<span id="check_name_info">填写内容名称</span>
+				</td>
+			</tr>
+			<tr>
+			<tr>
+				<td class="tdleft">内容编码：</td>
+				<td class="tdright">
+					<input type="text" name="code" size="30" maxlength="20" value="{/$corp.code/}" class="intext">
+					&nbsp;内容编码填写需保证其唯一性，如为空系统将自动生成
+				</td>
+			</tr>
+            <tr>
+				<td class="tdleft">选择模板：</td>
+				<td class="tdright">
+                    <select name="tmpl_id" id="tmpl_id" class="intext">
+                    {/$option_str_tmpl/}
+                    </select>
+                    &nbsp;<span class="red-font">*</span> 
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">选择采集人：</td>
+				<td class="tdright">
+					<table border="0">
+					<tr>
+					<td width="200">
+					<select multiple id="select1" size="15" class="intext" style="width:200px;height:200px">
+					{/$option_str_unusedw/}
+					</select>
+					</td>
+					<td width="100" class="list_cb" align="center">
+					<br />
+					<br />
+					<input type="button" value="增加" onclick="move_selected('select1', 'select2')" class="button"/><br /><br />
+					<input type="button" value="删除" onclick="move_selected('select2', 'select1');" class="button"/><br /><br />
+					<input type="button" value="全部增加" onclick="move_all('select1', 'select2')" class="button"/><br /><br />
+					<input type="button" value="全部删除" onclick="move_all('select2', 'select1')" class="button"/><br />
+					</td>
+					<td width="200">
+					<select multiple id="select2" size="15" class="intext" style="width:200px;height:200px">
+                    {/$option_str_usedw/}
+					</select>
+					</td>
+					<td>
+					</td>
+					</tr>
+					</table>				
+				</td>
+			</tr>
+            <tr>
+				<td class="tdleft">选择分享人：</td>
+				<td class="tdright">
+					<table border="0">
+					<tr>
+					<td width="200">
+					<select multiple id="select3" size="15" class="intext" style="width:200px;height:200px">
+					{/$option_str_unusedr/}
+					</select>
+					</td>
+					<td width="100" class="list_cb" align="center">
+					<br />
+					<br />
+					<input type="button" value="增加" onclick="move_selected('select3', 'select4')" class="button"/><br /><br />
+					<input type="button" value="删除" onclick="move_selected('select4', 'select3');" class="button"/><br /><br />
+					<input type="button" value="全部增加" onclick="move_all('select3', 'select4')" class="button"/><br /><br />
+					<input type="button" value="全部删除" onclick="move_all('select4', 'select3')" class="button"/><br />
+					</td>
+					<td width="200">
+					<select multiple id="select4" size="15" class="intext" style="width:200px;height:200px">
+                    {/$option_str_usedr/}
+					</select>
+					</td>
+					<td>
+					</td>
+					</tr>
+					</table>				
+				</td>
+			</tr>
+            <tr>
+				<td class="tdleft">备注：</td>
+				<td class="tdright">
+					<textarea name="remark" id='remark' wrap="soft" cols="37" rows="4" class="intext">{/$corp.remark/}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">创建人：</td>
+				<td class="tdright">
+					{/$corp.create_account/}
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">创建日期：</td>
+				<td class="tdright">
+					{/$corp.create_time/}
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom">
+					<input type="submit" name="upd_ug_submit" value="确定" class="button" />
+				 	<input type="button" class="button"  value="取消" onclick="window.history.back()" />
+				</td>
+			</tr>
+			</table>
+		</div>
+    </td>
+    </tr>
+	</table>
+
+	<script>
+		try {	$('name').focus(); } catch(e) {}
+	</script>
+</form>
+

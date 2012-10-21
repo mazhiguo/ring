@@ -1,0 +1,39 @@
+<script>
+//表单提交
+function upload()
+{
+	if (!is_empty('mfile'))
+	{
+		alert('请选择模板文件');
+		$('#mfile').focus();
+		return false;
+	}
+	$('#form').action = "/models/upload";
+	$('#form').submit();
+}
+</script>
+
+<form id="form" name="form" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="cid" value="{/$cid/}" />
+	<div class="list">
+		<div class="content_menu_title1">上传模板文件</div>
+	</div>
+	<div class="clear"></div>
+	<div id="main_content">
+		<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+		<tr>
+			<td class="tdleft tdtop">&nbsp;</td>
+			<td class="tdright tdtop"><span class="black">注：</span><span class="red-font">*</span><span class="black">为必填选项</span></td>
+		</tr>
+		<tr>
+			<td class="tdleft">请选择模板文件：</td>
+			<td class="tdright">
+				<input type="file" name="mfile" id='mfile' size="40" value="" class="intext" />
+			</td>
+			<td>
+				<input type="button" value="上传" class="button" onclick="upload();"/>
+			</td>
+		</tr>
+		</table>
+	</div>
+</form>

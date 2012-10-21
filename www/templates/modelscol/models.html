@@ -1,0 +1,74 @@
+<style>
+	.list_table tr td.caption {font-size:14px; font-weight:bold; text-align:center;}
+	.guide_btn {float:left;  font-family:verdana a; width:120px; height:60px; background:url(/images/home_guide_btn.gif) no-repeat center; text-align:center; font-weight:bold; margin:5px 0px 0px 15px; cursor:pointer; padding-top:25px;}
+	.guide_arrow {float:left;  width:90px; height:80px; background:url(/images/home_guide_arrow.bmp) no-repeat center; margin:-5px 5px 0px 15px; padding-top:25px;}
+	#guide_btn_tip {text-align:center; color:#787878; background:#fff;}
+</style>
+<script>
+var defaulttipinfo = '如果您首次使用，请按照向导顺序完成系统的初始化工作。';
+function showtipinfo(id, info) {
+	if ($(id)){
+		$(id).innerHTML = info;
+	}
+}
+</script>
+	<table>
+	<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">{/$col.name/}</div>
+		</div>
+		<div class="list_content01" style="border:0px;">
+		<div id="main_content">
+            <table align="center" cellpadding="5px" cellspacing="0" class="list_table">
+				<tr class="list_hr_bg"><td colspan="2">
+				<div class="content_menu_title2">统计信息</div>
+				</td>
+				</tr>
+
+				<tr>
+					<td class="list_c caption">在线数据采集</td>
+					<td class="list_c">参与采集活动并在线填写数据表格。
+						<br />&nbsp;当前系统有{/$count/}个采集内容, 其中{/$num/}个内容未完成采集.
+					</td>
+				</tr>
+            </table>
+
+			<table cellspacing="0" cellpadding="0" class="list_table">
+			<tr align="center" class="list_hr_bg">
+		    <td width="140" class="list_hr_colum">内容编码</td>
+		    <td width="110" class="list_hr_colum">内容名称</td>
+		    <td width="150" class="list_hr_colum">所用模板</td>
+            <td width="100" class="list_hr_colum">采集进度</td>
+		    <td height="32" align="center" class="list_hr_colum">操作</td>
+			</tr>
+			{/section name=i loop=$sub_depts /}
+			<tr class="list_c">
+				<td><table cellpadding="0" cellspacing="0"><tr><td><input type="checkbox" name="del[]" value="{/$sub_depts[i].id/}"/></td><td>&nbsp;</td><td>{/$sub_depts[i].code/}</td></tr></table></td>
+				<td align="center">{/$sub_depts[i].name/}</td>
+				<td align="center">{/$sub_depts[i].tmpl_name/}</td>
+                <td align="center">{/$sub_depts[i].status/}</td>
+				<td nowrap>
+					<a href="###" onclick="window.location='/col/show_upd_corp/ug_id/{/$sub_depts[i].id/}';">[编辑]</a>
+					<a href="###" onclick="window.parent.location='/models/list';">[模板管理]</a>
+					<a href="###" onclick="goto_user_list('{/$sub_depts[i].id/}');">[在线采集]</a>
+				</td>
+			</tr>
+			{/sectionelse/}
+            <tr class="list_c">
+				<td colspan="4" align="center">目前尚无采集内容，请点击 [<a href="#" onclick="window.location='/col/show_add_corp/parent_id/{/$col.id/}';">增加采集内容</a>] 建立新的采集内容。 </td>
+			</tr>
+			
+			{//section/}
+			</table>
+		</div>
+		</div>
+		<div class="clear"><br style="line-height:8px; height:8px;"/></div>
+		<div class="list_content01" style="border:0px;">
+		<div id="main_content">
+
+		</div>
+		</div>
+	</td></tr>
+	</table>
+
+

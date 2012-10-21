@@ -1,0 +1,88 @@
+<script>
+function validata()
+{
+	if (!is_empty('name'))
+	{
+		alert('部门名称不能为空。');
+		$('name').focus();
+		return false;
+	}
+	if (!check_account_return('name','check_name_info','false'))
+	{
+		alert('部门名称只能由汉字、字母、数字、上划线、下划线及小括号组成。');
+		$('name').focus();
+		return false;
+	}
+
+	if (is_empty('email'))
+	{
+		$('check_email_info').innerHTML = '';
+		if(!check_email('email'))
+		{
+			$('check_email_info').innerHTML = "<img src='/images/check_error.gif'> 格式不正确";
+			$('email').focus();
+			return false;
+		}
+	}
+	return true;
+}
+</script>
+<form method="post" action="/col/upd_ug/" onsubmit="return validata();">
+	<input type="hidden" id="ug_id" name="ug_id" value="{/$dept.id/}" />
+	<input type="hidden" id="parent_id" name="parent_id" value="{/$dept.parent_id/}" />
+    
+    <table>
+	<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">编辑活动信息</div>
+				<div id="loading" style="float:right;display:none;color:#FFB200;font-weight:800;">数据处理中...</div>
+		</div>
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft">活动名称：</td>
+				<td class="tdright">
+					<input type="text" name="name" id="name" size="30" maxlength="20" value="{/$dept.name/}" class="intext" onblur="check_account_return('name','check_name_info','false','不能为空');" />
+					&nbsp;<span class="red-font">*</span>
+					<span id="check_name_info">填写活动名称</span>
+					</td>
+			</tr>
+			<tr>
+				<td class="tdleft">活动编码：</td>
+				<td class="tdright">
+					<input type="text" name="code" id="code" size="30" maxlength="20" class="intext" value="{/$dept.code/}"/>
+					&nbsp;活动编码填写需保证其唯一性，如为空系统将自动生成
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">备  注：</td>
+				<td class="tdright">
+					<textarea name="remark" wrap="soft" cols="30" rows="4" class="intext">{/$dept.remark/}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">创建人：</td>
+				<td class="tdright">
+					{/$dept.create_account/}
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">创建日期：</td>
+				<td class="tdright">
+					{/$dept.create_time/}
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom">
+					<input type="submit" value="确定" class="button" />
+				 	<input type="button" value="取消" class="button" onclick="window.location='/col/ug_dept_list';" />
+				</td>
+			</tr>
+			</table>
+		</div>
+
+	</td></tr>
+	</table>
+</form>

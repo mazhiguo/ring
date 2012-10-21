@@ -1,0 +1,111 @@
+
+<script>
+
+// 是否选择子部门，checkbox检查
+function chkbranch()
+{
+	var chkbox = document.getElementById('chkbox');
+	var branch = document.getElementById('branch');
+	if (chkbox.checked) branch.value = '1';
+	else branch.value = '0';
+    set_data_package(tree.getSelectedItemId());
+}
+
+function onSelectChg()
+{
+    clear_options(sid2);
+    set_data_package(tree.getSelectedItemId());
+}
+function doPackage()
+{
+	if(!is_empty('name'))
+	{
+		alert('请输入汇总名称');
+		return;
+	}
+	get_mutiselect_values('select2', 'valuelist');
+    if(!is_empty('valuelist'))
+	{
+		alert('请选择汇总数据');
+		return;
+	}
+	$('form1').action="/package/package/";
+	$('form1').method="POST";
+	$('form1').submit();
+}
+
+</script>
+
+<form id="form1" name="form1">
+<input type="hidden" id="valuelist" name="valuelist"  />
+<table>
+<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">数据汇总</div>
+		</div>
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft" wrap>汇总名称 (<span class="red-font">*</span>)：</td>
+				<td class="tdright" >
+					<input type="text" name="name" id ="name" maxlength="30" value="" class="intext"  />
+				</td>
+			</tr>
+            <tr>
+				<td class="tdleft">选择模板 (<span class="red-font">*</span>)：</td>
+				<td class="tdright">
+                    <div>{/$option_str/}</div> 
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft" wrap>汇总选择 (<span class="red-font">*</span>)：</td>
+				<td class="tdright">
+					
+					<div id="sluserdiv" style="float:left;">
+					<table align="left" cellpadding="5" cellspacing="0" class="list_table">
+					<tr>
+				    <td class="list_hr_bg list_hr_colum" nowrap>选择采集活动和内容</td>
+				    <td width="10" class="list_hr_bg list_hr_colum" nowrap >&nbsp;</td>
+				    <td width="180" class="list_hr_bg list_hr_colum" nowrap>待选数据列表</td>
+				    <td width="80" class="list_hr_bg list_hr_colum" nowrap ></td>
+				    <td width="180" class="list_hr_bg list_hr_colum" nowrap>已选数据列表</td>
+					</tr>
+					<tr>
+						<td class="list_cb" align="left" valign="top">
+						<div id="treebox" style="overflow:auto; background-color:#ffffff; border:solid 1px thin; border-color:#DCDCDC; width:250px; height:250px; padding-left:0px; margin-top:5px;" class="innerTree"></div>
+                        <input type="hidden" id="branch" value="" />
+						<input type="checkbox" id="chkbox" onclick="chkbranch();"/>下属活动所有数据显示到待选列表
+						</td>
+				    <td class="list_cb" nowrap>&nbsp;</td>
+						<td class="list_cb" valign="top">
+							<select multiple id="select1" size="15" class="intext" style="width:180px;height:270px">
+							</select>
+						</td>
+						<td class="list_cb" align="center">
+							<input type="button" value="增加" onclick="move_selected('select1', 'select2')" class="button"/><br /><br />
+							<input type="button" value="删除" onclick="move_selected('select2', 'select1');" class="button"/><br /><br />
+							<input type="button" value="全部增加" onclick="move_all('select1', 'select2')" class="button"/><br /><br />
+							<input type="button" value="全部删除" onclick="move_all('select2', 'select1')" class="button"/><br /><br />
+						</td>
+						<td class="list_cb" valign="top">
+							<select multiple id="select2" size="15" class="intext" style="width:180px;height:270px">
+							</select>
+						</td>
+					</tr>
+					</table>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom"><input type="button"  value="汇总数据" class="button" onclick="doPackage();"/></td>
+			</tr>
+			</table>
+		</div>
+</td></tr>
+	</table>
+</form>
+<script>
+load_package_tree();
+</script>

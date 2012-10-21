@@ -1,0 +1,98 @@
+<script>
+function validata()
+{
+	//check password
+	if (!is_empty('password'))
+	{
+		alert('密码不能为空。');
+		$('password').focus();
+		return false;
+	}
+	if ($('password').value.length<6 || $('password').value.length>12)
+	{
+		alert('密码长度必须在6-12位之间，请重新输入。');
+		$('password').focus();
+		return false;
+	}
+	if (!check_pwd('password'))
+	{
+		alert('密码只能由6-12位大小写英文字母和数字组成，请重新输入。');
+		$('password').focus();
+		return false;
+	}
+	if (!is_empty('repassword'))
+	{
+		alert('重复密码不能为空。');
+		$('repassword').focus();
+		return false;
+	}
+	if ($('repassword').value.length<6 || $('repassword').value.length>12)
+	{
+		alert('重复密码长度必须在6-12位之间，请重新输入。');
+		$('repassword').focus();
+		return false;
+	}
+	if (!check_pwd('repassword'))
+	{
+		alert('重复密码只能由大小写英文字母和数字组成，请重新输入。');
+		$('repassword').focus();
+		return false;
+	}
+	if ($('password').value != $('repassword').value)
+	{
+		alert('两次密码输入不一致，请重新输入。');
+		$('repassword').focus();
+		return false;
+	}
+	return true;
+}
+</script>
+<form method="post" onsubmit="return validata()">
+	<input type="hidden" name="admin_id" value="{/$admin.user_id/}"/>
+	<input type="hidden" name="account" value="{/$admin.account/}"/>
+	
+	<table>
+	<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">修改管理帐号密码</div>
+		</div>
+
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+			<tr>
+				<td class="tdleft tdtop">管理员帐号：</td>
+				<td class="tdright tdtop">{/$admin.account/}</td>
+			</tr>
+			<tr>
+				<td class="tdleft">新密码：</td>
+				<td class="tdright"><input type="password" name="password" id="password" class="intext" onblur="check_pwd_return('password','check_pwd_info','请输入6-12位英文字母和数字组合');" />
+					&nbsp;<span class="red-font">*</span> 
+					<span id="check_pwd_info">请输入6-12位英文字母和数字组合</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft">重复新密码：</td>
+				<td class="tdright"><input type="password" name="repassword" id="repassword" class="intext" onblur="check_repwd_return('password','repassword','check_repwd_info','请重复输入密码，6-12位英文字母和数字组合');" />
+					&nbsp;<span class="red-font">*</span> 
+					<span id="check_repwd_info">请重复输入密码，6-12位英文字母和数字组合</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdleft tdbottom">&nbsp;</td>
+				<td class="tdright tdbottom">
+					<input type="submit" value="确定" class="button" onclick="" />
+					<input type="button" value="取消" class="button" onclick="window.close()" />
+				</td>
+			</tr>
+			</table>
+		</div>
+	
+	</td></tr>
+	</table>
+	
+	<script>	
+		try {	$('password').focus(); } catch(e) {}
+	</script>	
+
+</form>

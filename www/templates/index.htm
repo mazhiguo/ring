@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="utf-8">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Language" content="utf-8" />
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script src="/js/common.js"></script>
+    <title>数据采集系统</title>
+    <style>
+    body{margin:0;padding:0;font-size:12px}
+    </style>
+</head>
+
+<body bgcolor="#F6F6F8" >
+    <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%" height="100%" >
+        <tr>
+        	<td colspan="3" height="10" id="nav_td">
+        	<div style="border-bottom:1px solid #000">
+        	<iframe name="nav" id="nav" frameborder="0" width="100%" height="33" scrolling="no" src="/index/title"> </iframe>
+        	</div>		
+        	</td>
+        </tr>
+        <tr>
+        	<td id="menu_td" width="150"  valign="top" bgcolor="#F6F6F8">
+        	<iframe src="/index/menu" name="menu" id="menu" scrolling="auto" frameborder="0" width="100%" onload="this.height=window.screen.availHeight-78-33;"> </iframe>
+        	<!--<iframe src="/index/menu" name="menu" id="menu" scrolling="auto" frameborder="0" width="100%" onload="this.height=this.contentWindow.document.body.scrollHeight+15;"> </iframe>-->
+        	</td>
+        	<td align="left" valign="top" style="background:url('/images/left/colum_bg.gif'); background-repeat:repeat-y;width:7px"><img id="colum_img" src="images/to_left.gif" style="margin-top:200px; cursor:pointer;" onclick="colum()"/>
+        	</td>
+        	<td valign="top" bgcolor="#F6F6F8">
+        	<iframe src="/index/guide" name="content" id="content" scrolling="auto" frameborder="0" width="100%" onload="this.height=window.screen.availHeight-78-33;"> </iframe>
+        	<!--<iframe src="/index/guide" name="content" id="content" scrolling="auto" frameborder="0" width="100%" onload="this.height=this.contentWindow.document.body.scrollHeight+15;" > </iframe>-->
+        	</td>
+        </tr>
+        <tr>
+        	<td align="center" colspan="3">
+        		Copyright &copy; 多相复杂系统国家重点实验室 
+        	</td>
+        </tr>
+    </table>
+</body>
+
+<script>
+function colum()
+{
+	var view = document.getElementById('menu_td');
+	var img = document.getElementById('colum_img'); 
+	if(view.style.display == 'none') 
+	{
+		view.style.display = '';
+		img.src = "images/to_left.gif";
+	} 
+	else 
+	{
+		view.style.display  = 'none'
+		img.src = "images/to_right.gif";
+	}
+}
+</script>
+</html>

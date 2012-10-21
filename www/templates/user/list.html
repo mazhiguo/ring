@@ -1,0 +1,273 @@
+<script>
+function check_all(form, prefix, checkall) {
+	var checkall = checkall ? checkall : 'chkall';
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = eval(form.elements[i]);
+		if(e.name && e.name != checkall && (!prefix || (prefix && e.name.match(prefix)))) {
+			e.checked = form.elements[checkall].checked;
+		}
+	}
+}
+
+function checkAll(form) {
+	for (var j = 0; j < form.elements.length; j++) {
+	var box = eval(form.elements[j]); 
+	if((box.checked == false))  {
+		if((box.name=="checkall")||(box.name=="del[]"))
+		box.checked = true;
+	}
+   }
+}
+
+function uncheckAll(form) {
+	for (var j =0; j <form.elements.length; j++) {
+		box = eval(form.elements[j]); 
+		if (box.checked == true)  {
+			if((box.name=="checkall")||(box.name=="del[]"))
+			box.checked = false;
+		}
+   }
+}
+var objs = document.getElementsByTagName('input');
+var str = '';
+function get_values()
+{
+	for(var i=0; i<objs.length; i++) 
+	{
+	    o = objs[i];
+	    if(o.name=='del[]' && o.checked) 
+	    str += o.value+":";
+	}
+	return str;
+}
+
+function do_del_user()
+{
+	var user_ids = get_values();
+	if (user_ids == '')
+	{
+		alert('请至少选择一名用户完成该操作。');
+		return;
+	}
+	if (!window.confirm('该操作将删除所选用户,确定删除？'))
+	{
+		return false;
+	}
+	document.form1.action='/user/del/';
+	document.form1.submit();		
+}
+
+function do_set_batch_gid()
+{
+	var user_ids = get_values();
+	if (user_ids == '')
+	{
+		alert('请至少选择一名用户完成该操作。');
+		str = '';
+		return false;
+	}
+	if(!window.confirm('该操作将按用户显示排列先后顺序进行随机分配GID。\r\n 如果GID不够，将只有排列靠前的用户能分配到GID。\r\n确定继续？'))
+	{
+		return false;
+	}
+	params = 'user_ids='+user_ids;
+	Ajax.Updater({id:'set_batch_gid', url:'/user/set_batch_gid/', params:params, evalscripts:'true'});	
+}
+
+function do_set_batch_dept()
+{
+	if ($('showdeptsname').value == '')
+	{
+		alert('请选择用户需要分配的目标部门。');
+		return ;
+	}
+	var user_ids = get_values();
+	if (user_ids == '')
+	{
+		alert('请至少选择一名用户完成该操作。');
+		return ;
+	}
+	var depts = $('treechecked').value;
+	params = 'user_ids='+user_ids+'&dept_ids='+depts;
+	Ajax.Updater({id:'set_batch_dept', url:'/user/set_batch_dept/', params:params, evalscripts:'true'});	
+/*
+	var user_ids = get_values();
+	if (user_ids == '')
+	{
+		alert('请至少选择一名用户完成该操作。');
+		str = '';
+		return false;
+	}
+	if ($('set_dept').value == '0')
+	{
+		str = '';
+		alert('请选择用户需要分配的目标部门。');
+		return false;
+	}
+	if(!window.confirm('所有选中用户将分配到同一个指定的部门中。确定继续？'))
+	{
+		return false;
+	}
+	params = 'user_ids='+user_ids+'&dept_id='+$('set_dept').value;
+	Ajax.Updater({id:'set_batch_dept', url:'/user/set_batch_dept/', params:params, evalscripts:'true'});	
+*/
+}
+
+function set_sms_to_users()
+{
+	var user_ids = get_values();
+	if (user_ids == '')
+	{
+		alert('请至少选择一名用户完成该操作。');
+		str = '';
+		return false;
+	}
+	document.form1.action = '/sms/show_users_sms/';
+	document.form1.submit();
+}
+
+function search_user()
+{
+	scontent = $('search_content').value;
+	if ($('search_content').value != '')
+	{
+		if (!check_account('search_content'))
+		{
+			alert('查询内容只能由汉字、字母、数字组成。');
+			$('search_content').focus();
+			return false;
+		}
+	}else
+    {
+        alert('请输入搜索内容！');
+		$('search_content').focus();
+		return false;
+    }
+	window.location='/user/search/content/'+scontent+'/';
+}
+
+
+function get_offspring_depts_users()
+{
+	var url = '/user/list/'
+	if ($('offspring').checked != true)
+		window.location = url;
+	else
+		window.location = url+'offspring/y/'
+}
+</script>
+<div class="content">
+	<div class="content_inke">
+		<div class="list_top">
+			{/if $is_search/}
+			<div class="content_menu_title">单位用户查询结果 &nbsp;&nbsp; 
+			<input type="button" value="取消查询" class="button" onclick="window.location = '/user/list'"/>
+			</div>
+			{/else/}
+				{/if $cur_ug_name!=''/}
+				<div class="content_menu_title">·{/$cur_ug_name/}·</div>
+				{//if/}
+				<div class="content_menu_title1">部门人员管理</div>
+			{//if/}
+			<div class="underling_content_menu_title1">
+				单位内用户关键字搜索：
+				<input type="text" size="8" name="search_content" id="search_content" value="{/$search_content/}" align="absmiddle" />
+				<img src="/images/main/seeabout.jpg" align="absmiddle" onclick="search_user();"/>
+			</div>
+		</div>
+		<form name="form1" method="POST" >
+		<div class="list_content01_pohto" id="switch_div">人员列表</div>
+		<div class="list_content01_pohto_bg">
+        {/if $active_ug_id != '0'/}
+            <input type="button" value="新增用户" class="button_w" style="cursor:pointer"  onclick="window.location='/user/show_add';" />
+        {//if/}
+		</div>
+		<div id="switch_loading" class="list_content01_pohto_bg" style="display:none"><img src="/images/loading.gif" />Loading...</div>
+		<div style="float:right; margin:16px 10px auto auto;">
+		<span id='loading' style="display:none">
+		&nbsp;<img src="/images/loading.gif" align="absmiddle"/>Loading
+		</span>
+		<span id="set_batch_dept"></span>
+		{/if !$is_search/}
+			{/if $is_hd != '0'/}
+				<input type="checkbox" name="offspring" id="offspring" {/$checked/} onclick="get_offspring_depts_users()" />显示下属部门人员
+			{//if/}
+			&nbsp;&nbsp; 
+			筛选:&nbsp;<select name="select" onchange="window.location='/user/list/view_type/'+
+										this.options[this.options.selectedIndex].value">
+				<option value="1" {/$selected.s1/}>全部类型用户</option>
+				<option value="2" {/$selected.s2/}>活动用户</option>
+				<option value="3" {/$selected.s3/}>不活动用户</option>
+				{/if $active_ug_id == '0'/}
+				<option value="4" {/$selected.s4/}>未分配部门用户</option>
+				{//if/}
+			</select>
+		{//if/}
+		</div>
+		<div class="clear"></div>
+		<div class="list_content01" id="lmain">
+		<div id="main_content">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="140" align="left" nowrap>
+				<input type="checkbox" name="checkall" id="checkall1" onclick="check_all(this.form,'del','checkall')" /> 全选
+				&nbsp; <input type="button" src="/images/del.gif" name="del_submit" class="button" value="删除" onclick="do_del_user()"/>
+			</td>
+			<td	align="right" nowrap>
+				每页
+				<select onchange="set_per_page('user_limit','/ug/set_per_page/name/user_limit/num/'+this.options[this.options.selectedIndex].value);" align="absmiddle">
+					{/$option_str_limit/}
+				</select><div id="user_limit" style="display:none"></div>
+				条
+			 &nbsp; {/$pages/}</td>
+		  </tr></table>
+		
+		  <table border="0" cellspacing="0" cellpadding="0" class="list_table">
+		  <tr class="list_hr_bg">
+		    <td height="32px" width="120" align="center" class="list_hr_colum">用户帐号</td>
+		    <td width="120" align="center" class="list_hr_colum">姓名</td>
+		    <td width="80" align="center" class="list_hr_colum">状态</td>
+		    <td align="center" class="list_hr_colum">操作</td>
+		  </tr>
+			{/section name=i loop=$user_list/}
+		  <tr class="list_c" >
+				<td><table cellpadding="0" cellspacing="0"><tr><td><input type="checkbox" name="del[]" value="{/$user_list[i].user_id/}" /></td><td>&nbsp;</td><td>{/$user_list[i].account/}</td></tr></table></td>
+				<td align="center">{/$user_list[i].name/}</td>
+				<td nowrap align="center">
+				{/if $user_list[i].state == '1'/}
+				活动
+				{/elseif $user_list[i].state == '0'/}
+				不活动	
+				{//if/}
+				</td>
+				<td align="left" nowrap style="padding-left:1em;">
+					<a href="#" onclick="window.location='/user/show_upd/user_id/{/$user_list[i].user_id/}'">[编辑]</a>
+					<a href="#" onclick="window.location='/user/reset_pwd/user_id/{/$user_list[i].user_id/}'">[重置密码]</a>
+					<a href="#" onclick="show_roles_user('{/$user_list[i].user_id/}')">[分配角色]</a>
+				</td>
+			</tr>
+			{/sectionelse/}
+		  <tr class="list_c">
+				<td colspan="5" align="center">没有可列举的用户，请点击 [<a href="#" onclick="window.location='/user/show_add';">新增用户</a>] 添加。 </td>
+			</tr>
+			{//section/}
+		  </table>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+			<td	width="450" align="left" nowrap>
+				<span id="checkall" onclick="checkAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">全选</span> - <span id="clearall" onclick="uncheckAll(form1)" style="cursor:pointer;text-decoration:underline;color:#00448a">取消</span>
+				&nbsp; <input type="button" src="/images/del.gif" name="del_submit" class="button" value="删除" onclick="do_del_user()"/>
+			</td>
+			<td	align="right" nowrap>
+				每页
+				<select onchange="set_per_page('user_limit','/ug/set_per_page/name/user_limit/num/'+this.options[this.options.selectedIndex].value);">
+					{/$option_str_limit/}
+				</select><div id="user_limit" style="display:none"></div>
+				条
+				&nbsp; <!-- {/$pages/} -->
+			</td>
+			</tr></table>
+		</div>
+		</form>
+		</div>
+		<span style="padding-left:1em;color:blue">{/$debug_time/}</span>
+</div>
+<div id="outer"></div>

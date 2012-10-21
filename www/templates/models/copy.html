@@ -1,0 +1,59 @@
+<script>
+//表单提交
+function add()
+{
+	if (!is_empty('name'))
+	{
+		alert('模板标示：不能为空。');
+		$('#name').focus();
+		return false;
+	}
+	if (!is_empty('desc'))
+	{
+		alert('模板名称不能为空。');
+		$('#desc').focus();
+		return false;
+	}
+	
+	$('#form').action = "/models/add/";
+	$('#form').submit();
+}
+</script>
+
+<form id="form" name="form" method="post">
+	<input type="hidden" name="id" value="{/$model.id/}"/>
+	
+	<div class="list">
+		<div class="content_menu_title1">复制{/$model.desc/}模板</div>
+	</div>
+	<div class="clear"></div>
+	<div id="main_content">
+		<table align="center" cellpadding="5px" cellspacing="0" class="form_table">
+		<tr>
+			<td class="tdleft tdtop">&nbsp;</td>
+			<td class="tdright tdtop"><span class="black">注：</span><span class="red-font">*</span><span class="black">为必填选项</span></td>
+		</tr>
+		<tr>
+			<td class="tdleft">新模板标示：</td>
+			<td class="tdright">
+				<input type="text" name="name" id='name' size="40" maxlength="20" value="" class="intext" />
+				&nbsp;<span class="red-font">*</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="tdleft">新模板名称：</td>
+			<td class="tdright">
+				<input type="text" name="desc" id='desc' size="40" maxlength="20" value="" class="intext" />
+				&nbsp;<span class="red-font">*</span>
+			</td>
+		</tr>		
+		<tr>
+			<td class="tdleft tdbottom">&nbsp;</td>
+			<td class="tdright tdbottom">
+				<input type="button" value="保存" class="button" onclick="add();"/>
+				<input type="button" value="取消" class="button" onclick="window.history.back(-1)"/>
+			</td>
+		</tr>
+		</table>
+	</div>
+</form>

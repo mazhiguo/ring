@@ -1,0 +1,27 @@
+.collapsed	{display: none}
+.help1 {  font-family: "宋体"; font-size: 12px; font-weight: bold}
+.T {  font-family: "宋体"; font-size: 12px; margin-top:.5em; margin-bottom:0em}
+body		{bgcolor: #ffffff; font-family: 宋体, Tahoma, Arial, Helvetica, sans-serif; font-size: 12px; }a{TEXT-DECORATION:underline}a:hover{TEXT-DECORATION:underline}
+
+/* LISTS */ 
+	ol		{font-size: 100%; margin-top: .5em; margin-bottom: 0em; margin-left: 4em;}
+	ul		{font-size: 100%; margin-top: .5em; margin-bottom: 0em;}
+	ol ul		{list-style: disc; margin-top: .5em;}
+	ul ul		{list-style: disc; margin-top: .5em;}
+	li		{margin-bottom: .7em; margin-left: -2em;}
+/* PARAGRAPH */
+	p		{margin-top: .9em; margin-bottom: .9em; }
+
+/* Heading styles---------------------------------------------------------------------------- */ 
+
+	h1		{font-size: 125%; margin-top: .4em; margin-bottom: .5em;}
+	h2		{font-size: 110%; margin-top: 2em; margin-bottom: .5em;}
+	h3		{font-size: 100%; margin-top: 1.2em; margin-bottom: .5em; font-weight: bold;}
+	h4		{font-size: 100%; margin-top: 1.2em; font-weight: bold;}
+	h5		{font-size: 100%; margin-top: 1.2em; font-weight: bold;}
+
+
+
+.a {  border-style: none; border-top-width: thin; border-right-width: thin; border-bottom-width: thin; border-left-width: thin}
+.unnamed1 {  font-size: 12px}
+.aaa {  font-size: 12px}

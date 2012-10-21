@@ -1,0 +1,74 @@
+<script>
+function set_depts() 
+{
+	var checked = tree.getAllChecked();
+	opener.$('treechecked').value = checked;
+	var checked_arr = checked.split(',');
+	var s = '';
+	for (var i=0; i<checked_arr.length; i++)
+	{
+		if (checked_arr[i] == '{/$current_corp_id/}') continue;
+		s += tree.getUserData(checked_arr[i], 'ug_name')+"\r\n";
+	}
+	if (s == "undefined\r\n") s = "";
+	opener.$('showdeptsname').value = s;
+	window.close();
+}
+</script>
+<form name="form1" id="form1">
+	<table>
+	<tr><td>
+		<div class="list">
+			<div class="content_menu_title1">用户部门分配
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div id="main_content">
+			<table align="left" cellpadding="5" cellspacing="0" class="list_table">
+			<tr>
+		    <td class="list_hr_bg list_hr_colum" nowrap>选择用户所属部门</td>
+			</tr>
+			<tr>
+				<td class="list_cb" align="left" valign="top">
+					<span  title="选中当前选中节点及已请求子节点。" onclick="check_branch(tree);" class="txt" 
+						onmouseover="this.className='txt_mouseover'" onmouseout="this.className='txt_mouseout'"
+						onmousedown="this.className='txt_mousedown'" onmouseup="this.className='txt_mouseup'">
+					选中分支</span>
+					<span  title="取消当前选中节点及子节点。" onclick="uncheck_branch(tree);" class="txt" 
+						onmouseover="this.className='txt_mouseover'" onmouseout="this.className='txt_mouseout'"
+						onmousedown="this.className='txt_mousedown'" onmouseup="this.className='txt_mouseup'">
+					取消分支</span>			
+					<span  title="请求当前选中节点的下级子节点，点击一次请求一级。" onclick="expand_selected(tree);" class="txt" 
+						onmouseover="this.className='txt_mouseover'" onmouseout="this.className='txt_mouseout'"
+						onmousedown="this.className='txt_mousedown'" onmouseup="this.className='txt_mouseup'">
+					展开分支</span>
+					<span  title="收缩当前选中节点及子节点。" onclick="collapse_selected(tree);" class="txt" 
+						onmouseover="this.className='txt_mouseover'" onmouseout="this.className='txt_mouseout'"
+						onmousedown="this.className='txt_mousedown'" onmouseup="this.className='txt_mouseup'">
+					收缩分支</span>
+					<!--
+					<div style="width:660px; height:280px; overflow: auto; background-color:#ffffff; border:solid 1px thin; border-color:#DCDCDC;">
+						-->
+						<input type="hidden" name="treechecked" id="treechecked" value="" />
+						<div id="treebox" class="innerTree" style="width:660px; height:280px; border:1px solid #DCDCDC"></div>						
+					<!--</div>-->
+				</td>
+			</tr>
+			<tr>
+				<td class="tdbottom" align="center">
+				<input type="button" value="确定" class="button" onclick="set_depts();" />
+				<input type="button" value="取消" class="button" onclick="window.close()" />
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td></tr>
+	</table>
+</form>
+<script>
+{/if $active_ug_id != ''/}
+	load_user_add_tree('{/$active_ug_id/}');
+{/else/}
+	load_user_upd_tree('{/$user_id/}');
+{//if/}
+</script>

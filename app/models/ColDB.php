@@ -1,0 +1,173 @@
+<?php
+class ColDB
+{
+	public $db;
+    public function db_get_all_tmpls()
+    {
+        $sql = "SELECT * FROM models";
+        $query = $this->db->query($sql);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+	public function db_get_col_by_id($id)
+	{
+		$sql = "SELECT * FROM colinfo WHERE id='$id'";
+		$query = $this->db->query($sql);
+		return $query->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public function db_get_col_by_name($name)
+	{
+		$sql = "SELECT * FROM colinfo WHERE name='$name'";
+		$query = $this->db->query($sql);
+		return $query->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public function db_count_sub_cols_by_sign($pid, $sign=1)
+	{
+		$sql = "SELECT count(*) FROM colinfo WHERE parent_id=$pid and sign='$sign'";
+		$query = $this->db->query($sql);
+		return $query->fetch(PDO::FETCH_COLUMN, 0);
+	}
+
+	public function db_count_sub_cols_by_sign_status($pid, $sign=1, $status=0)
+	{
+		$sql = "SELECT count(*) FROM colinfo WHERE parent_id=$pid and sign='$sign' and status='$status'";
+		$query = $this->db->query($sql);
+		return $query->fetch(PDO::FETCH_COLUMN, 0);
+	}
+
+    public function db_get_all_parent_cols($pid)
+    {
+        $sql = "SELECT * FROM colinfo where parent_id='$pid'";
+        $query = $this->db->query($sql);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function db_get_ugs_in_content($id)
+    {
+        $sql = "SELECT ug_id FROM re_ug_col WHERE col_id=$id";
+        $query = $this->db->query($sql);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+	public function db_add_ug($ug)
+	{
+		$sql = "INSERT INTO colinfo SET name='$ug[name]', code='$ug[code]', parent_id=$ug[parent_id],
+									create_account='$ug[create_account]', create_time=now(),
+									remark='$ug[remark]', sign='$ug[sign]', location='$ug[location]'";
+		return $this->db->exec($sql);
+	}
+
+    public function db_add_content($ug)
+    {
+        $sql = "INSERT INTO colinfo SET name='$ug[name]', code='$ug[code]', parent_id=$ug[parent_id],
+									tmpl_id='$ug[tmpl_id]', create_account='$ug[create_account]',
+                                    create_time=now(), remark='$ug[remark]', sign='$ug[sign]',
+                                    location='$ug[location]'";
+		if ($this->db->exec($sql) <= 0)
+        {
+            return "0";
+        }
+        else
+        {
+            return $this->db->lastInsertId();
+        }
+     }
+
+    public function db_add_ug_to_content($con_id, $ug_id)
+    {
+        $sql = "INSERT INTO re_ug_col (ug_id,col_id) values ('$ug_id',$con_id)";
+        return $this->db->exec($sql);
+    }
+
+    public function db_del_ug_from_content($con_id)
+    {
+        $sql = "DELETE FROM re_ug_col WHERE col_id=$con_id";
+        return $this->db->exec($sql);
+    }
+
+	public function db_upd_ug($ug)
+	{
+        $sql = "UPDATE colinfo SET name='$ug[name]', code='$ug[code]', remark='$ug[remark]',
+                create_time=now() WHERE id=$ug[id] AND sign=1";
+		return $this->db->exec($sql);
+	}
+
+    public function db_upd_content($content)
+    {
+        $sql = "UPDATE colinfo SET name='$content[name]', code='$content[code]', remark='$content[remark]',
+                create_time=now(), tmpl_id=$content[tmpl_id] WHERE id=$content[id] AND sign=2";
+		return $this->db->exec($sql);
+    }
+
+	public function db_del_col($ug_id)
+	{
+		$num = 0;
+		$sql = "DELETE FROM colinfo WHERE parent_id='$ug_id'";
+		$num += $this->db->exec($sql);
+		$sql = "DELETE FROM colinfo WHERE id='$ug_id'";
+		$num += $this->db->exec($sql);
+		$sql = "DELETE FROM re_ug_col WHERE col_id not in (SELECT id FROM colinfo)";
+		$num += $this->db->exec($sql);
+		return $num;
+	}
+	public function db_count_sub_cols($id)
+	{
+		$sql = "SELECT count(*) FROM colinfo WHERE parent_id='$id'";
+		$query = $this->db->query($sql);
+		return $query->fetch(PDO::FETCH_COLUMN, 0);
+	}
+
+	public function db_get_sub_cols($id, $limit=10, $offset=0)
+	{
+		$sql = "SELECT c.*,t.name tmpl_name FROM colinfo c left join models t on c.tmpl_id=t.id
+                WHERE c.parent_id='$id' ORDER BY location ASC";
+		$sql .= $this->db->limit($limit, $offset);
+		$query = $this->db->query($sql);
+		return $query->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function db_check_code($code)
+	{
+		$sql = "SELECT count(*) FROM colinfo WHERE code='$code'";
+		$query = $this->db->query($sql);
+		return $query->fetch(PDO::FETCH_COLUMN, 0);
+	}
+
+	public function db_check_expect_self_code($code, $id)
+	{
+		$sql = "SELECT count(*) FROM colinfo WHERE code='$code' AND id<>'$id'";
+		$query = $this->db->query($sql);
+		return $query->fetch(PDO::FETCH_COLUMN, 0);
+	}
+
+	public function db_check_expect_self_name($name, $parent_id, $id)
+	{
+		$sql = "SELECT count(*) FROM colinfo WHERE name='$name' AND parent_id='$parent_id' AND id<>'$id'";
+		$query = $this->db->query($sql);
+		return $query->fetch(PDO::FETCH_COLUMN, 0);
+	}
+
+	public function db_check_name($name, $parent_id)
+	{
+		$sql = "SELECT count(*) FROM colinfo WHERE name='$name' AND parent_id='$parent_id'";
+		$query = $this->db->query($sql);
+		return $query->fetch(PDO::FETCH_COLUMN, 0);
+	}
+
+	public function db_get_max_location()
+	{
+		$sql = "SELECT max(location) FROM colinfo";
+		$query = $this->db->query($sql);
+		$result = $query->fetch(PDO::FETCH_ASSOC);
+		return $result['max(location)'];
+	}
+
+    public function db_upd_status($id, $status)
+    {
+        $sql = "UPDATE colinfo SET status='$status' WHERE id=$id";
+		return $this->db->exec($sql);
+    }
+};
+?>
