@@ -1,0 +1,101 @@
+
+<div class="content_inke">
+	<div class="list_top">
+		<div class="content_menu_title1">采集内容列表 - {/$col.name/} (模板名:{/$tname/})</div>
+	</div>
+    <div class="list_id_title">
+        <div class="list_title_each">
+			<div class="list_title_each_name">备注</div>
+			<div class="list_title_each_info">{/$col.remark/}</div>
+			<div class="list_title_each_func"></div>
+		</div>
+        <div class="list_title_each">
+			<div class="list_title_each_name"></div>
+			<div class="list_title_each_info"></div>
+			<div class="list_title_each_func"></div>
+		</div>
+		<div class="list_title_each">
+			<div class="list_title_each_name">采集进度</div>
+			<div class="list_title_each_info">本采集共有录入人员{/$count_all/}名 目前已提交人员{/$count_over/}名 </div>
+			<div class="list_title_each_func"></div>
+		</div>
+        <div class="list_title_each">
+	        <div class="list_title_each_name"> </div>
+			<div class="list_title_each_info">尚未提交人员：{/$runames/}</div>
+			<div class="list_title_each_func"></div>
+        </div>
+    </div>
+	<div id="main_content">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs">
+            <tr>
+        		<td	width="400" align="left" nowrap>
+                    {/if ($col.status==0 && $col.sign!=3 && in_array(4, $privs))/}
+        			<input type="button" name="del_submit" value="设置采集人" onclick="window.location.href='/models/set_collector?cid={/$col.id/}'" class="button_w"/>
+                    {//if/}
+                    {/if  $canwrite=='1' /}
+                    <input type="button" name="del_submit" value="{/if $col.status==0/}完成采集{/else/}激活采集{//if/}" onclick="window.location.href='/modelscol/updstatus?sign={/$col.sign/}&cid={/$col.id/}&status={/$col.status/}'" class="button_w"/>
+                    {//if/}
+
+                    {/if $count_all==$count_over && $count_all!=0 && $col.sign!=3 && (in_array(4, $privs) || in_array(3, $privs)) /}
+                    <input type="button" name="del_submit" value="小组提交" onclick="window.location.href='/modelscol/updUgColStatus?sign={/$col.sign/}&cid={/$col.id/}&cpid={/$col.parent_id/}'" class="button_w"/>
+                    {//if/}
+        		</td>
+        		<td align="right">
+
+        		</td>
+            </tr>
+            <tr>
+        		<td	width="400" align="left" nowrap>
+                    {/if $col.status==0/}
+        			<input type="button" name="del_submit" value="{/if ($col.sign!=3)/}采集内容{/else/}增加新内容{//if/}" onclick="window.location.href='/models/show?mid={/$mid/}&cid={/$col.id/}'" class="button_w"/>
+                    {//if/}
+                    <input type="button" name="del_submit" value="数据视图" onclick="window.location.href='/models/dataviewlist?mid={/$mid/}&cid={/$col.id/}'" class="button_w"/>
+        			<input type="button" name="del_submit" value="下载模板文件" onclick="window.location.href='/models/download?cid={/$col.id/}'" class="button_w"/>
+        			{/if $col.status==0/}
+                    <input type="button" name="del_submit" value="上传采集文件" onclick="window.location.href='/models/upload?cid={/$col.id/}'" class="button_w"/>
+                    {//if/}
+
+
+
+        		</td>
+        		<td align="right">
+        			每页
+        			<select onchange="set_per_page('models_limit','/usercol/set_per_page/name/usercol_limit/num/'+this.options[this.options.selectedIndex].value);">
+        			{/$option_str/}
+        			</select>
+        			<div id="tmpl_limit" style="display:none"></div>
+        			条
+        			&nbsp; {/$pages/}
+        		</td>
+            </tr>
+        </table>
+
+
+		<table align="center" cellpadding="5px" cellspacing="0" class="list_table">
+			<tr align="center" class="list_hr_bg">
+				<td width="40">编号</td>
+				{/section name=i loop=$fields/}
+					<td class="list_hr_colum" nowrap>{/$fields[i].desc/}</td>
+				{//section/}
+				<td width="140">录入者</td>
+				<td width="140">录入时间</td>
+				<td width="80">数据状态</td>
+				<td width="200" class="list_hr_colum" nowrap>操  作</td>
+			</tr>
+            {/datalist list=$list fields=$fields col=$col mid=$mid/}
+		</table>
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list_table_funcs"><tr>
+		<td align="right">
+			每页
+			<select onchange="set_per_page('usercol_limit','/usercol/set_per_page/name/usercol_limit/num/'+this.options[this.options.selectedIndex].value);">
+			{/$option_str/}
+			</select>
+			<div id="usercol_limit" style="display:none"></div>
+			条
+			&nbsp; {/$pages/}
+		</td>
+		</tr></table>
+
+	</div>
+</div>

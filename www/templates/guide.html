@@ -1,0 +1,80 @@
+<style>
+	.list_table tr td.caption {font-size:14px; font-weight:bold; text-align:center;}
+	.guide_btn {float:left;  font-family:verdana a; width:120px; height:60px; background:url(/images/home_guide_btn.gif) no-repeat center; text-align:center; font-weight:bold; margin:5px 0px 0px 15px; cursor:pointer; padding-top:25px;}
+	.guide_arrow {float:left;  width:90px; height:80px; background:url(/images/home_guide_arrow.bmp) no-repeat center; margin:-5px 5px 0px 15px; padding-top:25px;}
+	#guide_btn_tip {text-align:center; color:#787878; background:#fff;}
+</style>
+<script>
+var defaulttipinfo = '如果您首次使用，请按照向导顺序完成系统的初始化工作。';
+function showtipinfo(id, info) {
+	if ($(id)){
+		$(id).innerHTML = info;
+	}
+}
+</script>
+	<table>
+	<tr><td>
+		<div class="list">
+				<div class="content_menu_title1">数据采集首页-使用向导</div>
+		</div>
+		<div class="list_id_title" style="height:auto; background-color:transparent;">
+			<div class="list_title_each">
+					&nbsp;&nbsp;欢迎您使用在线数据采集系统，在此您可以在线填写采集内容，并对采集活动和模板进行管理。
+			</div>
+		</div>
+		<div class="clear"><br style="line-height:8px; height:8px;"/></div>
+		<div class="list_content01" style="border:0px;">
+		<div id="main_content">
+				<table align="center" cellpadding="5px" cellspacing="0" class="list_table">
+				<tr class="list_hr_bg"><td colspan="2"> 
+				<div class="content_menu_title2">统计信息</div>
+				</td>
+				</tr>
+				
+				<tr>
+					<td class="list_c caption"><a href="/col/index" target="content">采集活动管理</a></td>
+					<td class="list_c">采集活动即采集任务，一个采集活动可能包含对一个或多个数据表格的填报工作，是数据采集的一项基础工作。
+						<br />&nbsp;当前当前正在进行的采集活动 <b>{/$sub_depts_num/}</b> 个，全部采集活动<b> {/$all_depts_num/} </b>个。
+					</td>
+				</tr>
+				<tr>
+					<td class="list_c caption"><a href="/ModelsCol/index" target="content">在线数据采集</a></td>
+					<td class="list_c">参与采集活动并在线填写数据表格。
+						<br />&nbsp;当前，已填报的数据 <b>{/$users_num/}</b> 条。
+					</td>
+				</tr>
+				<tr>
+					<td class="list_c caption"><a href="/models/list" target="content">采集模板管理</a></td>
+					<td class="list_c">采集模板管理即对采集活动中所使用的采集表格的管理，可以进行创建、删除、修改的管理操作。
+						<br/>&nbsp;当前，系统内共有采集模板录 <b>{/$contacts_num/}</b> 套。
+					</td>
+				</tr>
+						
+				</table>
+		</div>	
+		</div>
+		<div class="clear"><br style="line-height:8px; height:8px;"/></div>
+		<div class="list_content01" style="border:0px;">
+		<div id="main_content">
+				<table align="center" border="0" cellpadding="5px" cellspacing="0" class="list_table">
+				<tr class="list_hr_bg"><td colspan="2"> <div class="content_menu_title2">首次使用向导</div></td></tr>
+				<tr>
+					<td style="background:#fff; height:50px;" align="center">
+						<div class="guide_arrow"></div>
+						<div class="guide_btn" onmouseover="showtipinfo('guide_btn_tip','首先创建采集模板，采集活动才能正常进行。');" onmouseout="showtipinfo('guide_btn_tip',defaulttipinfo);" onclick="window.location='/models/list';"><label>采集模板管理</label></div>
+						<div class="guide_arrow"></div>
+						<div class="guide_btn" onmouseover="showtipinfo('guide_btn_tip','创建采集活动，并添加采集内容。');" onmouseout="showtipinfo('guide_btn_tip',defaulttipinfo);" onclick="window.location='/col/index';"><label>采集活动管理</label></div>
+						<div class="guide_arrow"></div>
+						<div class="guide_btn" onmouseover="showtipinfo('guide_btn_tip','现在可以开始数据的在线填写了。');" onmouseout="showtipinfo('guide_btn_tip',defaulttipinfo);" onclick="window.location='/ModelsCol/index';"><label>在线采集</label></div>
+					</td>
+				</tr>
+				<tr>
+					<td id="guide_btn_tip">如果您首次安装使用系统，请按照向导顺序完成系统的初始化工作。</td>
+				</tr>
+				</table>
+		</div>	
+		</div>
+	</td></tr>
+	</table>
+
+
